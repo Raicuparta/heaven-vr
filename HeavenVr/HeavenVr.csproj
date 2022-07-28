@@ -1,0 +1,415 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <AssemblyName>HeavenVr</AssemblyName>
+        <Description>My first plugin</Description>
+        <Version>1.0.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <OutputPath>C:\Games\Neon White\BepInEx\plugins\HeavenVr</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.Core" Version="5.*" />
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Assembly-CSharp.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.Analytics.DataPrivacy, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.Analytics.DataPrivacy.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.Formats.Fbx.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.Formats.Fbx.Runtime.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.InputSystem, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.InputSystem.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.Mathematics, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.Mathematics.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.MemoryProfiler, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.MemoryProfiler.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.Postprocessing.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.Recorder, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.Recorder.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.RenderPipelines.Core.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.RenderPipelines.Universal.Shaders, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.Timeline, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\Unity.Timeline.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Unity.XR.Management, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\lib\Unity.XR.Management.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.XR.OpenVR, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\lib\Unity.XR.OpenVR.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.XR.OpenXR, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\lib\Unity.XR.OpenXR.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.AccessibilityModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.AndroidJNIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ARModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ARModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ClusterInputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ClusterRendererModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.CrashReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.DirectorModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.DSPGraphModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.DSPGraphModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.GameCenterModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.GameCenterModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.GIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.GIModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.GridModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.HotReloadModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.HotReloadModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.InputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.LocalizationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.LocalizationModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.PerformanceReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ProfilerModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ProfilerModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.AppleCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.AppleCore.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.AppleMacosStub, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.AppleMacosStub.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.AppleStub, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.AppleStub.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.Codeless, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.Codeless.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.SecurityCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.SecurityCore.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.SecurityStub, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.SecurityStub.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.Stores, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.Stores.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.WinRTCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.WinRTCore.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.Purchasing.WinRTStub, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.Purchasing.WinRTStub.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.SharedInternalsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.SpatialTracking, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.SpatialTracking.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.SpriteMaskModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.StreamingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.StreamingModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.SubstanceModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.SubstanceModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.SubsystemsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.TerrainPhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.TextCoreModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.TilemapModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.TilemapModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.TLSModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.TLSModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UI.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UIElementsNativeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UIElementsNativeModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UmbraModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UmbraModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UNETModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UNETModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityAnalyticsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityConnectModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityCurlModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityCurlModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityTestProtocolModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityWebRequestTextureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.VehiclesModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.VehiclesModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.VFXModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.VFXModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.VirtualTexturingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.VirtualTexturingModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.WindModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.XR.LegacyInputHelpers, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.XRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\Games\Neon White\Neon White_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+    </ItemGroup>
+</Project>
