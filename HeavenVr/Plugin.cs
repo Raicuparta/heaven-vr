@@ -5,9 +5,13 @@ using BepInEx;
 using HarmonyLib;
 using Unity.XR.OpenVR;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
 using UnityEngine.XR.OpenXR.Features.Interactions;
+using InputDevice = UnityEngine.XR.InputDevice;
 
 namespace HeavenVr
 {
@@ -40,6 +44,14 @@ namespace HeavenVr
 
 	        managerSetings.InitializeLoaderSync();
 			managerSetings.StartSubsystems();
+        }
+
+        private void Update()
+        {
+	        var devices = new List<UnityEngine.XR.InputDevice>();
+	        // InputDevices.GetDevicesAtXRNode(XRNode.RightHand, devices);
+	        InputDevices.GetDevices(devices);
+	        Debug.Log("count " + devices.Count);
         }
     }
 }

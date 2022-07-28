@@ -1,8 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
+using UnityEngine.XR;
+using UnityEngine.XR.OpenXR.Features;
+using CommonUsages = UnityEngine.XR.CommonUsages;
 
 namespace HeavenVr;
 
@@ -58,4 +63,30 @@ public static class Patches
         dummy.SetParent(__instance.m_cameraHolder.parent);
         __instance.m_cameraHolder = dummy;
     }
+    
+    // [HarmonyPrefix]
+    // [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasReleasedThisFrame))]
+    // private static bool SetUpInputs(ref bool __result, InputAction __instance)
+    // {
+    //     
+    //     
+    //     switch (__instance.name)
+    //     {
+    //         case "Jump":
+    //         {
+    //             var leftHandedControllers = new List<UnityEngine.XR.InputDevice>();
+			 //    var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
+			 //    InputDevices.GetDevicesWithCharacteristics(desiredCharacteristics, leftHandedControllers);
+    //             var device = leftHandedControllers[0];
+    //
+    //             device.TryGetFeatureValue(CommonUsages.triggerButton, out __result);
+    //             break;
+    //         }
+    //         default:
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 }
