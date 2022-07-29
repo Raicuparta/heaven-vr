@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
@@ -104,6 +105,41 @@ public static class Patches
     
             return false;
         }
+    }
+
+    private static Quaternion cameraRotation;
+    private static Vector3 cameraPosition;
+    private static Quaternion cameraParentRotation;
+    private static Vector3 cameraParentPosition;
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(MechController), nameof(MechController.DoDiscardAbility))]
+    private static void SetUpDiscardAbilityDirection(MechController __instance)
+    {
+        if (!VrAimLaser.Instance) return;
+
+        // TODO dunno if I'm supposed to be able to dash upwards.
+        var cameraTransform = __instance.playerCamera.transform;
+        cameraRotation = cameraTransform.rotation;
+        cameraPosition = cameraTransform.position;
+        cameraParentRotation = cameraTransform.parent.rotation;
+        cameraParentPosition = cameraTransform.parent.position;
+
+        cameraTransform.rotation = cameraTransform.parent.rotation = VrAimLaser.Instance.transform.rotation;
+        cameraTransform.position = cameraTransform.parent.position = VrAimLaser.Instance.transform.position;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(MechController), nameof(MechController.DoDiscardAbility))]
+    private static void ResetDiscardAbilityDirection(MechController __instance)
+    {
+        if (!VrAimLaser.Instance) return;
+
+        var cameraTransform = __instance.playerCamera.transform;
+        cameraTransform.rotation = cameraRotation;
+        cameraTransform.position = cameraPosition;
+        cameraTransform.parent.rotation = cameraParentRotation;
+        cameraTransform.parent.position = cameraParentPosition;
     }
     
     [HarmonyPatch]
