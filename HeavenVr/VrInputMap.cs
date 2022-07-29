@@ -19,7 +19,9 @@ public static class VrInputMap
     public static VrBoolBinding Jump = new("Jump", XRNode.LeftHand, CommonUsages.triggerButton);
     
     public static readonly Dictionary<string, VrInputBinding<Vector2>> Vector2InputMap = new();
+    // TODO this binding is diferent just for VIVE.
     public static VrVector2CompositeBinding Move = new("Move", XRNode.LeftHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxisClick);
+    // public static VrVector2Binding Move = new("Move", XRNode.LeftHand, CommonUsages.primary2DAxis);
     public static VrVector2Binding Look = new("Look", XRNode.RightHand, CommonUsages.primary2DAxis);
 
     public static VrBoolBinding GetBoolBinding(string name)

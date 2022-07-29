@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using BepInEx;
 using HarmonyLib;
-using Unity.XR.OpenVR;
 using UnityEngine;
-using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
 using UnityEngine.XR.OpenXR.Features.Interactions;
-using InputDevice = UnityEngine.XR.InputDevice;
 
 namespace HeavenVr
 {
@@ -18,6 +15,8 @@ namespace HeavenVr
     {
         private void Awake()
         {
+	        Debug.Log($"Game version: {Application.version}");
+	        
 			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 	        
 		    var generalSettings = ScriptableObject.CreateInstance<XRGeneralSettings>();

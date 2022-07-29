@@ -7,7 +7,7 @@
         <Version>1.0.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
-        <OutputPath>C:\Games\Neon White\BepInEx\plugins\HeavenVr</OutputPath>
+        <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\Neon White\BepInEx\plugins\HeavenVr</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 

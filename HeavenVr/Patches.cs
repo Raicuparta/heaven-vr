@@ -48,9 +48,9 @@ public static class Patches
     [HarmonyPatch(typeof(Camera), nameof(Camera.ViewportPointToRay), typeof(Vector3))]
     private static bool UseVrAimingDirection(ref Ray __result, Camera __instance)
     {
-        if (!__instance.CompareTag("MainCamera") || !VrAimLaser.Instance) return true;
+        if (!__instance.CompareTag("MainCamera") || !VrAimLaser.Laser) return true;
 
-        __result = new Ray(VrAimLaser.Instance.transform.position, VrAimLaser.Instance.transform.forward);
+        __result = new Ray(VrAimLaser.Laser.position, VrAimLaser.Laser.forward);
         return false;
 
     }
@@ -116,7 +116,7 @@ public static class Patches
     [HarmonyPatch(typeof(MechController), nameof(MechController.DoDiscardAbility))]
     private static void SetUpDiscardAbilityDirection(MechController __instance)
     {
-        if (!VrAimLaser.Instance) return;
+        if (!VrAimLaser.Laser) return;
 
         // TODO dunno if I'm supposed to be able to dash upwards.
         var cameraTransform = __instance.playerCamera.transform;
@@ -125,15 +125,15 @@ public static class Patches
         cameraParentRotation = cameraTransform.parent.rotation;
         cameraParentPosition = cameraTransform.parent.position;
 
-        cameraTransform.rotation = cameraTransform.parent.rotation = VrAimLaser.Instance.transform.rotation;
-        cameraTransform.position = cameraTransform.parent.position = VrAimLaser.Instance.transform.position;
+        cameraTransform.rotation = cameraTransform.parent.rotation = VrAimLaser.Laser.rotation;
+        cameraTransform.position = cameraTransform.parent.position = VrAimLaser.Laser.position;
     }
     
     [HarmonyPostfix]
     [HarmonyPatch(typeof(MechController), nameof(MechController.DoDiscardAbility))]
     private static void ResetDiscardAbilityDirection(MechController __instance)
     {
-        if (!VrAimLaser.Instance) return;
+        if (!VrAimLaser.Laser) return;
 
         var cameraTransform = __instance.playerCamera.transform;
         cameraTransform.rotation = cameraRotation;
