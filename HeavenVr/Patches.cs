@@ -29,13 +29,6 @@ public static class Patches
     }
 
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(MouseLook), "Start")]
-    private static void DrawAimLaser(MouseLook __instance)
-    {
-        VrAimLaser.Create(__instance.transform.parent);
-    }
-
-    [HarmonyPostfix]
     [HarmonyPatch(typeof(CanvasScaler), "OnEnable")]
     private static void ScaleCanvas(CanvasScaler __instance)
     {

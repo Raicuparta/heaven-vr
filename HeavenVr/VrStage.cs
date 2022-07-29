@@ -10,7 +10,6 @@ public class VrStage: MonoBehaviour
     private Camera playerCamera;
     private Vector3 previousForward;
     private Transform cameraHolder;
-    private FirstPersonDrifter firstPersonDrifter;
     
     public static void Create(PlayerCamera playerCamera)
     {
@@ -21,8 +20,6 @@ public class VrStage: MonoBehaviour
 
         Instance.transform.SetParent(Instance.cameraHolder, false);
         playerCamera.transform.SetParent(Instance.transform, false);
-
-        Instance.firstPersonDrifter = playerCamera.GetComponentInParent<FirstPersonDrifter>();
         
         var poseDriver = playerCamera.gameObject.AddComponent<TrackedPoseDriver>();
         poseDriver.UseRelativeTransform = true;
@@ -33,6 +30,7 @@ public class VrStage: MonoBehaviour
     private void Start()
     {
         UpdatePreviousForward();
+        VrAimLaser.Create(transform);
     }
 
     private Vector3 GetProjectedForward()
