@@ -19,8 +19,9 @@ public class VrVector2Binding: VrInputBinding<Vector2>
         device.TryGetFeatureValue(usage, out var value);
         // TODO this is only useful for VIVE.
         device.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var clicking);
-
+        
         Value = clicking ? value : Vector2.zero;
+        // Value = value;
         return Value;
     }
 }

@@ -6,6 +6,7 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
+using UnityEngine.XR.OpenXR.Features;
 using UnityEngine.XR.OpenXR.Features.Interactions;
 
 namespace HeavenVr
@@ -21,14 +22,20 @@ namespace HeavenVr
 	        
 		    var generalSettings = ScriptableObject.CreateInstance<XRGeneralSettings>();
 	        var managerSetings = ScriptableObject.CreateInstance<XRManagerSettings>();
-			var feature = ScriptableObject.CreateInstance<HTCViveControllerProfile>();
-			feature.enabled = true;
+	        var features = new OpenXRInteractionFeature[]
+	        {
+		        ScriptableObject.CreateInstance<HTCViveControllerProfile>(),
+		        ScriptableObject.CreateInstance<OculusTouchControllerProfile>(),
+		        ScriptableObject.CreateInstance<MicrosoftMotionControllerProfile>(),
+		        ScriptableObject.CreateInstance<ValveIndexControllerProfile>(),
+	        };
 	        var xrLoader = ScriptableObject.CreateInstance<OpenXRLoader>();
-			// Reference OpenXRSettings just to make this work.
-	        // TODO figure out how to do this properly.
 	        OpenXRSettings.Instance.renderMode = OpenXRSettings.RenderMode.MultiPass;
-	        OpenXRSettings.Instance.SetValue("features", new [] { feature });
-			feature.enabled = true;
+	        OpenXRSettings.Instance.SetValue("features", features);
+	        foreach (var feature in features)
+	        {
+		        feature.enabled = true;
+	        }
 
 	        generalSettings.Manager = managerSetings;
 	        managerSetings.SetValue("m_RegisteredLoaders", new HashSet<XRLoader> {xrLoader});
