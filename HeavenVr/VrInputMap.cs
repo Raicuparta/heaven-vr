@@ -6,46 +6,67 @@ namespace HeavenVr;
 
 public static class VrInputMap
 {
-    public static readonly Dictionary<string, VrBoolBinding> BoolInputMap = new();
-    public static VrBoolBinding Submit = new("Submit", XRNode.RightHand, CommonUsages.triggerButton);
-    public static VrBoolBinding DialogueAdvance =  new("DialogueAdvance ", XRNode.RightHand, CommonUsages.triggerButton);
-    public static VrBoolBinding FireCard = new("Fire Card", XRNode.RightHand, CommonUsages.triggerButton);
-    public static VrBoolBinding FireCardAlt = new("Fire Card Alt", XRNode.RightHand, CommonUsages.gripButton);
-    public static VrBoolBinding Start = new("Start", XRNode.RightHand, CommonUsages.triggerButton);
-    public static VrBoolBinding Pause = new("Pause", XRNode.LeftHand, CommonUsages.menuButton);
-    public static VrBoolBinding Cancel = new("Cancel", XRNode.LeftHand, CommonUsages.menuButton);
-    public static VrBoolBinding DialogueFastForward = new("DialogueFastForward", XRNode.RightHand, CommonUsages.menuButton);
-    public static VrBoolBinding Restart = new("Restart", XRNode.RightHand, CommonUsages.menuButton);
-    public static VrBoolBinding Jump = new("Jump", XRNode.LeftHand, CommonUsages.triggerButton);
+    private static readonly Dictionary<string, VrBoolBinding> boolViveInputMap = new()
+    {
+        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        // That extra space at the end of the "DialogueAdvance " string needs to be there, that's how it is in the game.
+        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
+        { "Start", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.menuButton) },
+        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.menuButton) },
+        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.menuButton) },
+        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.menuButton) },
+        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+    };
 
-    // TODO Oculus bindings
-    // public static readonly Dictionary<string, VrBoolBinding> BoolInputMap = new();
-    // public static VrBoolBinding Submit = new("Submit", XRNode.RightHand, CommonUsages.triggerButton);
-    // public static VrBoolBinding DialogueAdvance =  new("DialogueAdvance ", XRNode.RightHand, CommonUsages.triggerButton);
-    // public static VrBoolBinding FireCard = new("Fire Card", XRNode.RightHand, CommonUsages.triggerButton);
-    // public static VrBoolBinding FireCardAlt = new("Fire Card Alt", XRNode.RightHand, CommonUsages.primaryButton);
-    // public static VrBoolBinding Start = new("Start", XRNode.RightHand, CommonUsages.triggerButton);
-    // public static VrBoolBinding Pause = new("Pause", XRNode.LeftHand, CommonUsages.secondaryButton);
-    // public static VrBoolBinding Cancel = new("Cancel", XRNode.LeftHand, CommonUsages.secondaryButton);
-    // public static VrBoolBinding DialogueFastForward = new("DialogueFastForward", XRNode.RightHand, CommonUsages.secondaryButton);
-    // public static VrBoolBinding Restart = new("Restart", XRNode.RightHand, CommonUsages.secondaryButton);
-    // public static VrBoolBinding Jump = new("Jump", XRNode.LeftHand, CommonUsages.triggerButton);
+    private static readonly Dictionary<string, VrBoolBinding> boolOculusInputMap = new()
+    {
+        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.primaryButton) },
+        { "Start", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
+        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
+        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
+        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
+        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+    };
+
+    private static readonly Dictionary<string, VrInputBinding<Vector2>> vector2ViveInputMap = new()
+    {
+        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
+        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
+    };
     
-    public static readonly Dictionary<string, VrInputBinding<Vector2>> Vector2InputMap = new();
-    // TODO this binding is diferent just for VIVE.
-    public static VrVector2CompositeBinding Move = new("Move", XRNode.LeftHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxisClick);
-    // public static VrVector2Binding Move = new("Move", XRNode.LeftHand, CommonUsages.primary2DAxis);
-    public static VrVector2Binding Look = new("Look", XRNode.RightHand, CommonUsages.primary2DAxis);
+    private static readonly Dictionary<string, VrInputBinding<Vector2>> vector2OculusInputMap = new()
+    {
+        { "Move", new VrVector2Binding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
+        { "Look", new VrVector2Binding(XRNode.RightHand, CommonUsages.primary2DAxis) }
+    };
+
+    private static readonly Dictionary<string, VrBoolBinding> boolInputMap = boolOculusInputMap;
+    private static readonly Dictionary<string, VrInputBinding<Vector2>> vector2InputMap = vector2OculusInputMap;
 
     public static VrBoolBinding GetBoolBinding(string name)
     {
-        BoolInputMap.TryGetValue(name, out var binding);
+        boolInputMap.TryGetValue(name, out var binding);
         return binding;
     }
     
     public static VrInputBinding<Vector2> GetVector2Binding(string name)
     {
-        Vector2InputMap.TryGetValue(name, out var binding);
+        vector2InputMap.TryGetValue(name, out var binding);
         return binding;
+    }
+
+    public static void Update()
+    {
+        foreach (var binding in boolInputMap.Values)
+        {
+            binding.Update();
+        }
     }
 }

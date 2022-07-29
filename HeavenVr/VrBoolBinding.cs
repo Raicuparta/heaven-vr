@@ -9,10 +9,9 @@ public class VrBoolBinding: VrInputBinding<bool>
     public bool WasReleasedThisFrame;
     public bool WasPressedThisFrame;
     
-    public VrBoolBinding(string name, XRNode hand, InputFeatureUsage<bool> usage) : base(hand)
+    public VrBoolBinding(XRNode hand, InputFeatureUsage<bool> usage) : base(hand)
     {
         this.usage = usage;
-        VrInputMap.BoolInputMap[name] = this;
     }
 
     public override void Update()

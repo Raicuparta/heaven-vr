@@ -19,7 +19,7 @@ public static class Patches
     private static void EnableCameraTracking(PlayerCamera __instance)
     {
         var trackedPoseDriver = __instance.gameObject.AddComponent<TrackedPoseDriver>();
-        trackedPoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationOnly;
+        trackedPoseDriver.UseRelativeTransform = true;
     }
     
     [HarmonyPrefix]

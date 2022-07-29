@@ -22,10 +22,7 @@ public class VrInputManager: MonoBehaviour
 
     private void Update()
     {
-        foreach (var binding in VrInputMap.BoolInputMap.Values)
-        {
-            binding.Update();
-        }
+        VrInputMap.Update();
     }
 
     public static InputDevice GetInputDevice(XRNode hand)
