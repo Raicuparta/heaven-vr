@@ -1,41 +1,21 @@
-﻿using UnityEngine;
-using UnityEngine.XR;
+﻿using UnityEngine.XR;
 
 namespace HeavenVr;
 
-public class VrInputBinding
+public abstract class VrInputBinding<T>: IVrInputBinding
 {
-    private readonly string name;
-    private readonly XRNode hand;
-    private readonly InputFeatureUsage<bool> usage;
-    private bool value;
-    private bool previousValue;
-    public bool WasReleasedThisFrame;
-    public bool WasPressedThisFrame;
+    protected readonly XRNode Hand;
+    protected T Value;
     
-    public VrInputBinding(string name, XRNode hand, InputFeatureUsage<bool> usage)
+    protected VrInputBinding(XRNode hand)
     {
-        VrInputMap.InputMap[name] = this;
-        this.name = name;
-        this.hand = hand;
-        this.usage = usage;
+        Hand = hand;
     }
 
-    public void Update()
+    public virtual void Update()
     {
-        value = GetValue();
-        WasPressedThisFrame = false;
-        WasReleasedThisFrame = false;
-        if (!previousValue && value) WasPressedThisFrame = true;
-        if (previousValue && !value) WasReleasedThisFrame = true;
-        previousValue = value;
+        Value = GetValue();
     }
 
-    public bool GetValue()
-    {
-        VrInputManager.GetInputDevice(hand).TryGetFeatureValue(usage, out value);
-        return value;
-    }
-    
-
+    public abstract T GetValue();
 }

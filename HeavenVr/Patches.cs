@@ -67,7 +67,7 @@ public static class Patches
     [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasPressedThisFrame))]
     private static bool SetBoolInputsPressed(ref bool __result, InputAction __instance)
     {
-        var binding = VrInputMap.GetBinding(__instance.name);
+        var binding = VrInputMap.GetBoolBinding(__instance.name);
         if (binding == null) return true;
 
         __result = binding.WasPressedThisFrame;
@@ -79,7 +79,7 @@ public static class Patches
     [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasReleasedThisFrame))]
     private static bool SetPreviousBoolInputsReleased(ref bool __result, InputAction __instance)
     {
-        var binding = VrInputMap.GetBinding(__instance.name);
+        var binding = VrInputMap.GetBoolBinding(__instance.name);
         if (binding == null) return true;
 
         __result = binding.WasReleasedThisFrame;
@@ -97,10 +97,10 @@ public static class Patches
         [HarmonyPrefix]
         private static bool SetVector2Inputs(ref Vector2 __result, InputAction __instance)
         {   
-            var value = VrInputManager.GetInputVector2(__instance.name);
-            if (!value.HasValue) return true;
+            var binding = VrInputMap.GetVector2Binding(__instance.name);
+            if (binding == null) return true;
             
-            __result = value.Value;
+            __result = binding.GetValue();
     
             return false;
         }
@@ -115,8 +115,8 @@ public static class Patches
 
         [HarmonyPrefix]
         private static bool SetVector2Inputs(ref float __result, InputAction __instance)
-        {   
-            var binding = VrInputMap.GetBinding(__instance.name);
+        {
+            var binding = VrInputMap.GetBoolBinding(__instance.name);
             if (binding == null) return true;
 
             __result = binding.GetValue() ? 1 : 0;
