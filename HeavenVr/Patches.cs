@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
 using UnityEngine.XR;
-using UnityEngine.XR.OpenXR.Features;
 using CommonUsages = UnityEngine.XR.CommonUsages;
 
 namespace HeavenVr;
@@ -63,30 +62,66 @@ public static class Patches
         dummy.SetParent(__instance.m_cameraHolder.parent);
         __instance.m_cameraHolder = dummy;
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasPressedThisFrame))]
+    private static bool SetBoolInputsPressed(ref bool __result, InputAction __instance)
+    {
+        var binding = VrInputMap.GetBinding(__instance.name);
+        if (binding == null) return true;
+
+        __result = binding.WasPressedThisFrame;
+
+        return false;
+    }
     
-    // [HarmonyPrefix]
-    // [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasReleasedThisFrame))]
-    // private static bool SetUpInputs(ref bool __result, InputAction __instance)
-    // {
-    //     
-    //     
-    //     switch (__instance.name)
-    //     {
-    //         case "Jump":
-    //         {
-    //             var leftHandedControllers = new List<UnityEngine.XR.InputDevice>();
-			 //    var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
-			 //    InputDevices.GetDevicesWithCharacteristics(desiredCharacteristics, leftHandedControllers);
-    //             var device = leftHandedControllers[0];
-    //
-    //             device.TryGetFeatureValue(CommonUsages.triggerButton, out __result);
-    //             break;
-    //         }
-    //         default:
-    //         {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasReleasedThisFrame))]
+    private static bool SetPreviousBoolInputsReleased(ref bool __result, InputAction __instance)
+    {
+        var binding = VrInputMap.GetBinding(__instance.name);
+        if (binding == null) return true;
+
+        __result = binding.WasReleasedThisFrame;
+        
+        return false;
+    }
+
+    [HarmonyPatch]
+    public static class Vector2InputPatches {
+        [HarmonyTargetMethod]
+        private static MethodInfo TargetMethod() {
+            return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(Vector2));
+        }
+
+        [HarmonyPrefix]
+        private static bool SetVector2Inputs(ref Vector2 __result, InputAction __instance)
+        {   
+            var value = VrInputManager.GetInputVector2(__instance.name);
+            if (!value.HasValue) return true;
+            
+            __result = value.Value;
+    
+            return false;
+        }
+    }
+    
+    [HarmonyPatch]
+    public static class FloatInputPatches {
+        [HarmonyTargetMethod]
+        private static MethodInfo TargetMethod() {
+            return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(float));
+        }
+
+        [HarmonyPrefix]
+        private static bool SetVector2Inputs(ref float __result, InputAction __instance)
+        {   
+            var binding = VrInputMap.GetBinding(__instance.name);
+            if (binding == null) return true;
+
+            __result = binding.GetValue() ? 1 : 0;
+    
+            return false;
+        }
+    }
 }
