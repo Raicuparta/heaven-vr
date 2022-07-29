@@ -18,8 +18,7 @@ public static class Patches
     [HarmonyPatch(typeof(PlayerCamera), "Start")]
     private static void EnableCameraTracking(PlayerCamera __instance)
     {
-        var trackedPoseDriver = __instance.gameObject.AddComponent<TrackedPoseDriver>();
-        trackedPoseDriver.UseRelativeTransform = true;
+        VrStage.Create(__instance);
     }
     
     [HarmonyPrefix]
@@ -140,6 +139,22 @@ public static class Patches
         cameraTransform.position = cameraPosition;
         cameraTransform.parent.rotation = cameraParentRotation;
         cameraTransform.parent.position = cameraParentPosition;
+    }
+    
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.Update))]
+    private static void PreventRotatingCameraVertically(FirstPersonDrifter __instance)
+    {
+        __instance.m_cameraRotationX = __instance.m_cameraHolder.parent.localRotation;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.Update))]
+    private static void UpdateStageRotation()
+    {
+        if (!VrStage.Instance) return;
+        VrStage.Instance.UpdateRotation();
     }
     
     [HarmonyPatch]
