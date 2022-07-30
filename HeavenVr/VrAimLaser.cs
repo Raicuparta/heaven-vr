@@ -53,8 +53,8 @@ public class VrAimLaser: MonoBehaviour
     private void CastRay()
     {
         var isHit = Physics.Raycast(
-            VrAimLaser.Laser.position,
-            VrAimLaser.Laser.forward,
+            Laser.position,
+            Laser.forward,
             out var hit,
             rayDistance); // TODO clean up layers
 
