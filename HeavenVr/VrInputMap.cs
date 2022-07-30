@@ -19,7 +19,7 @@ public static class VrInputMap
         { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.menuButton) },
         { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.menuButton) },
         { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
         { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
         { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
         { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
