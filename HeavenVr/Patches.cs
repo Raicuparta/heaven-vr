@@ -159,6 +159,26 @@ public static class Patches
         VrStage.Instance.UpdateRotation();
     }
     
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(CanvasScaler), "OnEnable")]
+    private static void AddCanvasCollider(CanvasScaler __instance)
+    {
+        if (__instance.name.StartsWith("com.sinai")) return;
+        
+        var collider = __instance.GetComponent<BoxCollider>();
+        if (collider != null) return;
+
+        __instance.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+        var position = (Camera.main ? Camera.main.transform.position + Vector3.forward : Vector3.forward);
+        __instance.transform.position = position;
+
+        // var rectTransform = __instance.GetComponent<RectTransform>();
+        // collider = __instance.gameObject.AddComponent<BoxCollider>();
+        // var rectSize = rectTransform.sizeDelta;
+        // collider.size = new Vector3(rectSize.x, rectSize.y, 0.1f);
+        // __instance.gameObject.layer = LayerMask.NameToLayer("UI"); // TODO careful
+    }
+    
     [HarmonyPatch]
     public static class Vector2InputPatches {
         [HarmonyTargetMethod]

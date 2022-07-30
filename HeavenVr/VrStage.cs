@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SpatialTracking;
+using UnityEngine.UI;
 using UnityEngine.XR;
 
 namespace HeavenVr;
@@ -12,6 +13,7 @@ public class VrStage: MonoBehaviour
     private Vector3 previousForward;
     private Transform stageParent;
     private TrackedPoseDriver cameraPoseDriver;
+    private int previousSelectableCount;
     
     public static void Create(Camera camera)
     {
@@ -31,7 +33,9 @@ public class VrStage: MonoBehaviour
     private void Start()
     {
         UpdatePreviousForward();
-        VrAimLaser.Create(transform, cameraPoseDriver);
+        var laser = VrAimLaser.Create(transform, cameraPoseDriver);
+        var laserInput = LaserInputModule.Create(laser);
+        laserInput.EventCamera = camera;
         Recenter();
     }
 
@@ -62,5 +66,20 @@ public class VrStage: MonoBehaviour
         transform.Rotate(Vector3.up, -angleDelta);
 
         UpdatePreviousForward();
+    }
+
+    private void Update()
+    {
+        if (previousSelectableCount != Selectable.allSelectableCount)
+        {
+            foreach (var selectable in Selectable.allSelectablesArray)
+            {
+                if (selectable.GetComponent<BoxCollider>()) continue;
+                var collider = selectable.gameObject.AddComponent<BoxCollider>();
+                var rectSize = selectable.GetComponent<RectTransform>().sizeDelta;
+                collider.size = new Vector3(rectSize.x, rectSize.y, 0.1f);
+                collider.gameObject.layer = LayerMask.NameToLayer("UI");
+            }
+        }
     }
 }

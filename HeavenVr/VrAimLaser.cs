@@ -9,7 +9,7 @@ public class VrAimLaser: MonoBehaviour
     private LineRenderer line;
     private const string lineShaderName = "Legacy Shaders/Particles/Alpha Blended";
 
-    public static void Create(Transform parent, TrackedPoseDriver cameraPose)
+    public static VrAimLaser Create(Transform parent, TrackedPoseDriver cameraPose)
     {
         var instance = new GameObject("VrAimLaser").AddComponent<VrAimLaser>();
         instance.transform.SetParent(parent, false);
@@ -19,6 +19,8 @@ public class VrAimLaser: MonoBehaviour
             TrackedPoseDriver.TrackedPose.RightPose);
         poseDriver.UseRelativeTransform = true;
         poseDriver.originPose = cameraPose.originPose;
+
+        return instance;
     }
     
     private void Awake()
