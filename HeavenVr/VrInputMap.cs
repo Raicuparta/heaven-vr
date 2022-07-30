@@ -31,18 +31,21 @@ public static class VrInputMap
         { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
         { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
         { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.primaryButton) },
+        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
         { "Start", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
         { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
         { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
         { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
         { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
         { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
+        { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
+        { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
         { "Move", new VrVector2Binding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
         { "Look", new VrVector2Binding(XRNode.RightHand, CommonUsages.primary2DAxis) }
     };
 
-    private static readonly Dictionary<string, IVrInputBinding> inputMap = viveInputMap;
+    private static readonly Dictionary<string, IVrInputBinding> inputMap = oculusInputMap;
 
     public static IVrInputBinding GetBinding(string name)
     {
