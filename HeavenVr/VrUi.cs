@@ -18,11 +18,13 @@ public class VrUi: MonoBehaviour
     {
         canvas.renderMode = RenderMode.WorldSpace;
         transform.localScale = Vector3.one * 0.001f;
-        InvokeRepeating(nameof(UpdatePosition), 0, 5f);
     }
 
-    private void UpdatePosition()
+    private void Update()
     {
-        transform.position = VrStage.Instance.transform.position + VrStage.Instance.transform.forward;
+        if (!VrStage.Instance || !VrStage.Instance.UiTarget) return;
+
+        transform.position = VrStage.Instance.UiTarget.TargetTransform.position;
+        transform.rotation = VrStage.Instance.UiTarget.TargetTransform.rotation;
     }
 }

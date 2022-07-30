@@ -8,8 +8,10 @@ namespace HeavenVr;
 public class VrStage: MonoBehaviour
 {
     public static VrStage Instance { get; private set; }
+    public Camera Camera { get; set; }
+    public UiTarget UiTarget { get; set; }
+
     
-    private Camera camera;
     private Vector3 previousForward;
     private Transform stageParent;
     private TrackedPoseDriver cameraPoseDriver;
@@ -19,7 +21,7 @@ public class VrStage: MonoBehaviour
     {
         Instance = new GameObject("VrStage").AddComponent<VrStage>();
 
-        Instance.camera = camera;
+        Instance.Camera = camera;
         Instance.stageParent = camera.transform.parent;
         Instance.transform.SetParent(Instance.stageParent, false);
         camera.transform.SetParent(Instance.transform, false);
@@ -28,6 +30,8 @@ public class VrStage: MonoBehaviour
         Instance.cameraPoseDriver.UseRelativeTransform = true;
 
         Instance.previousForward = camera.transform.forward;
+
+        Instance.UiTarget = UiTarget.Create(Instance);
     }
 
     private void Start()
@@ -46,7 +50,7 @@ public class VrStage: MonoBehaviour
 
     private Vector3 GetProjectedForward()
     {
-        var forward = camera.transform.parent.InverseTransformDirection(camera.transform.forward);
+        var forward = Camera.transform.parent.InverseTransformDirection(Camera.transform.forward);
         forward.y = 0;
         return forward;
     }
