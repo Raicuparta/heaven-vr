@@ -12,10 +12,20 @@ public class VrVector2Binding: VrInputBinding<Vector2>
         this.usage = usage;
     }
 
-    public override Vector2 GetValue()
+    protected override Vector2 GetValue()
     {
         var device = VrInputManager.GetInputDevice(Hand);
         device.TryGetFeatureValue(usage, out Value);
+        return Value;
+    }
+
+    protected override bool GetValueAsBool(Vector2 value)
+    {
+        return value != Vector2.zero;
+    }
+
+    protected override Vector2 GetValueAsVector2(Vector2 value)
+    {
         return Value;
     }
 }

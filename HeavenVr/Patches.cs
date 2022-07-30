@@ -55,12 +55,24 @@ public static class Patches
         dummy.SetParent(__instance.m_cameraHolder.parent);
         __instance.m_cameraHolder = dummy;
     }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(InputAction), nameof(InputAction.IsPressed))]
+    private static bool SetInputIsPressed(ref bool __result, InputAction __instance)
+    {
+        var binding = VrInputMap.GetBinding(__instance.name);
+        if (binding == null) return true;
+
+        __result = binding.IsPressed;
+
+        return false;
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasPressedThisFrame))]
-    private static bool SetBoolInputsPressed(ref bool __result, InputAction __instance)
+    private static bool SetInputWasPressed(ref bool __result, InputAction __instance)
     {
-        var binding = VrInputMap.GetBoolBinding(__instance.name);
+        var binding = VrInputMap.GetBinding(__instance.name);
         if (binding == null) return true;
 
         __result = binding.WasPressedThisFrame;
@@ -72,31 +84,12 @@ public static class Patches
     [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasReleasedThisFrame))]
     private static bool SetPreviousBoolInputsReleased(ref bool __result, InputAction __instance)
     {
-        var binding = VrInputMap.GetBoolBinding(__instance.name);
+        var binding = VrInputMap.GetBinding(__instance.name);
         if (binding == null) return true;
 
         __result = binding.WasReleasedThisFrame;
         
         return false;
-    }
-
-    [HarmonyPatch]
-    public static class Vector2InputPatches {
-        [HarmonyTargetMethod]
-        private static MethodInfo TargetMethod() {
-            return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(Vector2));
-        }
-
-        [HarmonyPrefix]
-        private static bool SetVector2Inputs(ref Vector2 __result, InputAction __instance)
-        {   
-            var binding = VrInputMap.GetVector2Binding(__instance.name);
-            if (binding == null) return true;
-            
-            __result = binding.GetValue();
-    
-            return false;
-        }
     }
 
     private static Quaternion cameraRotation;
@@ -151,6 +144,25 @@ public static class Patches
     }
     
     [HarmonyPatch]
+    public static class Vector2InputPatches {
+        [HarmonyTargetMethod]
+        private static MethodInfo TargetMethod() {
+            return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(Vector2));
+        }
+
+        [HarmonyPrefix]
+        private static bool SetVector2Inputs(ref Vector2 __result, InputAction __instance)
+        {   
+            var binding = VrInputMap.GetBinding(__instance.name);
+            if (binding == null) return true;
+
+            __result = binding.Position;
+    
+            return false;
+        }
+    }
+
+    [HarmonyPatch]
     public static class FloatInputPatches {
         [HarmonyTargetMethod]
         private static MethodInfo TargetMethod() {
@@ -158,12 +170,12 @@ public static class Patches
         }
 
         [HarmonyPrefix]
-        private static bool SetVector2Inputs(ref float __result, InputAction __instance)
+        private static bool SetFloatInputs(ref float __result, InputAction __instance)
         {
-            var binding = VrInputMap.GetBoolBinding(__instance.name);
+            var binding = VrInputMap.GetBinding(__instance.name);
             if (binding == null) return true;
 
-            __result = binding.GetValue() ? 1 : 0;
+            __result = binding.IsPressed ? 1 : 0;
     
             return false;
         }

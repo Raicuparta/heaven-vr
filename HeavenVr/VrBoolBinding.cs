@@ -1,32 +1,30 @@
-﻿using UnityEngine.XR;
+﻿using UnityEngine;
+using UnityEngine.XR;
 
 namespace HeavenVr;
 
 public class VrBoolBinding: VrInputBinding<bool>
 {
     private readonly InputFeatureUsage<bool> usage;
-    private bool previousValue;
-    public bool WasReleasedThisFrame;
-    public bool WasPressedThisFrame;
     
     public VrBoolBinding(XRNode hand, InputFeatureUsage<bool> usage) : base(hand)
     {
         this.usage = usage;
     }
 
-    public override void Update()
-    {
-        base.Update();
-        WasPressedThisFrame = false;
-        WasReleasedThisFrame = false;
-        if (!previousValue && Value) WasPressedThisFrame = true;
-        if (previousValue && !Value) WasReleasedThisFrame = true;
-        previousValue = Value;
-    }
-
-    public override bool GetValue()
+    protected override bool GetValue()
     {
         VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usage, out Value);
         return Value;
+    }
+
+    protected override bool GetValueAsBool(bool value)
+    {
+        return value;
+    }
+
+    protected override Vector2 GetValueAsVector2(bool value)
+    {
+        return value ? Vector2.one : Vector2.zero;
     }
 }

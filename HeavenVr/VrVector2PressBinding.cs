@@ -23,7 +23,7 @@ public class VrVector2PressBinding: VrInputBinding<Vector2>
         return value ? 1 : 0;
     }
 
-    public override Vector2 GetValue()
+    protected override Vector2 GetValue()
     {
         VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usagePosition, out var valueVector2);
         var valueNorth = valueVector2.y > inputThreshold ? GetFloatValue() : 0;
@@ -31,5 +31,15 @@ public class VrVector2PressBinding: VrInputBinding<Vector2>
         var valueEast = valueVector2.x > inputThreshold ? GetFloatValue() : 0;
         var valueWest = valueVector2.x < -inputThreshold ? GetFloatValue() : 0;
         return new Vector2(valueEast - valueWest, valueNorth - valueSouth);
+    }
+    
+    protected override bool GetValueAsBool(Vector2 value)
+    {
+        return value != Vector2.zero;
+    }
+
+    protected override Vector2 GetValueAsVector2(Vector2 value)
+    {
+        return Value;
     }
 }
