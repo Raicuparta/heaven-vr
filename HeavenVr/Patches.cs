@@ -1,9 +1,12 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 namespace HeavenVr;
@@ -170,6 +173,20 @@ public static class Patches
         // var rectSize = rectTransform.sizeDelta;
         // collider.size = new Vector3(rectSize.x, rectSize.y, 0.1f);
         // __instance.gameObject.layer = LayerMask.NameToLayer("UI"); // TODO careful
+    }
+
+    private static Type[] filterBlocklist = new []
+    {
+        typeof(LensDistortion),
+        typeof(LensDistortion),
+    };
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(VolumeProfile), "OnEnable")]
+    private static void DisablePostProcessing(VolumeProfile __instance)
+    {
+        // Post processing is only rendering in one eye. Disabling everything it for now.
+        __instance.components.Clear();
     }
     
     [HarmonyPatch]
