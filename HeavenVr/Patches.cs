@@ -70,6 +70,7 @@ public static class Patches
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasPressedThisFrame))]
+    [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasPerformedThisFrame))]
     private static bool SetInputWasPressed(ref bool __result, InputAction __instance)
     {
         var binding = VrInputMap.GetBinding(__instance.name);
