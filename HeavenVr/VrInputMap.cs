@@ -24,9 +24,6 @@ public static class VrInputMap
         { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
         { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
         { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
-        { "Point", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
-        { "ScrollWheel", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
-        { "Navigate", new VrVector2Binding(XRNode.RightHand, CommonUsages.primary2DAxis) },
     };
 
     private static readonly Dictionary<string, IVrInputBinding> oculusInputMap = new()

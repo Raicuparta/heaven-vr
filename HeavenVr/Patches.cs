@@ -185,8 +185,8 @@ public static class Patches
     [HarmonyPatch(typeof(VolumeProfile), "OnEnable")]
     private static void DisablePostProcessing(VolumeProfile __instance)
     {
-        // Post processing is only rendering in one eye. Disabling everything it for now.
-        __instance.components.Clear();
+        // Post processing is only rendering in one eye. Disabling it for now.
+        __instance.components.RemoveAll(component => component is IPostProcessComponent);
     }
     
     [HarmonyPatch]
