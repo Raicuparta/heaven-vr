@@ -42,13 +42,7 @@ public class LaserInputModule : BaseInputModule
         var instance = vrLaser.gameObject.AddComponent<LaserInputModule>();
         instance.vrLaser = vrLaser;
         instance.clickBinding = VrInputMap.GetBinding("MenuTabRight");
-        instance.SetUp();
         return instance;
-    }
-
-    public void SetUp()
-    {
-        EventSystem.current = eventSystem;
     }
 
     public override void DeactivateModule()
@@ -98,16 +92,17 @@ public class LaserInputModule : BaseInputModule
 
         if (isHit)
         {
-            Debug.Log($"Hit something {hit.collider.name}");
-
             var selectable = hit.collider.GetComponent<Selectable>();
             if (selectable)
             {
                 selectable.Select();
-                if (clickBinding.WasPressedThisFrame)
+                var button = selectable.GetComponent<Button>();
+                if (button)
                 {
-                    var button = selectable.GetComponent<Button>();
-                    if (button)
+                    // button.OnMove(null);
+                    // eventSystem.SetSelectedGameObject(button.gameObject);
+                    button.OnPointerEnter(pointerData);
+                    if (clickBinding.WasPressedThisFrame)
                     {
                         button.onClick.Invoke();
                         button.OnPointerClick(pointerData);
@@ -115,8 +110,6 @@ public class LaserInputModule : BaseInputModule
                 }
             }
         }
-        else
-            Debug.Log("hit nothing");
 
         var pointerPosition = EventCamera.WorldToScreenPoint(hit.point);
 

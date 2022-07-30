@@ -33,9 +33,7 @@ public class VrStage: MonoBehaviour
     private void Start()
     {
         UpdatePreviousForward();
-        var laser = VrAimLaser.Create(transform, cameraPoseDriver);
-        var laserInput = LaserInputModule.Create(laser);
-        laserInput.EventCamera = camera;
+        VrAimLaser.Create(transform, cameraPoseDriver);
         Recenter();
     }
 
@@ -78,8 +76,9 @@ public class VrStage: MonoBehaviour
                 var collider = selectable.gameObject.AddComponent<BoxCollider>();
                 var rectSize = selectable.GetComponent<RectTransform>().sizeDelta;
                 collider.size = new Vector3(rectSize.x, rectSize.y, 0.1f);
-                collider.gameObject.layer = LayerMask.NameToLayer("UI");
             }
+
+            previousSelectableCount = Selectable.allSelectableCount;
         }
     }
 }

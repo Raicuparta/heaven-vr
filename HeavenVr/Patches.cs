@@ -163,14 +163,7 @@ public static class Patches
     [HarmonyPatch(typeof(CanvasScaler), "OnEnable")]
     private static void AddCanvasCollider(CanvasScaler __instance)
     {
-        if (__instance.name.StartsWith("com.sinai")) return;
-        
-        var collider = __instance.GetComponent<BoxCollider>();
-        if (collider != null) return;
-
-        __instance.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
-        var position = (Camera.main ? Camera.main.transform.position + Vector3.forward : Vector3.forward);
-        __instance.transform.position = position;
+        VrUi.Create(__instance.GetComponent<Canvas>());
 
         // var rectTransform = __instance.GetComponent<RectTransform>();
         // collider = __instance.gameObject.AddComponent<BoxCollider>();
