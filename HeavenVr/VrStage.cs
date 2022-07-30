@@ -25,6 +25,7 @@ public class VrStage: MonoBehaviour
         Instance.stageParent = camera.transform.parent;
         Instance.transform.SetParent(Instance.stageParent, false);
         camera.transform.SetParent(Instance.transform, false);
+        camera.cullingMask |= 1 << LayerMask.NameToLayer("UI"); // TODO should have a separate UI camera;
         
         Instance.cameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.cameraPoseDriver.UseRelativeTransform = true;

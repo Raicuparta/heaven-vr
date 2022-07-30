@@ -12,6 +12,7 @@ public class VrUi: MonoBehaviour
 
         var instance = canvas.gameObject.AddComponent<VrUi>();
         instance.canvas = canvas;
+        instance.gameObject.layer = LayerMask.NameToLayer("UI");
     }
 
     private void Start()
