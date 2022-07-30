@@ -4,10 +4,7 @@ using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
-using UnityEngine.XR;
-using CommonUsages = UnityEngine.XR.CommonUsages;
 
 namespace HeavenVr;
 
@@ -15,10 +12,17 @@ namespace HeavenVr;
 public static class Patches
 {
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(PlayerCamera), "Start")]
+    [HarmonyPatch(typeof(PlayerCamera), nameof(PlayerCamera.Start))]
     private static void EnableCameraTracking(PlayerCamera __instance)
     {
-        VrStage.Create(__instance);
+        VrStage.Create(__instance.PlayerCam);
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(MenuCamera), nameof(MenuCamera.Start))]
+    private static void EnableCameraTracking(MenuCamera __instance)
+    {
+        VrStage.Create(__instance.cam);
     }
     
     [HarmonyPrefix]

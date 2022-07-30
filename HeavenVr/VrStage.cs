@@ -8,29 +8,30 @@ public class VrStage: MonoBehaviour
 {
     public static VrStage Instance { get; private set; }
     
-    private Camera playerCamera;
+    private Camera camera;
     private Vector3 previousForward;
     private Transform stageParent;
+    private TrackedPoseDriver cameraPoseDriver;
     
-    public static void Create(PlayerCamera playerCamera)
+    public static void Create(Camera camera)
     {
         Instance = new GameObject("VrStage").AddComponent<VrStage>();
 
-        Instance.playerCamera = playerCamera.PlayerCam;
-        Instance.stageParent = playerCamera.transform.parent;
+        Instance.camera = camera;
+        Instance.stageParent = camera.transform.parent;
         Instance.transform.SetParent(Instance.stageParent, false);
-        playerCamera.transform.SetParent(Instance.transform, false);
+        camera.transform.SetParent(Instance.transform, false);
         
-        var poseDriver = playerCamera.gameObject.AddComponent<TrackedPoseDriver>();
-        poseDriver.UseRelativeTransform = true;
+        Instance.cameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
+        Instance.cameraPoseDriver.UseRelativeTransform = true;
 
-        Instance.previousForward = playerCamera.transform.forward;
+        Instance.previousForward = camera.transform.forward;
     }
 
     private void Start()
     {
         UpdatePreviousForward();
-        VrAimLaser.Create(transform);
+        VrAimLaser.Create(transform, cameraPoseDriver);
         Recenter();
     }
 
@@ -43,7 +44,7 @@ public class VrStage: MonoBehaviour
 
     private Vector3 GetProjectedForward()
     {
-        var forward = playerCamera.transform.parent.InverseTransformDirection(playerCamera.transform.forward);
+        var forward = camera.transform.parent.InverseTransformDirection(camera.transform.forward);
         forward.y = 0;
         return forward;
     }
