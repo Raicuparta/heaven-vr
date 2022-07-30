@@ -32,7 +32,8 @@ public class VrAimLaser: MonoBehaviour
         line.endWidth = 0f;
         line.SetPositions(new []{ Vector3.zero, Vector3.forward * 100f });
         line.material.shader = Shader.Find(lineShaderName);
-
-
+        // Using Ignore Raycast layer because it's visible in map camera and player camera.
+        // Might be better to use a custom layer, but seems like they're all being used.
+        line.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
     }
 }

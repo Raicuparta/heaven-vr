@@ -25,6 +25,17 @@ public static class Patches
         VrStage.Create(__instance.cam);
     }
     
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(ShakePosition), nameof(ShakePosition.Start))]
+    private static void EnableCameraTracking(ShakePosition __instance)
+    {
+        var camera = __instance.GetComponent<Camera>();
+        if (camera)
+        {
+            VrStage.Create(camera);
+        }
+    }
+    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(PlanarReflectionRenderFeature), nameof(PlanarReflectionRenderFeature.Create))]
     private static void DisableReflections(PlanarReflectionRenderFeature __instance)
