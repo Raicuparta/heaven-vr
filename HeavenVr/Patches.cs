@@ -8,6 +8,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using UnityEngine.XR;
+using UnityEngine.XR.Management;
+using UnityEngine.XR.OpenXR;
 
 namespace HeavenVr;
 
@@ -160,6 +163,22 @@ public static class Patches
     {
         if (!VrStage.Instance) return;
         VrStage.Instance.UpdateRotation();
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Application), nameof(Application.targetFrameRate), MethodType.Setter)]
+    private static bool SyncFramerateWithHmdSetter(ref int value)
+    {
+        value = -1;
+        return false;
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Application), nameof(Application.targetFrameRate), MethodType.Getter)]
+    private static bool SyncFramerateWithHmdGetter(ref int __result)
+    {
+        __result = -1;
+        return false;
     }
     
     [HarmonyPostfix]
