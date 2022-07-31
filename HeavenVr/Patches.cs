@@ -148,20 +148,13 @@ public static class Patches
     }
     
 
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.Update))]
-    private static void PreventRotatingCameraVertically(FirstPersonDrifter __instance)
-    {
-        __instance.m_cameraRotationX = __instance.m_cameraHolder.parent.localRotation;
-    }
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.Update))]
-    private static void UpdateStageRotation()
-    {
-        if (!VrStage.Instance) return;
-        VrStage.Instance.UpdateRotation();
-    }
+    // [HarmonyPrefix]
+    // [HarmonyPatch(typeof(MouseLook), nameof(MouseLook.UpdateRotation))]
+    // private static void PreventRotatingCameraVertically(MouseLook __instance)
+    // {
+    //     if (!VrStage.Instance) return;
+    //     __instance.originalRotation *= Quaternion.Euler(0, VrStage.Instance.AngleDelta, 0);
+    // }
     
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Application), nameof(Application.targetFrameRate), MethodType.Setter)]

@@ -11,16 +11,22 @@ public class VrStage: MonoBehaviour
     public static VrStage Instance { get; private set; }
     public Camera Camera { get; set; }
     public UiTarget UiTarget { get; set; }
+    public float AngleDelta;
 
     
     private Vector3 previousForward;
     private Transform stageParent;
     public TrackedPoseDriver CameraPoseDriver;
     private int previousSelectableCount;
+    private MouseLook mouseLook;
     
     public static void Create(Camera camera)
     {
         Instance = new GameObject("VrStage").AddComponent<VrStage>();
+
+        Instance.previousForward = camera.transform.forward;
+        Instance.UiTarget = UiTarget.Create(Instance);
+        Instance.mouseLook = camera.transform.parent.GetComponentInParent<MouseLook>();
 
         Instance.Camera = camera;
         Instance.stageParent = camera.transform.parent;
@@ -31,10 +37,6 @@ public class VrStage: MonoBehaviour
         camera.transform.localEulerAngles = Vector3.up * camera.transform.localEulerAngles.y;
         Instance.CameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.CameraPoseDriver.UseRelativeTransform = true;
-
-        Instance.previousForward = camera.transform.forward;
-
-        Instance.UiTarget = UiTarget.Create(Instance);
     }
 
     private void Start()
@@ -65,16 +67,21 @@ public class VrStage: MonoBehaviour
 
     public void UpdateRotation()
     {
-        var angleDelta = Vector3.SignedAngle(previousForward, GetProjectedForward(), Vector3.up);
-        stageParent.Rotate(Vector3.up, angleDelta);
+        if (Time.timeScale == 0) return;
+
+        AngleDelta = Vector3.SignedAngle(previousForward, GetProjectedForward(), Vector3.up);
         
-        transform.Rotate(Vector3.up, -angleDelta);
+        stageParent.Rotate(Vector3.up, AngleDelta);
+        transform.Rotate(Vector3.up, -AngleDelta);
+        mouseLook.originalRotation *= Quaternion.Euler(0, AngleDelta, 0);
 
         UpdatePreviousForward();
     }
 
     private void Update()
     {
+        UpdateRotation();
+        
         if (previousSelectableCount != Selectable.allSelectableCount)
         {
             foreach (var selectable in Selectable.allSelectablesArray)
