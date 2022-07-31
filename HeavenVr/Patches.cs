@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -117,7 +118,6 @@ public static class Patches
     private static Quaternion cameraRotation;
     private static Vector3 cameraPosition;
     private static Quaternion cameraParentRotation;
-    private static Vector3 cameraParentPosition;
     
     [HarmonyPrefix]
     [HarmonyPatch(typeof(MechController), nameof(MechController.DoDiscardAbility))]
@@ -125,15 +125,14 @@ public static class Patches
     {
         if (!VrAimLaser.Laser) return;
 
-        // TODO dunno if I'm supposed to be able to dash upwards.
         var cameraTransform = __instance.playerCamera.transform;
         cameraRotation = cameraTransform.rotation;
         cameraPosition = cameraTransform.position;
         cameraParentRotation = cameraTransform.parent.rotation;
-        cameraParentPosition = cameraTransform.parent.position;
 
-        cameraTransform.rotation = cameraTransform.parent.rotation = VrAimLaser.Laser.rotation;
-        cameraTransform.position = cameraTransform.parent.position = VrAimLaser.Laser.position;
+        cameraTransform.position = VrAimLaser.Laser.position;
+        cameraTransform.rotation = VrAimLaser.Laser.rotation;
+        cameraTransform.parent.rotation = quaternion.LookRotation(MathHelper.GetProjectedForward(cameraTransform), Vector3.up);
     }
     
     [HarmonyPostfix]
@@ -146,7 +145,6 @@ public static class Patches
         cameraTransform.rotation = cameraRotation;
         cameraTransform.position = cameraPosition;
         cameraTransform.parent.rotation = cameraParentRotation;
-        cameraTransform.parent.position = cameraParentPosition;
     }
     
 
