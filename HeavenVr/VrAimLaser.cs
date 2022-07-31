@@ -38,7 +38,7 @@ public class VrAimLaser: MonoBehaviour
         line.useWorldSpace = false;
         line.startWidth = 0.01f;
         line.endWidth = 0f;
-        line.SetPositions(new []{ Vector3.zero, Vector3.forward * 100f });
+        line.SetPositions(new []{ Vector3.zero, Vector3.forward * rayDistance });
         line.material.shader = Shader.Find(lineShaderName);
         // Using Ignore Raycast layer because it's visible in map camera and player camera.
         // Might be better to use a custom layer, but seems like they're all being used.
@@ -60,6 +60,8 @@ public class VrAimLaser: MonoBehaviour
 
         if (isHit)
         {
+            line.SetPosition(1, Vector3.forward * hit.distance);
+
             var selectable = hit.collider.GetComponent<Selectable>();
             if (selectable)
             {
@@ -79,6 +81,10 @@ public class VrAimLaser: MonoBehaviour
                     selectable.OnPointerDown(pointerData);
                 }
             }
+        }
+        else
+        {
+            line.SetPosition(1, Vector3.forward * rayDistance);
         }
     }
 }
