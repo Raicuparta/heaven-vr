@@ -46,10 +46,11 @@ public class UiTarget : MonoBehaviour
 
         var cameraForward = GetCameraForward();
         var unsignedAngleDelta = Vector3.Angle(previousForward, cameraForward);
+        TargetTransform.localRotation = stage.CameraPoseDriver.originPose.rotation;
 
         if (unsignedAngleDelta > minAngleDelta)
         {
-            targetRotation = Quaternion.LookRotation(cameraForward);
+            targetRotation = Quaternion.LookRotation(cameraForward, stage.CameraPoseDriver.transform.parent.rotation * stage.CameraPoseDriver.originPose.rotation * Vector3.up);
             previousForward = cameraForward;
         }
 

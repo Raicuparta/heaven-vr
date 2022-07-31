@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -14,7 +15,7 @@ public class VrStage: MonoBehaviour
     
     private Vector3 previousForward;
     private Transform stageParent;
-    private TrackedPoseDriver cameraPoseDriver;
+    public TrackedPoseDriver CameraPoseDriver;
     private int previousSelectableCount;
     
     public static void Create(Camera camera)
@@ -27,8 +28,9 @@ public class VrStage: MonoBehaviour
         camera.transform.SetParent(Instance.transform, false);
         camera.cullingMask |= 1 << LayerMask.NameToLayer("UI"); // TODO should have a separate UI camera;
         
-        Instance.cameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
-        Instance.cameraPoseDriver.UseRelativeTransform = true;
+        camera.transform.localEulerAngles = Vector3.up * camera.transform.localEulerAngles.y;
+        Instance.CameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
+        Instance.CameraPoseDriver.UseRelativeTransform = true;
 
         Instance.previousForward = camera.transform.forward;
 
@@ -38,7 +40,7 @@ public class VrStage: MonoBehaviour
     private void Start()
     {
         UpdatePreviousForward();
-        VrAimLaser.Create(transform, cameraPoseDriver);
+        VrAimLaser.Create(transform, CameraPoseDriver);
         Recenter();
     }
 
