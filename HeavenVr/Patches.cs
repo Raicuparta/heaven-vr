@@ -163,23 +163,19 @@ public static class Patches
     }
     
     [HarmonyPostfix]
+    [HarmonyPatch(typeof(MenuScreenMapAesthetics), nameof(MenuScreenMapAesthetics.Start))]
+    private static void FixMapScreen(MenuScreenMapAesthetics __instance)
+    {
+        VrUi.Create(__instance.transform.Find("Map"), 0.5f);
+        __instance.transform.localScale *= 0.5f;
+    }
+    
+    [HarmonyPostfix]
     [HarmonyPatch(typeof(CanvasScaler), "OnEnable")]
     private static void AddCanvasCollider(CanvasScaler __instance)
     {
-        VrUi.Create(__instance.GetComponent<Canvas>());
-
-        // var rectTransform = __instance.GetComponent<RectTransform>();
-        // collider = __instance.gameObject.AddComponent<BoxCollider>();
-        // var rectSize = rectTransform.sizeDelta;
-        // collider.size = new Vector3(rectSize.x, rectSize.y, 0.1f);
-        // __instance.gameObject.layer = LayerMask.NameToLayer("UI"); // TODO careful
+        VrUi.Create(__instance.transform);
     }
-
-    private static Type[] filterBlocklist = new []
-    {
-        typeof(LensDistortion),
-        typeof(LensDistortion),
-    };
     
     [HarmonyPostfix]
     [HarmonyPatch(typeof(VolumeProfile), "OnEnable")]
