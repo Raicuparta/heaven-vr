@@ -67,7 +67,7 @@ public class VrStage: MonoBehaviour
 
     public void UpdateRotation()
     {
-        if (Time.timeScale == 0) return;
+        if (!RM.acceptInput || !RM.acceptInputPauseMenu || !RM.drifter) return;
 
         AngleDelta = Vector3.SignedAngle(previousForward, GetProjectedForward(), Vector3.up);
         
