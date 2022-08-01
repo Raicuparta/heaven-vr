@@ -22,8 +22,8 @@ public static class VrInputMap
         { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
         { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
         { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
-        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick, CommonUsages.primary2DAxis) },
+        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis, CommonUsages.primary2DAxisClick) },
+        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis, CommonUsages.primary2DAxisClick) },
     };
 
     private static readonly Dictionary<string, IVrInputBinding> oculusInputMap = new()
@@ -41,11 +41,11 @@ public static class VrInputMap
         { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
         { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
         { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Move", new VrVector2Binding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
-        { "Look", new VrVector2Binding(XRNode.RightHand, CommonUsages.primary2DAxis) }
+        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
+        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
     };
 
-    private static readonly Dictionary<string, IVrInputBinding> inputMap = viveInputMap;
+    private static readonly Dictionary<string, IVrInputBinding> inputMap = oculusInputMap;
 
     public static IVrInputBinding GetBinding(string name)
     {

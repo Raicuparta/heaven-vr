@@ -5,13 +5,13 @@ namespace HeavenVr;
 
 public class VrVector2PressBinding: VrInputBinding<Vector2>
 {
-    private readonly InputFeatureUsage<bool> usagePress;
+    private readonly InputFeatureUsage<bool>? usagePress;
     private readonly InputFeatureUsage<Vector2> usagePosition;
     private const float inputThreshold = 0.5f;
 
     public VrVector2PressBinding(XRNode hand,
-        InputFeatureUsage<bool> usagePress = default,
-        InputFeatureUsage<Vector2> usagePosition = default) : base(hand)
+        InputFeatureUsage<Vector2> usagePosition,
+        InputFeatureUsage<bool>? usagePress = null) : base(hand)
     {
         this.usagePress = usagePress;
         this.usagePosition = usagePosition;
@@ -19,7 +19,9 @@ public class VrVector2PressBinding: VrInputBinding<Vector2>
 
     private float GetFloatValue()
     {
-        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usagePress, out var value);
+        if (!usagePress.HasValue) return 1;
+
+        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usagePress.Value, out var value);
         return value ? 1 : 0;
     }
 

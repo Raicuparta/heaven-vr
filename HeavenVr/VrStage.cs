@@ -12,13 +12,13 @@ public class VrStage: MonoBehaviour
     public Camera Camera { get; set; }
     public UiTarget UiTarget { get; set; }
     public float AngleDelta;
+    public TrackedPoseDriver CameraPoseDriver;
 
-    
     private Vector3 previousForward;
     private Transform stageParent;
-    public TrackedPoseDriver CameraPoseDriver;
     private int previousSelectableCount;
     private MouseLook mouseLook;
+    private bool isHandOriented = true;
     
     public static void Create(Camera camera)
     {
@@ -41,8 +41,8 @@ public class VrStage: MonoBehaviour
 
     private void Start()
     {
-        UpdatePreviousForward();
         VrAimLaser.Create(transform, CameraPoseDriver);
+        UpdatePreviousForward();
         Recenter();
     }
 
@@ -53,23 +53,25 @@ public class VrStage: MonoBehaviour
 		transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }
 
-    private Vector3 GetProjectedForward()
+    private Vector3 GetMovementDirection()
     {
-        var forward = Camera.transform.parent.InverseTransformDirection(Camera.transform.forward);
+        var trackedTransform = isHandOriented ? VrAimLaser.Laser : Camera.transform;
+        var trackedTransformParent = isHandOriented ? VrAimLaser.Laser.parent.parent : Camera.transform.parent;
+        var forward = trackedTransformParent.InverseTransformDirection(trackedTransform.forward);
         forward.y = 0;
         return forward;
     }
 
     private void UpdatePreviousForward()
     {
-        previousForward = GetProjectedForward();
+        previousForward = GetMovementDirection();
     }
 
     public void UpdateRotation()
     {
         if (!RM.acceptInput || !RM.acceptInputPauseMenu || !RM.drifter) return;
 
-        AngleDelta = Vector3.SignedAngle(previousForward, GetProjectedForward(), Vector3.up);
+        AngleDelta = Vector3.SignedAngle(previousForward, GetMovementDirection(), Vector3.up);
         
         stageParent.Rotate(Vector3.up, AngleDelta);
         transform.Rotate(Vector3.up, -AngleDelta);
