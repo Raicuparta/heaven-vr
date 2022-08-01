@@ -2,6 +2,7 @@
 {
 	Properties{
 		_LivClipPlaneHeightMap("Clip Plane Height Map", 2D) = "black" {}
+		_LivColor("Liv Color", Color) = (0.0, 1.0, 0.0, 0.5)
 	}
 
 	SubShader
@@ -27,6 +28,7 @@
 
 			sampler2D _LivClipPlaneHeightMap;
 			float _LivTessellation;
+			float4 _LivColor;
 
 			struct VertexData {
 				float4 vertex : POSITION;
@@ -111,7 +113,7 @@
 				barys.xy = i.barycentric;
 				barys.z = 1 - barys.x - barys.y;
 				barys = smoothstep(0.0, 0.0 + fwidth(barys), barys);
-				return lerp(float4(0.0, 0.0, 0.0, 0.5), float4(0.0, 1.0, 0.0, 0.5), min(barys.x, min(barys.y, barys.z)));
+				return lerp(float4(0.0, 0.0, 0.0, 0.5), _LivColor, min(barys.x, min(barys.y, barys.z)));
 			}
 
 			ENDCG

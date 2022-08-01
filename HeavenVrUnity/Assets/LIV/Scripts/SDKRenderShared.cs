@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections;
 
 namespace LIV.SDK.Unity
-{    
+{
     public partial class SDKRender : System.IDisposable
     {
         private LIV _liv = null;
@@ -12,6 +13,19 @@ namespace LIV.SDK.Unity
                 return _liv;
             }
         }
+
+        // quad
+        private Mesh _quadMesh = null;
+        // Tessellated quad
+        private Mesh _clipPlaneMesh = null;
+        // box
+        private Mesh _boxMesh = null;
+        // debug font
+        private SDKFont _sdkFont = null;
+
+        private MaterialPropertyBlock _clipPlaneMaterialProperty;
+        private MaterialPropertyBlock _groundPlaneMaterialProperty;
+        private MaterialPropertyBlock _hmdMaterialProperty;
 
         private SDKOutputFrame _outputFrame = SDKOutputFrame.empty;
         public SDKOutputFrame outputFrame {
@@ -88,7 +102,7 @@ namespace LIV.SDK.Unity
                 return _liv.disableStandardAssets;
             }
         }
-        
+
         private SDKPose _requestedPose = SDKPose.empty;
         private int _requestedPoseFrameIndex = 0;
 
@@ -114,8 +128,7 @@ namespace LIV.SDK.Unity
         /// }
         /// </code>
         /// </example>
-        public bool canSetPose
-        {
+        public bool canSetPose {
             get {
                 if (_inputFrame.frameid == 0) return false;
                 return _inputFrame.priority.pose <= (sbyte)PRIORITY.GAME;
@@ -149,7 +162,7 @@ namespace LIV.SDK.Unity
         {
             if (_inputFrame.frameid == 0) return false;
             SDKPose inputPose = _inputFrame.pose;
-            float aspect = 1f;            
+            float aspect = 1f;
             if (_resolution.height > 0)
             {
                 aspect = (float)_resolution.width / (float)_resolution.height;
@@ -159,7 +172,7 @@ namespace LIV.SDK.Unity
             {
                 Matrix4x4 worldToLocal = Matrix4x4.identity;
                 Transform localTransform = stageTransform == null ? stage : stageTransform;
-                if(localTransform != null) worldToLocal = localTransform.worldToLocalMatrix;
+                if (localTransform != null) worldToLocal = localTransform.worldToLocalMatrix;
                 position = worldToLocal.MultiplyPoint(position);
                 rotation = SDKUtils.RotateQuaternionByMatrix(worldToLocal, rotation);
             }
@@ -242,7 +255,7 @@ namespace LIV.SDK.Unity
         public void SetGroundPlane(Transform transform, bool useLocalSpace = false)
         {
             if (transform == null) return;
-            Quaternion rotation = useLocalSpace ? transform.localRotation : transform.rotation;            
+            Quaternion rotation = useLocalSpace ? transform.localRotation : transform.rotation;
             Vector3 position = useLocalSpace ? transform.localPosition : transform.position;
             Vector3 normal = rotation * Vector3.up;
             SetGroundPlane(-Vector3.Dot(normal, position), normal, useLocalSpace);
@@ -450,6 +463,82 @@ namespace LIV.SDK.Unity
                 width = texture.width,
                 height = texture.height
             });
+        }
+
+        Material GetClipPlaneMaterial(bool debugClipPlane, bool complexClipPlane, ColorWriteMask colorWriteMask, ref MaterialPropertyBlock materialPropertyBlock)
+        {
+            Material output;
+
+            if (complexClipPlane)
+            {
+                output = debugClipPlane ? _clipPlaneComplexDebugMaterial : _clipPlaneComplexMaterial;
+                materialPropertyBlock.SetTexture(SDKShaders.LIV_CLIP_PLANE_HEIGHT_MAP_PROPERTY, _complexClipPlaneRenderTexture);
+                materialPropertyBlock.SetFloat(SDKShaders.LIV_TESSELLATION_PROPERTY, _inputFrame.clipPlane.tesselation);
+            }
+            else
+            {
+                output = debugClipPlane ? _clipPlaneSimpleDebugMaterial : _clipPlaneSimpleMaterial;
+            }
+
+            output.SetInt(SDKShaders.LIV_COLOR_MASK, (int)colorWriteMask);
+            return output;
+        }
+
+        void RenderFrameStamps(RenderTexture renderTexture)
+        {
+            float aspect = (float)renderTexture.width / (float)renderTexture.height;
+            int height = 50;
+            int width = (int)(height * aspect);
+            if (_sdkFont == null) _sdkFont = new SDKFont(width, height);
+            _sdkFont.Resize(width, height);
+            _sdkFont.Clear();
+            string frameCount = Time.frameCount.ToString();
+
+            System.TimeSpan timeSpan = System.TimeSpan.FromSeconds(Time.realtimeSinceStartup);
+            string timeStamp = string.Format("{0:00}:{1:00}:{2:00}:{3:000}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds);
+            _sdkFont.SetText(0, 0, frameCount);
+            _sdkFont.SetText(width - frameCount.Length, 0, frameCount);
+            _sdkFont.SetText(0, height - 1, string.Format("{0} {1}", frameCount, timeStamp));
+            _sdkFont.SetText(width - frameCount.Length, height - 1, frameCount);
+            _sdkFont.Apply();
+
+            Graphics.Blit(null, renderTexture, _sdkFont.fontMaterial);
+        }
+
+        void RenderHMD()
+        {
+            Graphics.DrawMesh(_boxMesh,
+                _liv.HMDCamera.transform.localToWorldMatrix * Matrix4x4.Scale(Vector3.one * 0.1f),
+                _clipPlaneSimpleDebugMaterial,
+                0,
+                _cameraInstance,
+                0,
+                _hmdMaterialProperty,
+                false,
+                false,
+                false);
+        }
+
+        void RenderDebugPreRender()
+        {
+            RenderHMD();
+        }
+
+        void RenderDebugPostRender(RenderTexture renderTexture)
+        {
+            RenderBuffer activeColorBuffer = Graphics.activeColorBuffer;
+            RenderBuffer activeDepthBuffer = Graphics.activeDepthBuffer;
+            RenderFrameStamps(renderTexture);
+            Graphics.SetRenderTarget(activeColorBuffer, activeDepthBuffer);
+        }
+
+        protected void DisposeDebug()
+        {
+            if (_sdkFont != null)
+            {
+                _sdkFont.Dispose();
+                _sdkFont = null;
+            }
         }
     }
 }

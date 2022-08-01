@@ -1,9 +1,14 @@
 ﻿Shader "Hidden/LIV_ClipPlaneSimpleDebug"
 {	
+	Properties
+	{
+		_LivColor("Liv Color", Color) = (0.0, 1.0, 0.0, 0.5)
+	}
+
 	SubShader
 	{
 		Tags { "Queue" = "Overlay" "LightMode" = "Always" "IgnoreProjector" = "True" "ForceNoShadowCasting" = "True"}
-		
+
 		Pass {
 			Name "CLIP_PLANE_SIMPLE_DEBUG"
 			Cull Off
@@ -19,6 +24,8 @@
 			#pragma geometry GeometryProgram
 
 			#include "UnityCG.cginc"
+			
+			float4 _LivColor;
 
 			struct VertexData {
 				float4 vertex : POSITION;
@@ -70,7 +77,52 @@
 				barys.xy = i.barycentric;
 				barys.z = 1 - barys.x - barys.y;
 				barys = smoothstep(0.0, 0.0 + fwidth(barys), barys);
-				return lerp(float4(0.0, 0.0, 0.0, 0.5), float4(0.0, 1.0, 0.0, 0.5), min(barys.x, min(barys.y, barys.z)));
+				return lerp(float4(0.0, 0.0, 0.0, 0.5), _LivColor, min(barys.x, min(barys.y, barys.z)));
+			}
+
+			ENDCG
+		}
+
+		Pass {
+			Name "CLIP_PLANE_SIMPLE_DEBUG_BACK"
+			Cull Off
+			ZTest Greater
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			Fog{ Mode Off }
+
+			CGPROGRAM
+
+			#pragma target 4.6
+
+			#pragma vertex VertexProgram
+			#pragma fragment FragmentProgram
+
+			#include "UnityCG.cginc"
+
+			float4 _LivColor;
+
+			struct VertexData {
+				float4 vertex : POSITION;
+				float2 uv : TEXCOORD0;
+			};
+
+			struct FragData {
+				float4 vertex : POSITION;
+				float2 uv : TEXCOORD0;
+			};
+
+			FragData VertexProgram(VertexData v)
+			{
+				FragData o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = v.uv;
+				return o;
+			}
+
+			fixed4 FragmentProgram(FragData i) : SV_Target
+			{
+				return fixed4(_LivColor.r, _LivColor.g, _LivColor.b, _LivColor.a);
 			}
 
 			ENDCG
