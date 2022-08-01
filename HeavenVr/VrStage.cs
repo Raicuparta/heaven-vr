@@ -99,6 +99,8 @@ public class VrStage: MonoBehaviour
             "CameraStackPriority",
         };
         livStage.gameObject.SetActive(true);
+
+        Instantiate(VrAssetLoader.RunAnimationPrefab, livStage, false);
     }
 
     private void Recenter()

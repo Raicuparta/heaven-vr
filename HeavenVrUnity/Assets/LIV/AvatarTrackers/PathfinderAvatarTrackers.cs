@@ -9,25 +9,33 @@ namespace LIV.AvatarTrackers
 	    private const string localPathBase = "localAvatarTrackers";
 	    private const string globalPathBase = "LIV.avatarTrackers";
 	    private List<PathfinderRigidTransform> pathfinderRigidTransforms;
+	    private static readonly Dictionary<string, string> boneMap = new Dictionary<string, string>()
+		{
+			{ "B-forearm.R", "bob.stage.avatar.trackers.rightElbowGoal" },
+			{ "B-toe.L", "bob.stage.avatar.trackers.leftFoot" },
+			{ "B-shin.L", "bob.stage.avatar.trackers.leftKneeGoal" },
+			{ "B-toe.R", "bob.stage.avatar.trackers.rightFoot" },
+			{ "B-shin.R", "bob.stage.avatar.trackers.rightKneeGoal" },
+		};
 
-		public void SetUp(Transform root, IReadOnlyDictionary<string, string> boneMap)
+		public void Start()
 		{
 			pathfinderRigidTransforms = new List<PathfinderRigidTransform>();
-	        var children = root.GetComponentsInChildren<Transform>();
+	        var children = gameObject.GetComponentsInChildren<Transform>();
 			foreach (var child in children)
 			{
 				if (boneMap.ContainsKey(child.name))
 				{
-					pathfinderRigidTransforms.Add(CreatePathfinderTransform(child, boneMap[child.name], root));
+					pathfinderRigidTransforms.Add(CreatePathfinderTransform(child, boneMap[child.name]));
 				}
 			}
         }
 
-        private PathfinderRigidTransform CreatePathfinderTransform(Transform child, string path, Transform root)
+        private PathfinderRigidTransform CreatePathfinderTransform(Transform child, string path)
         {
 	        var pathfinderTransform = new GameObject($"Pathfinder-{child.name}").AddComponent<PathfinderRigidTransform>();
 			pathfinderTransform.transform.SetParent(child, false);
-	        pathfinderTransform.Root = root;
+	        pathfinderTransform.Root = transform;
 			pathfinderTransform.Key = path;
 			pathfinderTransform.PathBase = localPathBase;
 
@@ -56,12 +64,7 @@ namespace LIV.AvatarTrackers
 		        pathfinderRigidTransform.SetPathfinderValuesLocally();
 	        }
 
-	        var result = SDKBridgePathfinder.CopyPath(globalPathBase, localPathBase);
-	        SDKBridgePathfinder.GetValue<SDKRigidTransform>($"{localPathBase}.bob.stage.avatar.trackers.leftFoot", out var localValue, (int) PathfinderType.RigidTransform);
-	        Debug.Log($"localValue {localValue.pos.z}");
-	        
-	        SDKBridgePathfinder.GetValue<SDKRigidTransform>($"{globalPathBase}.bob.stage.avatar.trackers.leftFoot", out var globalValue, (int) PathfinderType.RigidTransform);
-	        Debug.Log($"globalValue {globalValue.pos.z}");
+	        SDKBridgePathfinder.CopyPath(globalPathBase, localPathBase);
         }
     }
 }

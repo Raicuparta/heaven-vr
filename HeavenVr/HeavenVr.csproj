@@ -39,6 +39,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="..\HeavenVrUnity\AssetBundles\StandaloneWindows\animation">
+        <Link>Assets\animation</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\HeavenVrUnity\AssetBundles\StandaloneWindows\animation.manifest">
+        <Link>Assets\animation.manifest</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="..\HeavenVrUnity\AssetBundles\StandaloneWindows\liv-shaders">
         <Link>Assets\liv-shaders</Link>
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>

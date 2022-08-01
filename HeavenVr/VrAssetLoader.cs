@@ -8,10 +8,12 @@ namespace HeavenVr;
 public static class VrAssetLoader
 {
     private const string assetsDir = "/BepInEx/plugins/HeavenVr/Assets/";
+    public static GameObject RunAnimationPrefab;
     
     public static void Init()
     {
         SDKShaders.LoadFromAssetBundle(LoadBundle("liv-shaders"));
+        RunAnimationPrefab = LoadBundle("animation").LoadAsset<GameObject>("RunAnimation");
     }
     
     private static AssetBundle LoadBundle(string assetName)

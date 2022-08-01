@@ -45,7 +45,7 @@ public static class VrInputMap
         { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
     };
 
-    private static readonly Dictionary<string, IVrInputBinding> inputMap = oculusInputMap;
+    private static readonly Dictionary<string, IVrInputBinding> inputMap = viveInputMap;
 
     public static IVrInputBinding GetBinding(string name)
     {
