@@ -9,6 +9,7 @@
         <LangVersion>latest</LangVersion>
         <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\Neon White\BepInEx\plugins\HeavenVr</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,6 +24,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Reference Include="LIV, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\HeavenVrUnity\Build\HeavenVrUnity_Data\Managed\LIV.dll</HintPath>
+      </Reference>
       <Reference Include="Unity.XR.Management, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\lib\Unity.XR.Management.dll</HintPath>
       </Reference>
@@ -32,5 +36,16 @@
       <Reference Include="Unity.XR.OpenXR, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\lib\Unity.XR.OpenXR.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\HeavenVrUnity\AssetBundles\StandaloneWindows\liv-shaders">
+        <Link>Assets\liv-shaders</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\HeavenVrUnity\AssetBundles\StandaloneWindows\liv-shaders.manifest">
+        <Link>Assets\liv-shaders.manifest</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using HarmonyLib;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ namespace HeavenVr;
 public class VrStage: MonoBehaviour
 {
     public static VrStage Instance { get; private set; }
-    public Camera Camera { get; set; }
+    public Camera VrCamera { get; set; }
     public UiTarget UiTarget { get; set; }
     public float AngleDelta;
     public TrackedPoseDriver CameraPoseDriver;
@@ -23,6 +24,8 @@ public class VrStage: MonoBehaviour
     private int previousSelectableCount;
     private MouseLook mouseLook;
     private bool isHandOriented = true;
+    private LIV.SDK.Unity.LIV liv;
+    private Transform livStage;
     
     public static void Create(Camera camera)
     {
@@ -32,7 +35,7 @@ public class VrStage: MonoBehaviour
         Instance.UiTarget = UiTarget.Create(Instance);
         Instance.mouseLook = camera.transform.parent.GetComponentInParent<MouseLook>();
 
-        Instance.Camera = camera;
+        Instance.VrCamera = camera;
         Instance.stageParent = camera.transform.parent;
         Instance.transform.SetParent(Instance.stageParent, false);
         camera.transform.SetParent(Instance.transform, false);
@@ -51,6 +54,51 @@ public class VrStage: MonoBehaviour
         directionLaser = VrAimLaser.Create(NonDominantHand.transform);
         UpdatePreviousForward();
         Recenter();
+        SetUpLiv();
+    }
+
+    private void SetUpLiv()
+    {
+        if (liv)
+        {
+            Destroy(liv.gameObject);
+        }
+
+        livStage = new GameObject("LivStage").transform;
+        livStage.gameObject.SetActive(false);
+        livStage.transform.SetParent(transform, false);
+        livStage.transform.localPosition = CameraPoseDriver.originPose.position;
+        livStage.transform.localRotation = CameraPoseDriver.originPose.rotation;
+
+        liv = livStage.gameObject.AddComponent<LIV.SDK.Unity.LIV>();
+        var camPrefab = new GameObject("LivCameraPrefab").AddComponent<Camera>();
+        camPrefab.gameObject.SetActive(false);
+        liv.MRCameraPrefab = camPrefab;
+        liv.HMDCamera = VrCamera;
+        liv.stage = livStage;
+        liv.spectatorLayerMask = VrCamera.cullingMask;
+        liv.fixPostEffectsAlpha = true;
+        liv.excludeBehaviours = new []
+        {
+            "CameraDistanceCullingSettings",
+            "PlayerCamera",
+            "FlareLayer",
+            "AmplifyOcclusionEffect",
+            "CameraFOVManager",
+            "UnityEngine.Rendering.PostProcessing.PostProcessLayer",
+            "UnityEngine.Rendering.PostProcessing.PostProcessVolume",
+            "UnityEngine.Rendering.Volume",
+            "UnityEngine.Rendering.Universal.UniversalAdditionalCameraData",
+            "StreamingController",
+            "MouseLook",
+            "HeadBob",
+            "ScannerEffect",
+            "CameraStackPriority",
+            "UnityEngine.SpatialTracking.TrackedPoseDriver",
+            "ShakePosition",
+            "CameraStackPriority",
+        };
+        livStage.gameObject.SetActive(true);
     }
 
     private void Recenter()
@@ -62,8 +110,8 @@ public class VrStage: MonoBehaviour
 
     private Vector3 GetMovementDirection()
     {
-        var trackedTransform = isHandOriented ? directionLaser.transform : Camera.transform;
-        var trackedTransformOrigin = isHandOriented ? NonDominantHand.transform.parent : Camera.transform.parent;
+        var trackedTransform = isHandOriented ? directionLaser.transform : VrCamera.transform;
+        var trackedTransformOrigin = isHandOriented ? NonDominantHand.transform.parent : VrCamera.transform.parent;
         var forward = trackedTransformOrigin.InverseTransformDirection(trackedTransform.forward);
         forward.y = 0;
         return forward;

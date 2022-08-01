@@ -1,9 +1,10 @@
 fileFormatVersion: 2
 guid: 30a739c1fe31c894c9e1a392699f64d7
-timeCreated: 1510156263
-licenseType: Free
 ShaderImporter:
+  externalObjects: {}
   defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: liv-shaders
   assetBundleVariant: 

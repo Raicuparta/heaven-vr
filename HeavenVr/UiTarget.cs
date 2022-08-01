@@ -37,12 +37,12 @@ public class UiTarget : MonoBehaviour
 
     private Vector3 GetCameraForward()
     {
-        return !stage.Camera ? Vector3.forward : MathHelper.GetProjectedForward(stage.Camera.transform);
+        return !stage.VrCamera ? Vector3.forward : MathHelper.GetProjectedForward(stage.VrCamera.transform);
     }
 
     private void UpdateTransform()
     {
-        if (!stage.Camera) return;
+        if (!stage.VrCamera) return;
 
         var cameraForward = GetCameraForward();
         var unsignedAngleDelta = Vector3.Angle(previousForward, cameraForward);
@@ -60,6 +60,6 @@ public class UiTarget : MonoBehaviour
             ref rotationVelocity,
             rotationSmoothTime);
 
-        transform.position = stage.Camera.transform.position;
+        transform.position = stage.VrCamera.transform.position;
     }
 }

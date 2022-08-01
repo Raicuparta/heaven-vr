@@ -19,6 +19,7 @@ namespace HeavenVr
 	        Debug.Log($"Game version: {Application.version}");
 	        
 			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+	        VrAssetLoader.Init();
 	        
 		    var generalSettings = ScriptableObject.CreateInstance<XRGeneralSettings>();
 	        var managerSetings = ScriptableObject.CreateInstance<XRManagerSettings>();
