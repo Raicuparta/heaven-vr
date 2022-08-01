@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
+using LIV.AvatarTrackers;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
 using UnityEngine.XR;
+using CommonUsages = UnityEngine.XR.CommonUsages;
 
 namespace HeavenVr;
 
@@ -26,6 +29,10 @@ public class VrStage: MonoBehaviour
     private bool isHandOriented = false;
     private LIV.SDK.Unity.LIV liv;
     private Transform livStage;
+    private PathfinderAvatarTrackers avatarTrackers;
+    private FirstPersonDrifter firstPersonDrifter;
+    private float animationSpeedMultiplier = 0.003f;
+    private Transform runAnimationRotationTransform;
     
     public static void Create(Camera camera)
     {
@@ -54,7 +61,6 @@ public class VrStage: MonoBehaviour
         directionLaser = VrAimLaser.Create(NonDominantHand.transform);
         UpdatePreviousForward();
         Recenter();
-        SetUpLiv();
     }
 
     private void SetUpLiv()
@@ -100,7 +106,9 @@ public class VrStage: MonoBehaviour
         };
         livStage.gameObject.SetActive(true);
 
-        Instantiate(VrAssetLoader.RunAnimationPrefab, livStage, false);
+        var animationInstance = Instantiate(VrAssetLoader.RunAnimationPrefab, livStage, false);
+        avatarTrackers = animationInstance.GetComponent<PathfinderAvatarTrackers>();
+        runAnimationRotationTransform = avatarTrackers.transform.Find("Wrapper");
     }
 
     private void Recenter()
@@ -134,6 +142,11 @@ public class VrStage: MonoBehaviour
         transform.Rotate(Vector3.up, -AngleDelta);
         mouseLook.originalRotation *= Quaternion.Euler(0, AngleDelta, 0);
 
+        if (runAnimationRotationTransform)
+        {
+            runAnimationRotationTransform.Rotate(Vector3.up, AngleDelta);
+        }
+
         UpdatePreviousForward();
     }
 
@@ -152,6 +165,16 @@ public class VrStage: MonoBehaviour
             }
 
             previousSelectableCount = Selectable.allSelectableCount;
+        }
+        
+        if (avatarTrackers && RM.drifter)
+        {
+            avatarTrackers.SetSpeed(RM.drifter.MovementVelocity.sqrMagnitude * animationSpeedMultiplier);
+        }
+
+        if (Keyboard.current.f3Key.wasPressedThisFrame)
+        {
+            SetUpLiv();
         }
     }
 }

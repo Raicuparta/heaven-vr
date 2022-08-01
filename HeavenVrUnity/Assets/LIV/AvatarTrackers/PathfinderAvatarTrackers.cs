@@ -18,6 +18,8 @@ namespace LIV.AvatarTrackers
 			{ "B-shin.R", "bob.stage.avatar.trackers.rightKneeGoal" },
 		};
 
+	    [SerializeField] private Animator animator;
+
 		public void Start()
 		{
 			pathfinderRigidTransforms = new List<PathfinderRigidTransform>();
@@ -65,6 +67,11 @@ namespace LIV.AvatarTrackers
 	        }
 
 	        SDKBridgePathfinder.CopyPath(globalPathBase, localPathBase);
+        }
+
+        public void SetSpeed(float speed)
+        {
+	        animator.speed = speed;
         }
     }
 }
