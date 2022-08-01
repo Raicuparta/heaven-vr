@@ -23,7 +23,7 @@ public class VrStage: MonoBehaviour
     private Transform stageParent;
     private int previousSelectableCount;
     private MouseLook mouseLook;
-    private bool isHandOriented = true;
+    private bool isHandOriented = false;
     private LIV.SDK.Unity.LIV liv;
     private Transform livStage;
     
