@@ -36,6 +36,7 @@ public class VrStage: MonoBehaviour
     private FirstPersonDrifter firstPersonDrifter;
     private float animationSpeedMultiplier = 0.003f;
     private Transform runAnimationRotationTransform;
+    public static SDKUniversalRenderFeature LivRenderFeature;
     
     public static void Create(Camera camera)
     {
@@ -54,6 +55,9 @@ public class VrStage: MonoBehaviour
         camera.transform.localEulerAngles = Vector3.up * camera.transform.localEulerAngles.y;
         Instance.CameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.CameraPoseDriver.UseRelativeTransform = true;
+
+        
+        LivRenderFeature = ScriptableObject.CreateInstance<SDKUniversalRenderFeature>();
     }
 
     private void Start()
@@ -79,17 +83,6 @@ public class VrStage: MonoBehaviour
         livStage.transform.localPosition = CameraPoseDriver.originPose.position;
         livStage.transform.localRotation = CameraPoseDriver.originPose.rotation;
 
-        
-        var livRenderFeature = ScriptableObject.CreateInstance<SDKUniversalRenderFeature>();
-        var renderDataObjects = Resources.FindObjectsOfTypeAll<ForwardRendererData>();
-
-        Debug.Log($"found {renderDataObjects.Length} render data objects.");
-        foreach (var renderData in renderDataObjects)
-        {
-            renderData.rendererFeatures.Add(livRenderFeature);
-            renderData.GetValue<List<long>>("m_RendererFeatureMap").Add(-4574278786601440941);
-        }
-        
         liv = livStage.gameObject.AddComponent<LIV.SDK.Unity.LIV>();
         var camPrefab = new GameObject("LivCameraPrefab").AddComponent<Camera>();
         camPrefab.gameObject.SetActive(false);

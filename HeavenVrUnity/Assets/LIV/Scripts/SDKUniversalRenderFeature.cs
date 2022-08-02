@@ -19,7 +19,7 @@ namespace LIV.SDK.Unity
 
     public class SDKUniversalRenderFeature : ScriptableRendererFeature
     {
-        static List<SDKPass> passes = new List<SDKPass>();
+        public static List<SDKPass> passes = new List<SDKPass>();
 
         public static void AddPass(SDKPass pass)
         {

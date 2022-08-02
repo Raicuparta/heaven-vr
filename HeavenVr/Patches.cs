@@ -2,7 +2,9 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
+using Beautify.Universal;
 using HarmonyLib;
+using LIV.SDK.Unity;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -193,6 +195,19 @@ public static class Patches
     {
         // Post processing is only rendering in one eye. Disabling it for now.
         __instance.components.RemoveAll(component => component is IPostProcessComponent);
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(BeautifyRendererFeature), nameof(BeautifyRendererFeature.AddRenderPasses))]
+    private static void AddLivRenderPasses(BeautifyRendererFeature __instance, ScriptableRenderer renderer, ref RenderingData renderingData)
+    {
+        var passes = SDKUniversalRenderFeature.passes;
+        if (passes == null) return;
+        while (passes.Count > 0)
+        {
+            renderer.EnqueuePass(passes[0]);
+            passes.RemoveAt(0);
+        }
     }
     
     [HarmonyPatch]
