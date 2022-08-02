@@ -52,6 +52,9 @@ public class VrStage: MonoBehaviour
         camera.cullingMask |= 1 << LayerMask.NameToLayer("UI"); // TODO should have a separate UI camera;
         
         camera.transform.localEulerAngles = Vector3.up * camera.transform.localEulerAngles.y;
+        Instance.transform.localScale = Vector3.one * 3f;
+
+        camera.transform.position = RM.drifter.GetFeetPosition();
         Instance.CameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.CameraPoseDriver.UseRelativeTransform = true;
     }
