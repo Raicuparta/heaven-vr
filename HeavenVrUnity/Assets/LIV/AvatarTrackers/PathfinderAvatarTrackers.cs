@@ -11,11 +11,11 @@ namespace LIV.AvatarTrackers
 	    private List<PathfinderRigidTransform> pathfinderRigidTransforms;
 	    private static readonly Dictionary<string, string> boneMap = new Dictionary<string, string>()
 		{
-			{ "B-forearm.R", "bob.stage.avatar.trackers.rightElbowGoal" },
-			{ "B-toe.L", "bob.stage.avatar.trackers.leftFoot" },
-			{ "B-shin.L", "bob.stage.avatar.trackers.leftKneeGoal" },
-			{ "B-toe.R", "bob.stage.avatar.trackers.rightFoot" },
-			{ "B-shin.R", "bob.stage.avatar.trackers.rightKneeGoal" },
+			{ "B-forearm.R", "stage.avatar.trackers.rightElbowGoal" },
+			{ "B-toe.L", "stage.avatar.trackers.leftFoot" },
+			{ "B-shin.L", "stage.avatar.trackers.leftKneeGoal" },
+			{ "B-toe.R", "stage.avatar.trackers.rightFoot" },
+			{ "B-shin.R", "stage.avatar.trackers.rightKneeGoal" },
 		};
 
 	    [SerializeField] private Animator animator;
