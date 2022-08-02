@@ -395,42 +395,51 @@ namespace LIV.SDK.Unity
 
             _boxMesh = new Mesh();
             SDKUtils.CreateBox(_boxMesh, Vector3.one);
+            Debug.Log("render 1");
 
-            _clipPlaneSimpleMaterial = new Material(Shader.Find(SDKShaders.LIV_CLIP_PLANE_SIMPLE_SHADER));
-            _clipPlaneSimpleDebugMaterial = new Material(Shader.Find(SDKShaders.LIV_CLIP_PLANE_SIMPLE_DEBUG_SHADER));
-            _clipPlaneComplexMaterial = new Material(Shader.Find(SDKShaders.LIV_CLIP_PLANE_COMPLEX_SHADER));
-            _clipPlaneComplexDebugMaterial = new Material(Shader.Find(SDKShaders.LIV_CLIP_PLANE_COMPLEX_DEBUG_SHADER));
-            _writeOpaqueToAlphaMaterial = new Material(Shader.Find(SDKShaders.LIV_WRITE_OPAQUE_TO_ALPHA_SHADER));
-            _combineAlphaMaterial = new Material(Shader.Find(SDKShaders.LIV_COMBINE_ALPHA_SHADER));
-            _writeMaterial = new Material(Shader.Find(SDKShaders.LIV_WRITE_SHADER));
-            _forceForwardRenderingMaterial = new Material(Shader.Find(SDKShaders.LIV_FORCE_FORWARD_RENDERING_SHADER));
+            _clipPlaneSimpleMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_CLIP_PLANE_SIMPLE_SHADER));
+            _clipPlaneSimpleDebugMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_CLIP_PLANE_SIMPLE_DEBUG_SHADER));
+            _clipPlaneComplexMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_CLIP_PLANE_COMPLEX_SHADER));
+            _clipPlaneComplexDebugMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_CLIP_PLANE_COMPLEX_DEBUG_SHADER));
+            _writeOpaqueToAlphaMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_WRITE_OPAQUE_TO_ALPHA_SHADER));
+            _combineAlphaMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_COMBINE_ALPHA_SHADER));
+            _writeMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_WRITE_SHADER));
+            _forceForwardRenderingMaterial = new Material(SDKShaders.GetShader(SDKShaders.LIV_FORCE_FORWARD_RENDERING_SHADER));
 
+            Debug.Log("render 2");
+            
             _clipPlanePass = new SDKPass();
             _clipPlanePass.renderPassEvent = _clipPlaneRenderPassEvent;
             _clipPlanePass.commandBuffer = new CommandBuffer();
+            Debug.Log("render 3");
 
             _combineAlphaPass = new SDKPass();
             _combineAlphaPass.renderPassEvent = _addAlphaRenderPassEvent;
             _combineAlphaPass.commandBuffer = new CommandBuffer();
+            Debug.Log("render 4");
 
             _captureTexturePass = new SDKPass();
             _captureTexturePass.renderPassEvent = _captureTextureRenderPassEvent;
             _captureTexturePass.commandBuffer = new CommandBuffer();
+            Debug.Log("render 5");
 
             _applyTexturePass = new SDKPass();
             _applyTexturePass.renderPassEvent = _applyTextureRenderPassEvent;
             _applyTexturePass.commandBuffer = new CommandBuffer();
+            Debug.Log("render 6");
 
             _optimizedRenderingPass = new SDKPass();
             _optimizedRenderingPass.renderPassEvent = _optimizedRenderingPassEvent;
             _optimizedRenderingPass.commandBuffer = new CommandBuffer();
-            
+                        Debug.Log("render 7");
+
             _clipPlaneMaterialProperty = new MaterialPropertyBlock();
             _clipPlaneMaterialProperty.SetColor(SDKShaders.LIV_COLOR, SDKShaders.GREEN_COLOR);
             _groundPlaneMaterialProperty = new MaterialPropertyBlock();
             _groundPlaneMaterialProperty.SetColor(SDKShaders.LIV_COLOR, SDKShaders.BLUE_COLOR);
             _hmdMaterialProperty = new MaterialPropertyBlock();
             _hmdMaterialProperty.SetColor(SDKShaders.LIV_COLOR, SDKShaders.RED_COLOR);
+            Debug.Log("render 8");
 
             _universalAdditionalCameraData.antialiasing = AntialiasingMode.None;
             _universalAdditionalCameraData.antialiasingQuality = AntialiasingQuality.Low;
