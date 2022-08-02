@@ -1,8 +1,11 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using LIV.AvatarTrackers;
+using LIV.SDK.Unity;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -76,9 +79,21 @@ public class VrStage: MonoBehaviour
         livStage.transform.localPosition = CameraPoseDriver.originPose.position;
         livStage.transform.localRotation = CameraPoseDriver.originPose.rotation;
 
+        
+        var livRenderFeature = ScriptableObject.CreateInstance<SDKUniversalRenderFeature>();
+        var renderDataObjects = Resources.FindObjectsOfTypeAll<ForwardRendererData>();
+
+        Debug.Log($"found {renderDataObjects.Length} render data objects.");
+        foreach (var renderData in renderDataObjects)
+        {
+            renderData.rendererFeatures.Add(livRenderFeature);
+            renderData.GetValue<List<long>>("m_RendererFeatureMap").Add(-4574278786601440941);
+        }
+        
         liv = livStage.gameObject.AddComponent<LIV.SDK.Unity.LIV>();
         var camPrefab = new GameObject("LivCameraPrefab").AddComponent<Camera>();
         camPrefab.gameObject.SetActive(false);
+        camPrefab.gameObject.AddComponent<UniversalAdditionalCameraData>();
         liv.MRCameraPrefab = camPrefab;
         liv.HMDCamera = VrCamera;
         liv.stage = livStage;
@@ -94,7 +109,6 @@ public class VrStage: MonoBehaviour
             "UnityEngine.Rendering.PostProcessing.PostProcessLayer",
             "UnityEngine.Rendering.PostProcessing.PostProcessVolume",
             "UnityEngine.Rendering.Volume",
-            "UnityEngine.Rendering.Universal.UniversalAdditionalCameraData",
             "StreamingController",
             "MouseLook",
             "HeadBob",
