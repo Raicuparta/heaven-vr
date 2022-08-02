@@ -36,7 +36,6 @@ public class VrStage: MonoBehaviour
     private FirstPersonDrifter firstPersonDrifter;
     private float animationSpeedMultiplier = 0.003f;
     private Transform runAnimationRotationTransform;
-    public static SDKUniversalRenderFeature LivRenderFeature;
     
     public static void Create(Camera camera)
     {
@@ -55,9 +54,6 @@ public class VrStage: MonoBehaviour
         camera.transform.localEulerAngles = Vector3.up * camera.transform.localEulerAngles.y;
         Instance.CameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.CameraPoseDriver.UseRelativeTransform = true;
-
-        
-        LivRenderFeature = ScriptableObject.CreateInstance<SDKUniversalRenderFeature>();
     }
 
     private void Start()
