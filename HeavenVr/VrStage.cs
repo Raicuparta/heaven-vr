@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
-using LIV.AvatarTrackers;
-using LIV.SDK.Unity;
-using Unity.Mathematics;
+﻿using LIV.AvatarTrackers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -73,7 +69,7 @@ public class VrStage: MonoBehaviour
     {
         if (liv)
         {
-            Destroy(liv.gameObject);
+            return;
         }
 
         livStage = new GameObject("LivStage").transform;
@@ -177,10 +173,8 @@ public class VrStage: MonoBehaviour
         {
             avatarTrackers.SetSpeed(RM.drifter.MovementVelocity.sqrMagnitude * animationSpeedMultiplier);
         }
-
-        if (Keyboard.current.f3Key.wasPressedThisFrame)
-        {
-            SetUpLiv();
-        }
+        
+        // For some reason, calling this on Start or Invoke crashes the game. So calling it in Update instead.
+        SetUpLiv();
     }
 }
