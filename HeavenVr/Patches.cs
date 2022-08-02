@@ -68,7 +68,13 @@ public static class Patches
 
         __result = new Ray(VrStage.Instance.AimLaser.transform.position, VrStage.Instance.AimLaser.transform.forward);
         return false;
-
+    }
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.SetVisualOffsetAmount))]
+    private static bool PreventProjectileOffset(ProjectileBase __instance)
+    {
+        __instance._projectileModelHolder.localPosition = Vector3.forward * 1.5f;
+        return false;
     }
 
     [HarmonyPostfix]
