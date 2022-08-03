@@ -223,6 +223,15 @@ public static class Patches
         }
     }
     
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(IntroCard), nameof(IntroCard.IsDone))]
+    private static bool SkipIntro(ref bool __result)
+    {
+        __result = true;
+        return false;
+    }
+    
     [HarmonyPatch]
     public static class Vector2InputPatches {
         [HarmonyTargetMethod]
