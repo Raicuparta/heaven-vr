@@ -20,7 +20,7 @@ public class VrUi: MonoBehaviour
         if (canvas)
         {
             canvas.renderMode = RenderMode.WorldSpace;
-            instance.transform.localScale = Vector3.one * 0.001f;
+            instance.transform.localScale = Vector3.one * 0.0025f;
         }
     }
 
