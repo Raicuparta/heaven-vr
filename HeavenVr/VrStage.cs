@@ -50,7 +50,10 @@ public class VrStage: MonoBehaviour
         camera.transform.localEulerAngles = Vector3.up * camera.transform.localEulerAngles.y;
         Instance.transform.localScale = Vector3.one * 2f;
 
-        camera.transform.position = RM.drifter.GetFeetPosition();
+        if (RM.drifter)
+        {
+            camera.transform.position = RM.drifter.GetFeetPosition();
+        }
         Instance.CameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.CameraPoseDriver.UseRelativeTransform = true;
     }
