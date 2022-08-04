@@ -1,35 +1,31 @@
 ManifestFileVersion: 0
-CRC: 1208472657
+CRC: 1671204128
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 768e9ff21d3a8c85c038e59868eb0ace
+    Hash: 5775eed3c5ad1a9c7af5194dff7249b0
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c89a0e65e9ec04273c5f84b2209737cf
+    Hash: e24bfcc98b5052c7e5d5477f6a9a8728
 HashAppended: 0
 ClassTypes:
 - Class: 1
   Script: {instanceID: 0}
 - Class: 4
   Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
 - Class: 43
   Script: {instanceID: 0}
-- Class: 74
+- Class: 48
   Script: {instanceID: 0}
-- Class: 90
-  Script: {instanceID: 0}
-- Class: 91
-  Script: {instanceID: 0}
-- Class: 95
-  Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: 1e541ced171885c4381f382e599552f1, type: 3}
-- Class: 115
-  Script: {instanceID: 0}
-- Class: 137
+- Class: 84
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/RunAnimation.prefab
+- Assets/VrUiQuad.prefab
 Dependencies: []

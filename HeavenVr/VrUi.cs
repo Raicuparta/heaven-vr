@@ -1,38 +1,29 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace HeavenVr;
 
 public class VrUi: MonoBehaviour
 {
-    private Transform target;
-    private float zOffset;
-
+    private Canvas canvas;
+    
     public static void Create(Transform target, float zOffset = 0)
     {
         if (target.name.StartsWith("com.sinai")) return;
 
         var instance = target.gameObject.AddComponent<VrUi>();
-        instance.target = target;
         instance.gameObject.layer = LayerMask.NameToLayer("UI");
-        instance.zOffset = zOffset;
-        
-        var canvas = target.GetComponent<Canvas>();
-        if (canvas)
-        {
-            canvas.renderMode = RenderMode.WorldSpace;
-            instance.transform.localScale = Vector3.one * 0.0025f;
-        }
+                
+        instance.canvas = target.GetComponent<Canvas>();
+        instance.canvas.scaleFactor = 0.5f;
     }
 
-    private void Update()
+    public void Update()
     {
-        if (!VrStage.Instance || !VrStage.Instance.UiTarget) return;
-
-        transform.position = VrStage.Instance.UiTarget.TargetTransform.position;
-        if (zOffset > 0)
-        {
-            transform.localPosition += Vector3.forward * zOffset;
-        }
-        transform.rotation = VrStage.Instance.UiTarget.TargetTransform.rotation;
+        // TODO do this more efficiently, not on update.
+        if (!VrStage.Instance || !VrStage.Instance.UiCamera) return;
+        
+        canvas.worldCamera = VrStage.Instance.UiCamera;
+        canvas.scaleFactor = 0.5f;
     }
 }
