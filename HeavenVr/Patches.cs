@@ -14,6 +14,7 @@ using UnityEngine.UI;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
+using Object = UnityEngine.Object;
 
 namespace HeavenVr;
 
@@ -31,7 +32,7 @@ public static class Patches
     [HarmonyPatch(typeof(MenuCamera), nameof(MenuCamera.Start))]
     private static void EnableCameraTracking(MenuCamera __instance)
     {
-        VrStage.Create(__instance.cam);
+        var stage = VrStage.Create(__instance.cam);
     }
     
     [HarmonyPostfix]
@@ -58,6 +59,18 @@ public static class Patches
     {
         if (!__instance.transform.parent) return;
         __instance.transform.parent.localScale = Vector3.one * 1.8f;
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(PlayerUI), nameof(PlayerUI.Start))]
+    private static void FixPlayerUi(PlayerUI __instance)
+    {
+        Object.Destroy(__instance.Cam.GetComponent<CameraStackPriority>());
+        Object.Destroy(__instance.Cam.GetComponent<UniversalAdditionalCameraData>());
+        __instance.Cam.orthographicSize = 20;
+        __instance.Cam.targetTexture = VrStage.Instance.UiTarget.GetUiRenderTexture();
+        __instance.Cam.clearFlags = CameraClearFlags.Nothing;
+        __instance.Cam.depth = 1;
     }
     
     [HarmonyPrefix]

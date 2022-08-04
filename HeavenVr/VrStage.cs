@@ -29,33 +29,40 @@ public class VrStage: MonoBehaviour
     private LIV.SDK.Unity.LIV liv;
     private Transform livStage;
     private PathfinderAvatarTrackers avatarTrackers;
-    private FirstPersonDrifter firstPersonDrifter;
     private float animationSpeedMultiplier = 0.003f;
     private Transform runAnimationRotationTransform;
+    public Camera UiCamera { get; private set; }
     
-    public static void Create(Camera camera)
+    public static VrStage Create(Camera mainCamera)
     {
         Instance = new GameObject("VrStage").AddComponent<VrStage>();
 
-        Instance.previousForward = camera.transform.forward;
+        Instance.previousForward = mainCamera.transform.forward;
         Instance.UiTarget = UiTarget.Create(Instance);
-        Instance.mouseLook = camera.transform.parent.GetComponentInParent<MouseLook>();
+        Instance.mouseLook = mainCamera.transform.parent.GetComponentInParent<MouseLook>();
 
-        Instance.VrCamera = camera;
-        Instance.stageParent = camera.transform.parent;
+        Instance.VrCamera = mainCamera;
+        Instance.stageParent = mainCamera.transform.parent;
         Instance.transform.SetParent(Instance.stageParent, false);
-        camera.transform.SetParent(Instance.transform, false);
-        camera.cullingMask |= 1 << LayerMask.NameToLayer("UI"); // TODO should have a separate UI camera;
+        mainCamera.transform.SetParent(Instance.transform, false);
+        mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("UI")); // TODO should have a separate UI camera;
         
-        camera.transform.localEulerAngles = Vector3.up * camera.transform.localEulerAngles.y;
+        mainCamera.transform.localEulerAngles = Vector3.up * mainCamera.transform.localEulerAngles.y;
         Instance.transform.localScale = Vector3.one * 2f;
 
         if (RM.drifter)
         {
-            camera.transform.position = RM.drifter.GetFeetPosition();
+            mainCamera.transform.position = RM.drifter.GetFeetPosition();
         }
-        Instance.CameraPoseDriver = camera.gameObject.AddComponent<TrackedPoseDriver>();
+        Instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.CameraPoseDriver.UseRelativeTransform = true;
+        
+        Instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
+        Instance.UiCamera.orthographic = true;
+        Instance.UiCamera.clearFlags = CameraClearFlags.Depth;
+        Instance.UiCamera.cullingMask = LayerMask.GetMask("UI");;
+        Instance.UiCamera.targetTexture = Instance.UiTarget.GetUiRenderTexture();
+        return Instance;
     }
 
     private void Start()

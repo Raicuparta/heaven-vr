@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace HeavenVr;
 
@@ -10,17 +11,18 @@ public class UiTarget : MonoBehaviour
     private Vector3 previousForward;
     private Quaternion rotationVelocity;
     private Quaternion targetRotation;
-    public Transform TargetTransform { get; private set; }
+    private Transform targetTransform;
     private readonly float minAngleDelta = 45f;
     private VrStage stage;
+    private GameObject vrUiQuad;
 
     public static UiTarget Create(VrStage stage)
     {
         var instance = new GameObject(nameof(UiTarget)).AddComponent<UiTarget>();
         instance.transform.SetParent(stage.transform, false);
-        instance.TargetTransform = new GameObject("InteractiveUiTargetTransform").transform;
-        instance.TargetTransform.SetParent(instance.transform, false);
-        instance.TargetTransform.localPosition = Vector3.forward * 3f;
+        instance.targetTransform = new GameObject("InteractiveUiTargetTransform").transform;
+        instance.targetTransform.SetParent(instance.transform, false);
+        instance.targetTransform.localPosition = new Vector3(0f, -1f, 3f);
         instance.stage = stage;
         return instance;
     }
@@ -28,6 +30,19 @@ public class UiTarget : MonoBehaviour
     public void Start()
     {
         previousForward = GetCameraForward();
+    }
+
+    public RenderTexture GetUiRenderTexture()
+    {
+        if (!vrUiQuad)
+        {
+            vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, targetTransform, false);
+            vrUiQuad.transform.localPosition = Vector3.zero;
+            vrUiQuad.transform.localRotation = Quaternion.identity;
+            vrUiQuad.transform.localScale = new Vector3(4f, 2.25f, 1);
+            // vrUiQuad.GetComponent<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
+        }
+        return vrUiQuad.GetComponent<Renderer>().material.mainTexture as RenderTexture;
     }
 
     private void Update()
@@ -46,7 +61,7 @@ public class UiTarget : MonoBehaviour
 
         var cameraForward = GetCameraForward();
         var unsignedAngleDelta = Vector3.Angle(previousForward, cameraForward);
-        TargetTransform.localRotation = stage.CameraPoseDriver.originPose.rotation;
+        targetTransform.localRotation = stage.CameraPoseDriver.originPose.rotation;
 
         if (unsignedAngleDelta > minAngleDelta)
         {
