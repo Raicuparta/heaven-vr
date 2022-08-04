@@ -40,6 +40,7 @@ public class UiTarget : MonoBehaviour
             vrUiQuad.transform.localPosition = Vector3.zero;
             vrUiQuad.transform.localRotation = Quaternion.identity;
             vrUiQuad.transform.localScale = new Vector3(4f, 2.25f, 1);
+            VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponent<Renderer>().material);
             // vrUiQuad.GetComponent<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
         }
         return vrUiQuad.GetComponent<Renderer>().material.mainTexture as RenderTexture;
