@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace LIV.SDK.Unity
 {
     public class SDKPass : ScriptableRenderPass
-    {
+{
         public CommandBuffer commandBuffer;
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
