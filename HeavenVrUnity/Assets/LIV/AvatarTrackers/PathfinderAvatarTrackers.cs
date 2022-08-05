@@ -1,43 +1,62 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BoneworksLIV.AvatarTrackers;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace LIV.AvatarTrackers
 {
     public class PathfinderAvatarTrackers: MonoBehaviour
     {
+	    [Serializable]
+	    public struct BoneMapping
+	    {
+		    public BoneMapping(string path, Transform boneTransform = null)
+		    {
+			    Path = path;
+			    BoneTransform = boneTransform;
+		    }
+		    
+		    public string Path;
+		    public Transform BoneTransform;
+	    }
+	    
 	    private const string localPathBase = "localAvatarTrackers";
 	    private const string globalPathBase = "LIV.avatarTrackers";
 	    private List<PathfinderRigidTransform> pathfinderRigidTransforms;
-	    private static readonly Dictionary<HumanBodyBones, string> boneMap = new Dictionary<HumanBodyBones, string>()
-		{
-			{ HumanBodyBones.Head, "bob.stage.avatar.trackers.head" }, // other options: Neck_01SHJnt / Neck_02SHJnt / Neck_TopSHJnt / Head_JawSHJnt / Head_TopSHJnt
-			{ HumanBodyBones.UpperChest, "bob.stage.avatar.trackers.chest" }, // TODO: chest looks hella broken, better off not tracking it at all.
-			{ HumanBodyBones.Hips, "bob.stage.avatar.trackers.waist" },
-			{ HumanBodyBones.LeftHand, "bob.stage.avatar.trackers.leftHand" }, // other options:  l_Hand_1SHJnt / l_Hand_2SHJnt / l_GripPoint_AuxSHJnt
-			{ HumanBodyBones.LeftLowerArm, "bob.stage.avatar.trackers.leftElbowGoal" },
-			{ HumanBodyBones.RightHand, "bob.stage.avatar.trackers.rightHand" }, // other options: r_Hand_1SHJnt / r_Hand_2SHJnt / r_GripPoint_AuxSHJnt
-			{ HumanBodyBones.RightLowerArm, "bob.stage.avatar.trackers.rightElbowGoal" },
-			{ HumanBodyBones.LeftToes, "bob.stage.avatar.trackers.leftFoot" }, // other options:  l_Leg_BallSHJnt
-			{ HumanBodyBones.LeftLowerLeg, "bob.stage.avatar.trackers.leftKneeGoal" },
-			{ HumanBodyBones.RightToes, "bob.stage.avatar.trackers.rightFoot" }, // other options: r_Leg_BallSHJnt
-			{ HumanBodyBones.RightLowerLeg, "bob.stage.avatar.trackers.rightKneeGoal" },
-		};
+	    private float previousHeight;
+	    private float previousArmSpan;
+
+	    [SerializeField] private List<BoneMapping> boneMappings = new List<BoneMapping>()
+	    {
+		    new BoneMapping("bob.stage.avatar.trackers.head"),
+		    new BoneMapping("bob.stage.avatar.trackers.chest"),
+			new BoneMapping("bob.stage.avatar.trackers.waist"),
+			new BoneMapping("bob.stage.avatar.trackers.leftHand"),
+			new BoneMapping("bob.stage.avatar.trackers.leftElbowGoal"),
+			new BoneMapping("bob.stage.avatar.trackers.rightHand"),
+			new BoneMapping("bob.stage.avatar.trackers.rightElbowGoal"),
+			new BoneMapping("bob.stage.avatar.trackers.leftFoot"),
+			new BoneMapping("bob.stage.avatar.trackers.leftKneeGoal"),
+			new BoneMapping("bob.stage.avatar.trackers.rightFoot"),
+			new BoneMapping("bob.stage.avatar.trackers.rightKneeGoal"),
+	    };
 
 	    [SerializeField] private Animator animator;
+	    [SerializeField] private float playerHeight = 1.73f;
+	    [SerializeField] private float playerArmSpan = 1.60f;
 
 		public void Start()
 		{
 			pathfinderRigidTransforms = new List<PathfinderRigidTransform>();
-	        foreach (var boneMapping in boneMap)
+	        foreach (var boneMapping in boneMappings)
 	        {
-		        pathfinderRigidTransforms.Add(CreatePathfinderTransform(boneMapping.Key, boneMapping.Value));
+		        pathfinderRigidTransforms.Add(CreatePathfinderTransform(boneMapping.BoneTransform, boneMapping.Path));
 	        }
         }
 
-        private PathfinderRigidTransform CreatePathfinderTransform(HumanBodyBones bone, string path)
+        private PathfinderRigidTransform CreatePathfinderTransform(Transform boneTransform, string path)
         {
-	        var boneTransform = animator.GetBoneTransform(bone);
 	        var pathfinderTransform = new GameObject($"Pathfinder-{boneTransform.name}").AddComponent<PathfinderRigidTransform>();
 			pathfinderTransform.transform.SetParent(boneTransform, false);
 	        pathfinderTransform.Root = transform;
@@ -45,6 +64,7 @@ namespace LIV.AvatarTrackers
 			pathfinderTransform.PathBase = localPathBase;
 
 			pathfinderTransform.transform.localEulerAngles = new Vector3(0f, 0, 90f);
+			
 
 			return pathfinderTransform;
         }
@@ -57,8 +77,17 @@ namespace LIV.AvatarTrackers
 	        {
 		        pathfinderRigidTransform.SetPathfinderValuesLocally();
 	        }
-
-	        Debug.Log("copy");
+	        
+	        if (Mathf.Abs(playerHeight - previousHeight) > 0.1f)
+	        {
+		        previousHeight = playerHeight;
+				SDKBridgePathfinder.SetValue($"{localPathBase}.bob.stage.avatar.height", ref playerHeight, (int) PathfinderType.Float);
+	        }
+	        if (Mathf.Abs(playerArmSpan - previousArmSpan) > 0.1f)
+	        {
+		        previousArmSpan = playerArmSpan;
+				SDKBridgePathfinder.SetValue($"{localPathBase}.bob.stage.avatar.armspan", ref playerArmSpan, (int) PathfinderType.Float);
+	        }
 	        
 	        SDKBridgePathfinder.CopyPath(globalPathBase, localPathBase);
         }
