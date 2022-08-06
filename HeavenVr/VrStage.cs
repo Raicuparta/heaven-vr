@@ -20,7 +20,7 @@ public class VrStage: MonoBehaviour
     public VrHand NonDominantHand;
 
     public VrAimLaser AimLaser;
-    private VrAimLaser directionLaser;
+    // private VrAimLaser directionLaser;
     private Vector3 previousForward;
     private Transform stageParent;
     private int previousSelectableCount;
@@ -65,7 +65,7 @@ public class VrStage: MonoBehaviour
         DominantHand = VrHand.Create(transform, CameraPoseDriver, TrackedPoseDriver.TrackedPose.RightPose);
         NonDominantHand = VrHand.Create(transform, CameraPoseDriver, TrackedPoseDriver.TrackedPose.LeftPose);
         AimLaser = VrAimLaser.Create(DominantHand.transform);
-        directionLaser = VrAimLaser.Create(NonDominantHand.transform);
+        // directionLaser = VrAimLaser.Create(NonDominantHand.transform);
         UpdatePreviousForward();
         Recenter();
     }
@@ -127,7 +127,8 @@ public class VrStage: MonoBehaviour
 
     private Vector3 GetMovementDirection()
     {
-        var trackedTransform = isHandOriented ? directionLaser.transform : VrCamera.transform;
+        var trackedTransform = VrCamera.transform;
+        // var trackedTransform = isHandOriented ? directionLaser.transform : VrCamera.transform;
         var trackedTransformOrigin = isHandOriented ? NonDominantHand.transform.parent : VrCamera.transform.parent;
         var forward = trackedTransformOrigin.InverseTransformDirection(trackedTransform.forward);
         forward.y = 0;
