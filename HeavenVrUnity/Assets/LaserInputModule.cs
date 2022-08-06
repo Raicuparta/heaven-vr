@@ -93,6 +93,10 @@ namespace HeavenVrUnity
                 HandlePendingClick();
         }
 
+        public Vector3 debugLocalPoint;
+        public Vector3 debugpointerPosition;
+        public RenderTexture renderTexture;
+
         private void CastRay()
         {
             var isHit = Physics.Raycast(
@@ -115,8 +119,11 @@ namespace HeavenVrUnity
             var pointerPosition = Vector3.zero;
             if (isHit)
             {
-                var localPoint = (hit.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f) * 200f;
-                pointerPosition = new Vector2(localPoint.x * hit.transform.localScale.x, localPoint.y * hit.transform.localScale.y);
+                var localPoint = (hit.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f);
+                var localTexturePoint = new Vector2(renderTexture.width, renderTexture.height);
+                debugLocalPoint = localTexturePoint;
+                pointerPosition = new Vector2(localTexturePoint.x * localPoint.x, localTexturePoint.y * localPoint.y);
+                debugpointerPosition = pointerPosition;
             }
 
             if (pointerData == null)
