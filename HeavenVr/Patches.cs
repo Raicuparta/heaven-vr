@@ -250,7 +250,10 @@ public static class Patches
     [HarmonyPatch(typeof(EventSystem), "OnEnable")]
     private static void AddLaserInputModule(EventSystem __instance)
     {
+        if (__instance.name.Contains("UniverseLib")) return;
+
         LaserInputModule.Create(__instance);
+        DefaultInputModuleDisabler.Create(__instance);
     }
     
     [HarmonyPatch]
