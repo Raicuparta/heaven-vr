@@ -21,7 +21,7 @@ public class VrUi: MonoBehaviour
     public void Update()
     {
         // TODO do this more efficiently, not on update.
-        if (!VrStage.Instance || !VrStage.Instance.UiTarget.UiCamera) return;
+        if (!VrStage.Instance || !VrStage.Instance.UiTarget || !VrStage.Instance.UiTarget.UiCamera) return;
         
         canvas.worldCamera = VrStage.Instance.UiTarget.UiCamera;
         canvas.scaleFactor = 0.5f;
