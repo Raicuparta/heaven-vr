@@ -73,7 +73,7 @@ public class LaserInputModule : BaseInputModule
 
     public override void Process()
     {
-        if (!VrStage.Instance || !VrStage.Instance.UiTarget || !VrStage.Instance.UiTarget.UiCamera || !VrStage.Instance.AimLaser) return;
+        if (!VrStage.Instance || !VrStage.Instance.AimLaser) return;
 
         CastRay();
         UpdateCurrentObject();
@@ -100,7 +100,14 @@ public class LaserInputModule : BaseInputModule
         // else
         //     vrLaser.SetTarget(null);
             
-        var pointerPosition = VrStage.Instance.UiTarget.UiCamera.WorldToScreenPoint(hit.point);
+        var pointerPosition = Vector3.zero;
+        if (isHit)
+        {
+            // TODO this 400 is probably dependent on some scale value in the hierarchy,
+            // should try to make it dynamic.
+            var localPoint = (hit.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f) * 400f;
+            pointerPosition = new Vector2(localPoint.x * hit.transform.localScale.x, localPoint.y * hit.transform.localScale.y);
+        }
 
         if (pointerData == null)
         {
