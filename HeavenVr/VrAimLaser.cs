@@ -7,13 +7,11 @@ public class VrAimLaser: MonoBehaviour
     private LineRenderer line;
     private const string lineShaderName = "Universal Render Pipeline/Simple Lit";
     private const float rayDistance = 300f;
-    private IVrInputBinding clickBinding;
 
     public static VrAimLaser Create(Transform parent)
     {
         var instance = new GameObject("VrAimLaser").AddComponent<VrAimLaser>();
         instance.transform.SetParent(parent, false);
-        instance.clickBinding = VrInputMap.GetBinding("MenuTabRight");
 
         return instance;
     }
