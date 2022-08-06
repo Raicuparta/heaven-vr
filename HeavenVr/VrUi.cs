@@ -9,7 +9,7 @@ public class VrUi: MonoBehaviour
     
     public static void Create(Transform target, float zOffset = 0)
     {
-        if (target.name.StartsWith("com.sinai")) return;
+        if (target.name.StartsWith("com.sinai") || target.GetComponent<VrUi>()) return;
 
         var instance = target.gameObject.AddComponent<VrUi>();
         instance.gameObject.layer = LayerMask.NameToLayer("UI");
@@ -21,9 +21,9 @@ public class VrUi: MonoBehaviour
     public void Update()
     {
         // TODO do this more efficiently, not on update.
-        if (!VrStage.Instance || !VrStage.Instance.UiCamera) return;
+        if (!VrStage.Instance || !VrStage.Instance.UiTarget.UiCamera) return;
         
-        canvas.worldCamera = VrStage.Instance.UiCamera;
+        canvas.worldCamera = VrStage.Instance.UiTarget.UiCamera;
         canvas.scaleFactor = 0.5f;
     }
 }

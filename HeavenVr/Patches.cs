@@ -7,6 +7,7 @@ using HarmonyLib;
 using LIV.SDK.Unity;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -243,6 +244,13 @@ public static class Patches
     {
         __result = true;
         return false;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(EventSystem), "OnEnable")]
+    private static void AddLaserInputModule(EventSystem __instance)
+    {
+        LaserInputModule.Create(__instance);
     }
     
     [HarmonyPatch]
