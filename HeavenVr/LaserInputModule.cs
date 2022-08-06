@@ -106,7 +106,9 @@ public class LaserInputModule : BaseInputModule
         {
             var renderTexture = VrStage.Instance.UiTarget.GetUiRenderTexture();
             var localPoint = (hit.collider.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f);
-            pointerPosition = new Vector2(renderTexture.width * renderTexture.width, renderTexture.height * localPoint.y);
+            var localTexturePoint = new Vector2(renderTexture.width, renderTexture.height);
+            pointerPosition = new Vector2(localTexturePoint.x * localPoint.x, localTexturePoint.y * localPoint.y);
+            Debug.Log($"{hit.collider.transform.name} worldPoint: {hit.point}; localPoint: {localPoint}; position: {pointerPosition}");
         }
 
         if (pointerData == null)
