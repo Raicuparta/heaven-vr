@@ -25,6 +25,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.XR;
 
 namespace HeavenVr;
@@ -34,20 +35,16 @@ public class LaserInputModule : BaseInputModule
     private const float rayDistance = 30f;
     private Vector3 lastHeadPose;
     private PointerEventData pointerData;
-    private InputDevice inputDevice;
-    private bool previousClickValue; // TODO use existing binding code.
+    private IVrInputBinding clickBinding;
 
     public static void Create(EventSystem eventSystem)
     {
         if (eventSystem.GetComponent<LaserInputModule>()) return;
 
-        eventSystem.gameObject.AddComponent<LaserInputModule>();
-    }
-    
-    protected override void Start()
-    {
-        base.Start();
-        inputDevice = GetInputDevice(XRNode.RightHand);
+        eventSystem.GetComponent<InputSystemUIInputModule>().enabled = false;
+        
+        var instance = eventSystem.gameObject.AddComponent<LaserInputModule>();
+        instance.clickBinding = VrInputMap.GetBinding("Submit");
     }
         
     public static InputDevice GetInputDevice(XRNode hand)
@@ -82,18 +79,12 @@ public class LaserInputModule : BaseInputModule
 
         CastRay();
         UpdateCurrentObject();
-
-        inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out var value);
-            
-        var clickDown = !previousClickValue && value;
-        var clickUp = previousClickValue && !value;
-        previousClickValue = value;
-
-        if (!clickDown && value)
+        
+        if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed)
             HandleDrag();
-        else if (!pointerData.eligibleForClick && clickDown)
+        else if (!pointerData.eligibleForClick && clickBinding.WasPressedThisFrame)
             HandleTrigger();
-        else if (clickUp)
+        else if (clickBinding.WasReleasedThisFrame)
             HandlePendingClick();
     }
 
