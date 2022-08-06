@@ -78,8 +78,6 @@ public class LaserInputModule : BaseInputModule
 
     public override void Process()
     {
-        Debug.Log("process");
-            
         if (!VrStage.Instance || !VrStage.Instance.UiTarget || !VrStage.Instance.UiTarget.UiCamera || !VrStage.Instance.AimLaser) return;
 
         CastRay();
@@ -112,11 +110,6 @@ public class LaserInputModule : BaseInputModule
         //     vrLaser.SetTarget(hit.point);
         // else
         //     vrLaser.SetTarget(null);
-
-        if (isHit)
-        {
-            Debug.Log("hit " + hit.collider.name);
-        }
             
         var pointerPosition = VrStage.Instance.UiTarget.UiCamera.WorldToScreenPoint(hit.point);
 
@@ -215,10 +208,5 @@ public class LaserInputModule : BaseInputModule
         pointerData.useDragThreshold = true;
         pointerData.clickCount = 1;
         pointerData.clickTime = Time.unscaledTime;
-    }
-
-    public static void OnClickTest()
-    {
-        Debug.Log("Click");
     }
 }

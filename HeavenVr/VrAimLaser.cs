@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace HeavenVr;
 
 public class VrAimLaser: MonoBehaviour
 {
     private LineRenderer line;
-    private const string lineShaderName = "Legacy Shaders/Particles/Alpha Blended";
+    private const string lineShaderName = "Universal Render Pipeline/Simple Lit";
     private const float rayDistance = 300f;
     private IVrInputBinding clickBinding;
 

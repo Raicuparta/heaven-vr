@@ -34,7 +34,7 @@ public class UiTarget : MonoBehaviour
         instance.UiCamera.clearFlags = CameraClearFlags.Depth;
         instance.UiCamera.cullingMask = LayerMask.GetMask("UI");;
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
-        instance.UiCamera.orthographicSize = uiQuadSize.y * 0.5f;
+        instance.UiCamera.orthographicSize = uiQuadSize.y;
         return instance;
     }
     
@@ -52,7 +52,7 @@ public class UiTarget : MonoBehaviour
             vrUiQuad.transform.localPosition = Vector3.zero;
             vrUiQuad.transform.localRotation = Quaternion.identity;
             vrUiQuad.transform.localScale = uiQuadSize;
-            VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponent<Renderer>().material);
+            // VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponent<Renderer>().material);
             // vrUiQuad.GetComponent<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
         }
         return vrUiQuad.GetComponent<Renderer>().material.mainTexture as RenderTexture;
