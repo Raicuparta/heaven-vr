@@ -31,7 +31,6 @@ public class VrStage: MonoBehaviour
     private PathfinderAvatarTrackers avatarTrackers;
     private float animationSpeedMultiplier = 0.003f;
     private Transform runAnimationRotationTransform;
-    public Camera UiCamera { get; private set; }
     
     public static VrStage Create(Camera mainCamera)
     {
@@ -56,12 +55,7 @@ public class VrStage: MonoBehaviour
         }
         Instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
         Instance.CameraPoseDriver.UseRelativeTransform = true;
-        
-        Instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
-        Instance.UiCamera.orthographic = true;
-        Instance.UiCamera.clearFlags = CameraClearFlags.Depth;
-        Instance.UiCamera.cullingMask = LayerMask.GetMask("UI");;
-        Instance.UiCamera.targetTexture = Instance.UiTarget.GetUiRenderTexture();
+
         return Instance;
     }
 

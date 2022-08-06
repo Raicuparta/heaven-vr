@@ -15,6 +15,8 @@ public class UiTarget : MonoBehaviour
     private readonly float minAngleDelta = 45f;
     private VrStage stage;
     private GameObject vrUiQuad;
+    public Camera UiCamera { get; private set; }
+    private static readonly Vector3 uiQuadSize = new(4f, 2.25f, 1);
 
     public static UiTarget Create(VrStage stage)
     {
@@ -24,6 +26,15 @@ public class UiTarget : MonoBehaviour
         instance.targetTransform.SetParent(instance.transform, false);
         instance.targetTransform.localPosition = new Vector3(0f, -1f, 3f);
         instance.stage = stage;
+                
+        instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
+        instance.UiCamera.transform.SetParent(instance.targetTransform, false);
+        instance.UiCamera.transform.localPosition = Vector3.forward * -4f;
+        instance.UiCamera.orthographic = true;
+        instance.UiCamera.clearFlags = CameraClearFlags.Depth;
+        instance.UiCamera.cullingMask = LayerMask.GetMask("UI");;
+        instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
+        instance.UiCamera.orthographicSize = uiQuadSize.y * 0.5f;
         return instance;
     }
     
@@ -37,9 +48,10 @@ public class UiTarget : MonoBehaviour
         if (!vrUiQuad)
         {
             vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, targetTransform, false);
+            LayerHelper.SetLayer(vrUiQuad, GameLayer.VrUi);
             vrUiQuad.transform.localPosition = Vector3.zero;
             vrUiQuad.transform.localRotation = Quaternion.identity;
-            vrUiQuad.transform.localScale = new Vector3(4f, 2.25f, 1);
+            vrUiQuad.transform.localScale = uiQuadSize;
             VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponent<Renderer>().material);
             // vrUiQuad.GetComponent<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
         }
