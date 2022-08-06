@@ -35,8 +35,7 @@ namespace HeavenVrUnity
     public class LaserInputModule : BaseInputModule
     {
         private const float rayDistance = 30f;
-        public Camera EventCamera;
-        private Vector3 lastHeadPose;
+        private Vector3 lastPointerPosition;
         private PointerEventData pointerData;
         private InputDevice inputDevice;
         private bool previousClickValue;
@@ -77,9 +76,6 @@ namespace HeavenVrUnity
 
         public override void Process()
         {
-            
-            if (!EventCamera) return;
-
             CastRay();
             UpdateCurrentObject();
 
@@ -116,12 +112,25 @@ namespace HeavenVrUnity
                 Debug.Log("hit " + hit.collider.name);
             }
             
-            var pointerPosition = EventCamera.WorldToScreenPoint(hit.point);
+            var pointerPosition = Vector3.zero;
+            if (isHit)
+            {
+                var hitRect = hit.collider.GetComponent<RectTransform>();
+                if (hitRect)
+                {
+                    var localPoint = (hitRect.InverseTransformPoint(hit.point) + Vector3.one * 0.5f) * 200f;
+                    pointerPosition = new Vector2(localPoint.x * hitRect.localScale.x, localPoint.y * hitRect.localScale.y);
+                }
+                else
+                {
+                    Debug.Log($"pointer : {pointerPosition}");
+                }
+            }
 
             if (pointerData == null)
             {
                 pointerData = new PointerEventData(eventSystem);
-                lastHeadPose = pointerPosition;
+                lastPointerPosition = pointerPosition;
             }
 
             // Cast a ray into the scene
@@ -130,8 +139,8 @@ namespace HeavenVrUnity
             eventSystem.RaycastAll(pointerData, m_RaycastResultCache);
             pointerData.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);
             m_RaycastResultCache.Clear();
-            pointerData.delta = pointerPosition - lastHeadPose;
-            lastHeadPose = hit.point;
+            pointerData.delta = pointerPosition - lastPointerPosition;
+            lastPointerPosition = hit.point;
         }
 
         private void UpdateCurrentObject()
