@@ -16,16 +16,20 @@ public class UiTarget : MonoBehaviour
     private VrStage stage;
     private GameObject vrUiQuad;
     public Camera UiCamera { get; private set; }
-    private static readonly Vector3 uiQuadSize = new(2f, 1.125f, 1);
+    private VrHand hand;
+    private static readonly Vector3 uiQuadSize = new Vector3(2f, 1.125f, 1) * 0.3f;
 
-    public static UiTarget Create(VrStage stage)
+    public static UiTarget Create(VrStage stage, VrHand hand)
     {
+        Debug.Log($"Create {hand == null}");
+        
         var instance = new GameObject(nameof(UiTarget)).AddComponent<UiTarget>();
         instance.transform.SetParent(stage.transform, false);
         instance.targetTransform = new GameObject("InteractiveUiTargetTransform").transform;
         instance.targetTransform.SetParent(instance.transform, false);
         instance.targetTransform.localPosition = new Vector3(0f, 0, 2f);
         instance.stage = stage;
+        instance.hand = hand;
                 
         instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
         // instance.UiCamera.transform.SetParent(instance.targetTransform, false);
@@ -43,15 +47,16 @@ public class UiTarget : MonoBehaviour
         previousForward = GetCameraForward();
     }
 
-    public RenderTexture GetUiRenderTexture()
+    private RenderTexture GetUiRenderTexture()
     {
         if (!vrUiQuad)
         {
-            vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, targetTransform, false);
+            vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, hand.transform, false);
             LayerHelper.SetLayer(vrUiQuad, GameLayer.VrUi);
             vrUiQuad.transform.localPosition = Vector3.zero;
             vrUiQuad.transform.localRotation = Quaternion.identity;
             vrUiQuad.transform.localScale = uiQuadSize;
+            LookAtCamera.Create(vrUiQuad.transform, stage.VrCamera);
             // VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponent<Renderer>().material);
             // vrUiQuad.GetComponent<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
         }

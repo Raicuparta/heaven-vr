@@ -20,7 +20,7 @@ using Object = UnityEngine.Object;
 namespace HeavenVr;
 
 [HarmonyPatch]
-public static class Patches
+public class Patches: HeavenVrPatch
 {
     [HarmonyPostfix]
     [HarmonyPatch(typeof(PlayerCamera), nameof(PlayerCamera.Start))]
@@ -69,7 +69,7 @@ public static class Patches
         Object.Destroy(__instance.Cam.GetComponent<CameraStackPriority>());
         Object.Destroy(__instance.Cam.GetComponent<UniversalAdditionalCameraData>());
         __instance.Cam.orthographicSize = 20;
-        __instance.Cam.targetTexture = VrStage.Instance.UiTarget.GetUiRenderTexture();
+        __instance.Cam.targetTexture = VrAssetLoader.VrUiRenderTexture;
         __instance.Cam.clearFlags = CameraClearFlags.Nothing;
         __instance.Cam.depth = 1;
     }
