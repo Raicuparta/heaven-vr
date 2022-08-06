@@ -10,7 +10,6 @@ public class VrAimLaser: MonoBehaviour
     private const string lineShaderName = "Legacy Shaders/Particles/Alpha Blended";
     private const float rayDistance = 300f;
     private IVrInputBinding clickBinding;
-    private Selectable selectedSelectable;
 
     public static VrAimLaser Create(Transform parent)
     {
@@ -34,48 +33,5 @@ public class VrAimLaser: MonoBehaviour
         // Using Ignore Raycast layer because it's visible in map camera and player camera.
         // Might be better to use a custom layer, but seems like they're all being used.
         gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-    }
-
-    private void Update()
-    {
-        CastRay();
-    }
-
-    private void CastRay()
-    {
-        var isHit = Physics.Raycast(
-            transform.position,
-            transform.forward,
-            out var hit,
-            rayDistance); // TODO clean up layers
-
-        if (isHit)
-        {
-            line.SetPosition(1, Vector3.forward * hit.distance);
-
-            var selectable = hit.collider.GetComponent<Selectable>();
-            if (selectable)
-            {
-                var pointerData = new PointerEventData(EventSystem.current);
-                selectable.Select();
-                if (selectable != selectedSelectable)
-                {
-                    if (selectedSelectable)
-                    {
-                        selectedSelectable.OnPointerExit(pointerData);
-                    }
-                    selectable.OnPointerEnter(pointerData);
-                    selectedSelectable = selectable;
-                }
-                if (clickBinding.WasPressedThisFrame)
-                {
-                    selectable.OnPointerDown(pointerData);
-                }
-            }
-        }
-        else
-        {
-            line.SetPosition(1, Vector3.forward * rayDistance);
-        }
     }
 }

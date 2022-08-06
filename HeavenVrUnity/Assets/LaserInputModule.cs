@@ -41,6 +41,7 @@ namespace HeavenVrUnity
         private InputDevice inputDevice;
         private bool previousClickValue;
         public LayerMask mask;
+        public Transform laser;
 
         protected override void Start()
         {
@@ -99,8 +100,8 @@ namespace HeavenVrUnity
         private void CastRay()
         {
             var isHit = Physics.Raycast(
-                transform.position,
-                transform.forward,
+                laser.position,
+                laser.forward,
                 out var hit,
                 rayDistance,
                 mask);
