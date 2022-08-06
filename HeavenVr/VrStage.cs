@@ -11,13 +11,14 @@ namespace HeavenVr;
 
 public class VrStage: MonoBehaviour
 {
-    public static VrStage Instance { get; private set; }
+    // public static VrStage Instance { get; private set; }
     public Camera VrCamera { get; set; }
     public UiTarget UiTarget { get; set; }
     public float AngleDelta;
     public TrackedPoseDriver CameraPoseDriver;
     public VrHand DominantHand;
     public VrHand NonDominantHand;
+    public static VrStage Instance;
 
     public VrAimLaser AimLaser;
     // private VrAimLaser directionLaser;
@@ -34,37 +35,39 @@ public class VrStage: MonoBehaviour
     
     public static VrStage Create(Camera mainCamera)
     {
-        Instance = new GameObject("VrStage").AddComponent<VrStage>();
+        var instance = new GameObject("VrStage").AddComponent<VrStage>();
+        Instance = instance;
 
-        Instance.previousForward = mainCamera.transform.forward;
-        Instance.UiTarget = UiTarget.Create(Instance);
-        Instance.mouseLook = mainCamera.transform.parent.GetComponentInParent<MouseLook>();
-
-        Instance.VrCamera = mainCamera;
-        Instance.stageParent = mainCamera.transform.parent;
-        Instance.transform.SetParent(Instance.stageParent, false);
-        mainCamera.transform.SetParent(Instance.transform, false);
+        instance.VrCamera = mainCamera;
+        instance.stageParent = mainCamera.transform.parent;
+        instance.transform.SetParent(instance.stageParent, false);
+        mainCamera.transform.SetParent(instance.transform, false);
         mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("UI")); // TODO should have a separate UI camera;
         mainCamera.cullingMask = LayerHelper.GetMask(GameLayer.VrUi, mainCamera.cullingMask);
         
         mainCamera.transform.localEulerAngles = Vector3.up * mainCamera.transform.localEulerAngles.y;
-        Instance.transform.localScale = Vector3.one * 2f;
+        instance.transform.localScale = Vector3.one * 2f;
 
         if (RM.drifter)
         {
             mainCamera.transform.position = RM.drifter.GetFeetPosition();
         }
-        Instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
-        Instance.CameraPoseDriver.UseRelativeTransform = true;
+        instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
+        instance.CameraPoseDriver.UseRelativeTransform = true;
 
-        return Instance;
+        instance.DominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.RightPose);
+        instance.NonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.LeftPose);
+        instance.AimLaser = VrAimLaser.Create(instance.DominantHand.transform);
+
+        instance.previousForward = mainCamera.transform.forward;
+        instance.UiTarget = UiTarget.Create(instance, instance.NonDominantHand);
+        instance.mouseLook = mainCamera.transform.parent.GetComponentInParent<MouseLook>();
+
+        return instance;
     }
 
     private void Start()
     {
-        DominantHand = VrHand.Create(transform, CameraPoseDriver, TrackedPoseDriver.TrackedPose.RightPose);
-        NonDominantHand = VrHand.Create(transform, CameraPoseDriver, TrackedPoseDriver.TrackedPose.LeftPose);
-        AimLaser = VrAimLaser.Create(DominantHand.transform);
         // directionLaser = VrAimLaser.Create(NonDominantHand.transform);
         UpdatePreviousForward();
         Recenter();

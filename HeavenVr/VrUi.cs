@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HeavenVr;
 
@@ -13,7 +12,7 @@ public class VrUi: MonoBehaviour
 
         var instance = target.gameObject.AddComponent<VrUi>();
         instance.gameObject.layer = LayerMask.NameToLayer("UI");
-                
+        
         instance.canvas = target.GetComponent<Canvas>();
     }
 
