@@ -40,8 +40,6 @@ public class LaserInputModule : BaseInputModule
     public static void Create(EventSystem eventSystem)
     {
         if (eventSystem.GetComponent<LaserInputModule>()) return;
-
-        eventSystem.GetComponent<InputSystemUIInputModule>().enabled = false;
         
         var instance = eventSystem.gameObject.AddComponent<LaserInputModule>();
         instance.clickBinding = VrInputMap.GetBinding("Submit");
