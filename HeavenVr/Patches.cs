@@ -200,8 +200,6 @@ public static class Patches
     {
         // VrUi.Create(__instance.transform.Find("Map"), 0.5f);
         // __instance.transform.localScale *= 0.5f;
-        var camera = __instance.GetComponentInChildren<Camera>();
-        camera.cullingMask = LayerHelper.GetMask(GameLayer.VrUi, camera.cullingMask);
 
     }
     

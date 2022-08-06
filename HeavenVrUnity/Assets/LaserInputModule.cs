@@ -115,16 +115,8 @@ namespace HeavenVrUnity
             var pointerPosition = Vector3.zero;
             if (isHit)
             {
-                var hitRect = hit.collider.GetComponent<RectTransform>();
-                if (hitRect)
-                {
-                    var localPoint = (hitRect.InverseTransformPoint(hit.point) + Vector3.one * 0.5f) * 200f;
-                    pointerPosition = new Vector2(localPoint.x * hitRect.localScale.x, localPoint.y * hitRect.localScale.y);
-                }
-                else
-                {
-                    Debug.Log($"pointer : {pointerPosition}");
-                }
+                var localPoint = (hit.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f) * 200f;
+                pointerPosition = new Vector2(localPoint.x * hit.transform.localScale.x, localPoint.y * hit.transform.localScale.y);
             }
 
             if (pointerData == null)
