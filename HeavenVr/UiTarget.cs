@@ -32,7 +32,7 @@ public class UiTarget : MonoBehaviour
         instance.UiCamera.transform.localPosition = Vector3.forward * -4f;
         instance.UiCamera.orthographic = true;
         instance.UiCamera.clearFlags = CameraClearFlags.Depth;
-        instance.UiCamera.cullingMask = LayerMask.GetMask("UI");;
+        instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);;
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
         instance.UiCamera.orthographicSize = uiQuadSize.y;
         return instance;
