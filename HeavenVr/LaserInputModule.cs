@@ -108,6 +108,7 @@ public class LaserInputModule : BaseInputModule
             var localPoint = (hit.collider.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f);
             var localTexturePoint = new Vector2(renderTexture.width, renderTexture.height);
             pointerPosition = new Vector2(localTexturePoint.x * localPoint.x, localTexturePoint.y * localPoint.y);
+            // Debug.Log($"{hit.collider.transform.name} worldPoint: {hit.point}; localPoint: {localPoint}; position: {pointerPosition}");
         }
 
         if (pointerData == null)
