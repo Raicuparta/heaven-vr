@@ -25,7 +25,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;
 using UnityEngine.XR;
 
 namespace HeavenVr;
@@ -88,6 +87,8 @@ public class LaserInputModule : BaseInputModule
 
     private void CastRay()
     {
+        if (!VrStage.Instance.UiTarget) return;
+
         var isHit = Physics.Raycast(
             VrStage.Instance.AimLaser.transform.position,
             VrStage.Instance.AimLaser.transform.forward,
@@ -103,10 +104,9 @@ public class LaserInputModule : BaseInputModule
         var pointerPosition = Vector3.zero;
         if (isHit)
         {
-            // TODO this 400 is probably dependent on some scale value in the hierarchy,
-            // should try to make it dynamic.
-            var localPoint = (hit.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f) * 400f;
-            pointerPosition = new Vector2(localPoint.x * hit.transform.localScale.x, localPoint.y * hit.transform.localScale.y);
+            var renderTexture = VrStage.Instance.UiTarget.GetUiRenderTexture();
+            var localPoint = (hit.collider.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f);
+            pointerPosition = new Vector2(renderTexture.width * renderTexture.width, renderTexture.height * localPoint.y);
         }
 
         if (pointerData == null)

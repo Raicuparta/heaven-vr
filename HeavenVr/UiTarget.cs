@@ -16,7 +16,7 @@ public class UiTarget : MonoBehaviour
     private VrStage stage;
     private GameObject vrUiQuad;
     public Camera UiCamera { get; private set; }
-    private static readonly Vector3 uiQuadSize = new(4f, 2.25f, 1);
+    private static readonly Vector3 uiQuadSize = new(2f, 1.125f, 1);
 
     public static UiTarget Create(VrStage stage)
     {
@@ -24,17 +24,17 @@ public class UiTarget : MonoBehaviour
         instance.transform.SetParent(stage.transform, false);
         instance.targetTransform = new GameObject("InteractiveUiTargetTransform").transform;
         instance.targetTransform.SetParent(instance.transform, false);
-        instance.targetTransform.localPosition = new Vector3(0f, -1f, 3f);
+        instance.targetTransform.localPosition = new Vector3(0f, 0, 2f);
         instance.stage = stage;
                 
         instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
-        instance.UiCamera.transform.SetParent(instance.targetTransform, false);
+        // instance.UiCamera.transform.SetParent(instance.targetTransform, false);
         instance.UiCamera.transform.localPosition = Vector3.forward * -4f;
         instance.UiCamera.orthographic = true;
         instance.UiCamera.clearFlags = CameraClearFlags.Depth;
         instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);;
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
-        instance.UiCamera.orthographicSize = uiQuadSize.y;
+        instance.UiCamera.orthographicSize = uiQuadSize.y * 0.5f;
         return instance;
     }
     

@@ -1550,6 +1550,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   laser: {fileID: 19670744}
+  debugLocalPoint: {x: 0, y: 0, z: 0}
+  debugpointerPosition: {x: 0, y: 0, z: 0}
+  renderTexture: {fileID: 8400000, guid: cfd385cdada65c94792b5abc833321d0, type: 2}
 --- !u!1 &43496366
 GameObject:
   m_ObjectHideFlags: 0
@@ -36218,10 +36221,6 @@ PrefabInstance:
     - target: {fileID: 3819852378888794786, guid: 22dd3224352d4c944825259337b07dfe, type: 3}
       propertyPath: m_Name
       value: VrUiQuad
-      objectReference: {fileID: 0}
-    - target: {fileID: 3819852378888794786, guid: 22dd3224352d4c944825259337b07dfe, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3819852378888794790, guid: 22dd3224352d4c944825259337b07dfe, type: 3}
       propertyPath: m_RootOrder
