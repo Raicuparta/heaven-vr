@@ -17,7 +17,6 @@ public class UiTarget : MonoBehaviour
     private GameObject vrUiQuad;
     public Camera UiCamera { get; private set; }
     private VrHand hand;
-    private static readonly Vector3 uiQuadSize = new Vector3(2f, 1.125f, 1) * 0.3f;
 
     public static UiTarget Create(VrStage stage, VrHand hand)
     {
@@ -38,7 +37,6 @@ public class UiTarget : MonoBehaviour
         instance.UiCamera.clearFlags = CameraClearFlags.Depth;
         instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);;
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
-        instance.UiCamera.orthographicSize = uiQuadSize.y * 0.5f;
         return instance;
     }
     
@@ -52,15 +50,15 @@ public class UiTarget : MonoBehaviour
         if (!vrUiQuad)
         {
             vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, hand.transform, false);
-            LayerHelper.SetLayer(vrUiQuad, GameLayer.VrUi);
-            vrUiQuad.transform.localPosition = Vector3.zero;
-            vrUiQuad.transform.localRotation = Quaternion.identity;
-            vrUiQuad.transform.localScale = uiQuadSize;
+            LayerHelper.SetLayerRecursive(vrUiQuad, GameLayer.VrUi);
+            vrUiQuad.transform.localPosition = new Vector3(0.3f, 0f, 0f);
+            vrUiQuad.transform.localEulerAngles = new Vector3(-90f, 180f, 0f);
+            vrUiQuad.transform.localScale = Vector3.one * 0.1f;
             LookAtCamera.Create(vrUiQuad.transform, stage.VrCamera);
-            // VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponent<Renderer>().material);
-            // vrUiQuad.GetComponent<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
+            // VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponentInChildren<Renderer>().material);
+            // vrUiQuad.GetComponentInChildren<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
         }
-        return vrUiQuad.GetComponent<Renderer>().material.mainTexture as RenderTexture;
+        return vrUiQuad.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
     }
 
     private void Update()
