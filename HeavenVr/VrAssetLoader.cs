@@ -11,12 +11,14 @@ public static class VrAssetLoader
     public static GameObject RunAnimationPrefab;
     public static RenderTexture VrUiRenderTexture;
     public static GameObject VrUiQuadPrefab;
+    public static GameObject RightHandPrefab;
     
     public static void Init()
     {
         SDKShaders.LoadFromAssetBundle(LoadBundle("liv-shaders"));
         RunAnimationPrefab = LoadBundle("animation").LoadAsset<GameObject>("RunAnimation");
         VrUiQuadPrefab = LoadBundle("ui").LoadAsset<GameObject>("VrUiQuad");
+        RightHandPrefab = LoadBundle("hands").LoadAsset<GameObject>("RightHand");
         VrUiRenderTexture = VrUiQuadPrefab.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
     }
     
