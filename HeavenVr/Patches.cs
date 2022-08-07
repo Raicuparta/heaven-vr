@@ -1,20 +1,13 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using Beautify.Universal;
 using HarmonyLib;
 using LIV.SDK.Unity;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
-using UnityEngine.XR;
-using UnityEngine.XR.Management;
-using UnityEngine.XR.OpenXR;
 using Object = UnityEngine.Object;
 
 namespace HeavenVr;
@@ -55,14 +48,6 @@ public class Patches: HeavenVrPatch
     }
 
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(CanvasScaler), "OnEnable")]
-    private static void ScaleCanvas(CanvasScaler __instance)
-    {
-        if (!__instance.transform.parent) return;
-        __instance.transform.parent.localScale = Vector3.one * 1.8f;
-    }
-
-    [HarmonyPostfix]
     [HarmonyPatch(typeof(PlayerUI), nameof(PlayerUI.Start))]
     private static void FixPlayerUi(PlayerUI __instance)
     {
@@ -85,10 +70,18 @@ public class Patches: HeavenVrPatch
     }
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.SetVisualOffsetAmount))]
-    private static bool PreventProjectileOffset(ProjectileBase __instance)
+    private static bool AdjustProjectileVisualOffset(ProjectileBase __instance)
     {
         __instance._projectileModelHolder.localPosition = Vector3.forward * 1.5f;
         return false;
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.OnSpawn))]
+    private static void AdjustProjectileCameraOffset(ProjectileBase __instance)
+    {
+        Debug.Log($"_spawnCameraOffset: {__instance._spawnCameraOffset}");
+        __instance._spawnCameraOffset = Vector3.zero;
     }
 
     [HarmonyPostfix]
@@ -137,46 +130,18 @@ public class Patches: HeavenVrPatch
         return false;
     }
 
-    private static Quaternion cameraRotation;
-    private static Vector3 cameraPosition;
-    private static Quaternion cameraParentRotation;
-    
     [HarmonyPrefix]
-    [HarmonyPatch(typeof(MechController), nameof(MechController.DoDiscardAbility))]
-    private static void SetUpDiscardAbilityDirection(MechController __instance)
+    [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.ForceDash))]
+    private static void PreventRotatingCameraVertically(ref Vector3 newDashDirection, ref Vector3 newDashEndVelocity)
     {
-        if (!VrStage.Instance || !VrStage.Instance.AimLaser) return;
+        if (!VrStage.Instance || !VrStage.Instance.AimLaser || !RM.mechController) return;
 
-        var cameraTransform = __instance.playerCamera.transform;
-        cameraRotation = cameraTransform.rotation;
-        cameraPosition = cameraTransform.position;
-        cameraParentRotation = cameraTransform.parent.rotation;
-
-        cameraTransform.position = VrStage.Instance.AimLaser.transform.position;
-        cameraTransform.rotation = VrStage.Instance.AimLaser.transform.rotation;
-        cameraTransform.parent.rotation = quaternion.LookRotation(MathHelper.GetProjectedForward(cameraTransform), Vector3.up);
+        var direction = VrStage.Instance.AimLaser.transform.forward;
+        direction.y = 0;
+        newDashDirection = direction;
+        newDashEndVelocity = direction * RM.mechController.abilityDashEndVelocity;
+        
     }
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(MechController), nameof(MechController.DoDiscardAbility))]
-    private static void ResetDiscardAbilityDirection(MechController __instance)
-    {
-        if (!VrStage.Instance || !VrStage.Instance.AimLaser) return;
-
-        var cameraTransform = __instance.playerCamera.transform;
-        cameraTransform.rotation = cameraRotation;
-        cameraTransform.position = cameraPosition;
-        cameraTransform.parent.rotation = cameraParentRotation;
-    }
-    
-
-    // [HarmonyPrefix]
-    // [HarmonyPatch(typeof(MouseLook), nameof(MouseLook.UpdateRotation))]
-    // private static void PreventRotatingCameraVertically(MouseLook __instance)
-    // {
-    //     if (!VrStage.Instance) return;
-    //     __instance.originalRotation *= Quaternion.Euler(0, VrStage.Instance.AngleDelta, 0);
-    // }
     
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Application), nameof(Application.targetFrameRate), MethodType.Setter)]
@@ -208,6 +173,21 @@ public class Patches: HeavenVrPatch
     private static void AddCanvasCollider(CanvasScaler __instance)
     {
         VrUi.Create(__instance.transform);
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.CreateProjectile), typeof(string), typeof(Vector3),
+        typeof(Vector3), typeof(ProjectileWeapon))]
+    private static void AimProjectilesWithVrLaser(ref Vector3 origin, ref Vector3 forward)
+    {
+        if (!VrStage.Instance || !VrStage.Instance.AimLaser) return;
+
+        Debug.Log("aiming");
+
+        
+        
+        origin = VrStage.Instance.AimLaser.transform.position;
+        forward = VrStage.Instance.AimLaser.transform.forward;
     }
     
     [HarmonyPostfix]
