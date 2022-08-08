@@ -12,7 +12,7 @@ public class VrAimLaser: MonoBehaviour
     {
         var instance = parent.Find("Laser").GetOrAddComponent<VrAimLaser>();
         LayerHelper.SetLayerRecursive(instance.gameObject, GameLayer.VrUi);
-
+        
         return instance;
     }
 }
