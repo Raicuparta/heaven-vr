@@ -10,8 +10,7 @@ public class VrAimLaser: MonoBehaviour
 
     public static VrAimLaser Create(Transform parent)
     {
-        var instance = parent.Find("Gun").GetOrAddComponent<VrAimLaser>();
-        instance.transform.SetParent(parent, false);
+        var instance = parent.Find("Laser").GetOrAddComponent<VrAimLaser>();
         LayerHelper.SetLayerRecursive(instance.gameObject, GameLayer.VrUi);
 
         return instance;
