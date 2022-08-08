@@ -32,15 +32,37 @@ public class WeaponSwapper: MonoBehaviour
 
     private string GetWeaponTransformName(PlayerCard card)
     {
-        switch (card.data.discardAbility)
+        switch (card.data.cardID)
         {
-            case PlayerCardData.DiscardAbility.None:
-            {
-                return "Katana";
-            }
-            default:
+            case "PISTOL":
             {
                 return "Pistol";
+            }
+            case "RIFLE":
+            {
+                return "Rifle";
+            }
+            case "MACHINEGUN":
+            {
+                return "MachineGun";
+            }
+            case "UZI":
+            {
+                return "Uzi";
+            }
+            case "SHOTGUN":
+            {
+                return "Shotgun";
+            }
+            case "ROCKETLAUNCHER":
+            {
+                return "Shotgun"; // TODO rocket launcher.
+            }
+            case "KATANA":
+            case "FISTS":
+            default:
+            {
+                return "Katana"; // TODO fist.
             }
         }
     }
