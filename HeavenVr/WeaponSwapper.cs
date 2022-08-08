@@ -58,11 +58,12 @@ public class WeaponSwapper: MonoBehaviour
             {
                 return "Shotgun"; // TODO rocket launcher.
             }
+            case "RAPTURE": // TODO Book of Life. I think it's this ID, but not sure.
+            case "FISTS": // TODO fist.
             case "KATANA":
-            case "FISTS":
             default:
             {
-                return "Katana"; // TODO fist.
+                return "Katana";
             }
         }
     }
