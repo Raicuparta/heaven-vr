@@ -23,5 +23,6 @@ public class VrUi: MonoBehaviour
         
         canvas.worldCamera = VrStage.Instance.UiTarget.UiCamera;
         canvas.scaleFactor = 0.5f;
+        canvas.planeDistance = 1;
     }
 }
