@@ -57,13 +57,22 @@ public class Patches: HeavenVrPatch
         __instance.Cam.targetTexture = VrAssetLoader.VrUiRenderTexture;
         __instance.Cam.clearFlags = CameraClearFlags.Depth;
         __instance.Cam.depth = 1;
+        __instance.Cam.cullingMask = LayerHelper.GetMask(GameLayer.UI);
         __instance.transform.localScale = Vector3.one * 3f;
         __instance.crosshair.parent.gameObject.SetActive(false);
         __instance.timerHolder.transform.localScale = Vector3.one * 0.05f;
         __instance.timerHolder.transform.localPosition = Vector3.up * 1.6f;
         __instance.demonCounterHolder.transform.localScale = Vector3.one * 1.5f;
+        LayerHelper.SetLayerRecursive(__instance.gameObject, GameLayer.UI);
         UiTarget.PlayerHudCamera = __instance.Cam;
-
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(BaseCRTEffect), nameof(BaseCRTEffect.Awake))]
+    private static void DisableCrtEffect(BaseCRTEffect __instance)
+    {
+        __instance.enabled = false;
+        __instance.mainCamera.enabled = false;
     }
     
     [HarmonyPrefix]
