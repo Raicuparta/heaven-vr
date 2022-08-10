@@ -31,6 +31,13 @@ public class Patches: HeavenVrPatch
     }
     
     [HarmonyPostfix]
+    [HarmonyPatch(typeof(MissionCompleteManager), nameof(MissionCompleteManager.Start))]
+    private static void EnableCameraTracking(MissionCompleteManager __instance)
+    {
+        VrStage.Create(__instance.GetComponentInChildren<Camera>());
+    }
+    
+    [HarmonyPostfix]
     [HarmonyPatch(typeof(ShakePosition), nameof(ShakePosition.Start))]
     private static void EnableCameraTracking(ShakePosition __instance)
     {
@@ -59,6 +66,7 @@ public class Patches: HeavenVrPatch
         __instance.Cam.clearFlags = CameraClearFlags.Depth;
         __instance.Cam.depth = 1;
         __instance.Cam.cullingMask = LayerHelper.GetMask(GameLayer.UI);
+        __instance.Cam.farClipPlane = 100;
         __instance.transform.localScale = Vector3.one * 3f;
         __instance.crosshair.parent.gameObject.SetActive(false);
         __instance.timerHolder.transform.localScale = Vector3.one * 0.05f;
