@@ -208,7 +208,7 @@ public class Patches: HeavenVrPatch
     {
         // VrUi.Create(__instance.transform.Find("Map"), 0.5f);
         // __instance.transform.localScale *= 0.5f;
-
+        LayerHelper.SetLayerRecursive(__instance.gameObject, GameLayer.UI);
     }
     
     [HarmonyPostfix]

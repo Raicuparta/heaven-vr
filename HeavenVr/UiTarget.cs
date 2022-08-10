@@ -34,6 +34,14 @@ public class UiTarget : MonoBehaviour
         instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
         // instance.UiCamera.transform.SetParent(instance.targetTransform, false);
         instance.UiCamera.transform.localPosition = Vector3.forward * -4f;
+
+        if (stage.gameObject.GetComponentInParent<MenuScreenMapAesthetics>())
+        {
+            instance.UiCamera.transform.localPosition = new Vector3(-0.0436f, 1.0611f, 0.0982f);
+            instance.UiCamera.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+            instance.UiCamera.orthographicSize = 2f;
+        }
+        
         instance.UiCamera.orthographic = true;
         instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);;
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();

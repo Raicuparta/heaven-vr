@@ -70,6 +70,8 @@ public static class LayerHelper
 
     public static void SetLayerRecursive(GameObject gameObject, GameLayer layer)
     {
+        if (gameObject.GetComponent<VrStage>()) return;
+
         SetLayer(gameObject, layer);
         foreach (Transform child in gameObject.transform) SetLayerRecursive(child.gameObject, layer);
     }
