@@ -35,6 +35,11 @@ public class VrStage: MonoBehaviour
     
     public static VrStage Create(Camera mainCamera)
     {
+        if (Instance)
+        {
+            Destroy(Instance);
+        }
+        
         var instance = new GameObject("VrStage").AddComponent<VrStage>();
         Instance = instance;
 

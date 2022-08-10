@@ -17,6 +17,7 @@ public class UiTarget : MonoBehaviour
     private GameObject vrUiQuad;
     public Camera UiCamera { get; private set; }
     private VrHand hand;
+    public static Camera PlayerHudCamera; // TODO no static
 
     public static UiTarget Create(VrStage stage, VrHand hand)
     {
@@ -34,9 +35,9 @@ public class UiTarget : MonoBehaviour
         // instance.UiCamera.transform.SetParent(instance.targetTransform, false);
         instance.UiCamera.transform.localPosition = Vector3.forward * -4f;
         instance.UiCamera.orthographic = true;
-        instance.UiCamera.clearFlags = CameraClearFlags.Depth;
         instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);;
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
+        instance.UiCamera.depth = 10;
         return instance;
     }
     
@@ -64,6 +65,12 @@ public class UiTarget : MonoBehaviour
     private void Update()
     {
         UpdateTransform();
+        UpdateClearFlags();
+    }
+
+    private void UpdateClearFlags()
+    {
+        UiCamera.clearFlags = PlayerHudCamera ? CameraClearFlags.Nothing : CameraClearFlags.Depth;
     }
 
     private Vector3 GetCameraForward()

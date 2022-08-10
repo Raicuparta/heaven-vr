@@ -55,13 +55,14 @@ public class Patches: HeavenVrPatch
         Object.Destroy(__instance.Cam.GetComponent<UniversalAdditionalCameraData>());
         __instance.Cam.orthographicSize = 20;
         __instance.Cam.targetTexture = VrAssetLoader.VrUiRenderTexture;
-        __instance.Cam.clearFlags = CameraClearFlags.Nothing;
+        __instance.Cam.clearFlags = CameraClearFlags.Depth;
         __instance.Cam.depth = 1;
         __instance.transform.localScale = Vector3.one * 3f;
         __instance.crosshair.parent.gameObject.SetActive(false);
         __instance.timerHolder.transform.localScale = Vector3.one * 0.05f;
         __instance.timerHolder.transform.localPosition = Vector3.up * 1.6f;
         __instance.demonCounterHolder.transform.localScale = Vector3.one * 1.5f;
+        UiTarget.PlayerHudCamera = __instance.Cam;
 
     }
     
