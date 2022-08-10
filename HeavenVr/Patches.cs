@@ -26,7 +26,8 @@ public class Patches: HeavenVrPatch
     [HarmonyPatch(typeof(MenuCamera), nameof(MenuCamera.Start))]
     private static void EnableCameraTracking(MenuCamera __instance)
     {
-        var stage = VrStage.Create(__instance.cam);
+        __instance.m_startColor = Color.black;
+        VrStage.Create(__instance.cam);
     }
     
     [HarmonyPostfix]
