@@ -142,10 +142,36 @@ public class Patches: HeavenVrPatch
     {
         if (!VrStage.Instance || !VrStage.Instance.AimLaser || !RM.mechController) return;
 
+        float endVelocity;
         var direction = VrStage.Instance.AimLaser.transform.forward;
-        direction.y = 0;
+        
+        switch (RM.mechController.m_lastDiscardAbility)
+        {
+            case PlayerCardData.DiscardAbility.Dash:
+            {
+                endVelocity = RM.mechController.abilityDashEndVelocity;
+                direction.y = 0;
+                break;
+            }
+            case PlayerCardData.DiscardAbility.ShieldBash:
+            {
+                endVelocity = RM.mechController.abilityShieldBashEndVelocity;
+                direction.y = 0;
+                break;
+            }
+            case PlayerCardData.DiscardAbility.Fireball:
+            {
+                endVelocity = RM.mechController.abilityFireballEndVelocity;
+                break;
+            }
+            default:
+            {
+                return;
+            }
+        }
+        
         newDashDirection = direction;
-        newDashEndVelocity = direction * RM.mechController.abilityDashEndVelocity;
+        newDashEndVelocity = direction * endVelocity;
         
     }
     
