@@ -2175,6 +2175,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1441942282}
     m_Modifications:
+    - target: {fileID: 884015773776645973, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3125533457154102473, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2182,6 +2186,18 @@ PrefabInstance:
     - target: {fileID: 3125533457489879772, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
       propertyPath: m_Name
       value: Hand
+      objectReference: {fileID: 0}
+    - target: {fileID: 4212599155671475841, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4365276655010159005, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010398363496309703, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8368836912163439987, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
       propertyPath: m_RootOrder
@@ -2225,6 +2241,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8368836912163439987, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121510569085913454, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
