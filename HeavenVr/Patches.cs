@@ -68,7 +68,7 @@ public class Patches: HeavenVrPatch
         __instance.Cam.cullingMask = LayerHelper.GetMask(GameLayer.UI);
         __instance.Cam.farClipPlane = 100;
         __instance.transform.localScale = Vector3.one * 3f;
-        __instance.crosshair.parent.gameObject.SetActive(false);
+        __instance.crosshair.parent.transform.localScale = Vector3.zero;
         __instance.timerHolder.transform.localScale = Vector3.one * 0.05f;
         __instance.timerHolder.transform.localPosition = Vector3.up * 1.6f;
         __instance.demonCounterHolder.transform.localScale = Vector3.one * 1.5f;
