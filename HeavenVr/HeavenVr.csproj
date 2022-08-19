@@ -1,13 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
         <AssemblyName>HeavenVr</AssemblyName>
-        <Description>My first plugin</Description>
-        <Version>1.0.0</Version>
+        <Version>0.1.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LangVersion>latest</LangVersion>
-        <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\Neon White\BepInEx\plugins\HeavenVr</OutputPath>
+        <LangVersion>10</LangVersion>
+        <OutputPath>$(BepInExDir)\plugins\HeavenVr</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     </PropertyGroup>
@@ -17,10 +15,6 @@
         <PackageReference Include="BepInEx.Core" Version="5.*" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
         <PackageReference Include="NeonWhite.GameLibs" Version="1.0.2121" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
@@ -43,5 +37,14 @@
         <LinkBase>Assets</LinkBase>
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+        <Content Include="ModFiles\**" />
     </ItemGroup>
+
+    <Target Name="Copy mod files" AfterTargets="PostBuildEvent">
+        <ItemGroup>
+            <_Files Remove="@(_Files)" />
+            <_Files Include="ModFiles\**" />
+        </ItemGroup>
+        <Copy SourceFiles="@(_Files)" DestinationFiles="$(PublishDir)%(RecursiveDir)%(Filename)%(Extension)"  />
+    </Target>
 </Project>

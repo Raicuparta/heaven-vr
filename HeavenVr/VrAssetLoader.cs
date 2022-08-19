@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using BepInEx;
 using LIV.SDK.Unity;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace HeavenVr;
 
 public static class VrAssetLoader
 {
-    private const string assetsDir = "/BepInEx/plugins/HeavenVr/Assets/";
+    private const string assetsDir = "HeavenVr/Assets/";
     public static GameObject RunAnimationPrefab;
     public static RenderTexture VrUiRenderTexture;
     public static GameObject VrUiQuadPrefab;
@@ -24,7 +25,7 @@ public static class VrAssetLoader
     
     private static AssetBundle LoadBundle(string assetName)
     {
-        var bundle = AssetBundle.LoadFromFile($"{Directory.GetCurrentDirectory()}{assetsDir}{assetName}");
+        var bundle = AssetBundle.LoadFromFile(Path.Combine(Paths.PluginPath, Path.Combine(assetsDir, assetName)));
 
         if (bundle == null)
         {
