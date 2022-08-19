@@ -25,7 +25,10 @@ public class WeaponSwapper: MonoBehaviour
             }
 
             currentWeapon = transform.Find(GetWeaponTransformName(currentCard)).gameObject;
-            currentWeapon.SetActive(true);
+            if (currentWeapon)
+            {
+                currentWeapon.SetActive(true);
+            }
             previousCard = currentCard;
         }
     }
@@ -56,10 +59,13 @@ public class WeaponSwapper: MonoBehaviour
             }
             case "ROCKETLAUNCHER":
             {
-                return "Shotgun"; // TODO rocket launcher.
+                return "RocketLauncher";
+            }
+            case "FISTS":
+            {
+                return "";
             }
             case "RAPTURE": // TODO Book of Life. I think it's this ID, but not sure.
-            case "FISTS": // TODO fist.
             case "KATANA":
             default:
             {
