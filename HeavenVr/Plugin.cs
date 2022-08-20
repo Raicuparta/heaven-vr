@@ -19,6 +19,7 @@ public class Plugin : BaseUnityPlugin
 		Debug.Log($"Game version: {Application.version}");
 	        
 		Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+		VrSettings.SetUp(Config);
 		VrAssetLoader.Init();
 	        
 		var generalSettings = ScriptableObject.CreateInstance<XRGeneralSettings>();

@@ -1,11 +1,48 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.XR;
 
 namespace HeavenVr;
 
 public static class VrInputMap
 {
+    private static readonly Dictionary<string, IVrInputBinding> wmrInputMap = new()
+    {
+        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
+        { "Start", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
+        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
+        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
+        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
+        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
+        { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
+        { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
+        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
+        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
+    };
+    
+    private static readonly Dictionary<string, IVrInputBinding> indexInputMap = new()
+    {
+        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
+        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
+        { "Start", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
+        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
+        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
+        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
+        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
+        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
+        { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
+        { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
+        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
+        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
+    };
+    
     private static readonly Dictionary<string, IVrInputBinding> viveInputMap = new()
     {
         { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
@@ -45,17 +82,28 @@ public static class VrInputMap
         { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
     };
 
-    private static readonly Dictionary<string, IVrInputBinding> inputMap = viveInputMap;
-
+    private static Dictionary<string, IVrInputBinding> GetAutoInputMap() => oculusInputMap; // TODO auto input map.
+    private static Dictionary<string, IVrInputBinding> GetInputMap()
+    {
+        return VrSettings.ControlScheme.Value switch
+        {
+            VrSettings.ControlSchemeOption.Index => indexInputMap,
+            VrSettings.ControlSchemeOption.Oculus => oculusInputMap,
+            VrSettings.ControlSchemeOption.Vive => viveInputMap,
+            VrSettings.ControlSchemeOption.WMR => wmrInputMap,
+            _ => GetAutoInputMap()
+        };
+    }
+    
     public static IVrInputBinding GetBinding(string name)
     {
-        inputMap.TryGetValue(name, out var binding);
+        GetInputMap().TryGetValue(name, out var binding);
         return binding;
     }
 
     public static void Update()
     {
-        foreach (var binding in inputMap.Values)
+        foreach (var binding in GetInputMap().Values)
         {
             binding.Update();
         }

@@ -26,7 +26,6 @@ public class VrStage: MonoBehaviour
     private Transform stageParent;
     private int previousSelectableCount;
     private MouseLook mouseLook;
-    private bool isHandOriented = false;
     private LIV.SDK.Unity.LIV liv;
     private Transform livStage;
     private PathfinderAvatarTrackers avatarTrackers;
@@ -137,7 +136,7 @@ public class VrStage: MonoBehaviour
     {
         var trackedTransform = VrCamera.transform;
         // var trackedTransform = isHandOriented ? directionLaser.transform : VrCamera.transform;
-        var trackedTransformOrigin = isHandOriented ? NonDominantHand.transform.parent : VrCamera.transform.parent;
+        var trackedTransformOrigin = VrSettings.ControllerBasedMovementDirection.Value ? NonDominantHand.transform.parent : VrCamera.transform.parent;
         var forward = trackedTransformOrigin.InverseTransformDirection(trackedTransform.forward);
         forward.y = 0;
         return forward;

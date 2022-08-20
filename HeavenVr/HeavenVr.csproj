@@ -45,6 +45,6 @@
             <_Files Remove="@(_Files)" />
             <_Files Include="ModFiles\**" />
         </ItemGroup>
-        <Copy SourceFiles="@(_Files)" DestinationFiles="$(PublishDir)%(RecursiveDir)%(Filename)%(Extension)"  />
+        <Copy SourceFiles="@(_Files)" DestinationFiles="$(PublishDir)%(RecursiveDir)%(Filename)%(Extension)" />
     </Target>
 </Project>
