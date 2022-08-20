@@ -9,12 +9,10 @@ public class VrVector2PressBinding: VrInputBinding<Vector2>
     private readonly InputFeatureUsage<Vector2> usagePosition;
     private const float inputThreshold = 0.5f;
 
-    public VrVector2PressBinding(XRNode hand,
-        InputFeatureUsage<Vector2> usagePosition,
-        InputFeatureUsage<bool>? usagePress = null) : base(hand)
+    public VrVector2PressBinding(XRNode hand) : base(hand)
     {
-        this.usagePress = usagePress;
-        this.usagePosition = usagePosition;
+        usagePress = CommonUsages.primary2DAxisClick; // TODO press only on Vive
+        usagePosition = CommonUsages.primary2DAxis;
     }
 
     private float GetFloatValue()

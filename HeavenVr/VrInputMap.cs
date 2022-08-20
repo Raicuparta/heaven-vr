@@ -5,85 +5,63 @@ namespace HeavenVr;
 
 public static class VrInputMap
 {
-    private static readonly Dictionary<string, IVrInputBinding> wmrInputMap = new()
+    public enum VrButton
     {
-        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Start", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
-        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
-        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
-        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
-        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
-        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
-    };
-    
-    private static readonly Dictionary<string, IVrInputBinding> indexInputMap = new()
+        PrimaryButton,
+        SecondaryButton,
+        MenuButton,
+        Axis,
+    }
+
+    private static readonly Dictionary<string, IVrInputBinding> vrInputMap = new()
     {
-        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick) },
-        { "Start", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
-        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
-        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
-        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
-        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.primary2DAxisClick) },
-        { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.primary2DAxisClick) },
-        { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick) },
-        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
-        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
-    };
-    
-    private static readonly Dictionary<string, IVrInputBinding> viveInputMap = new()
-    {
-        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        // That extra space at the end of the "DialogueAdvance " string needs to be there, that's how it is in the game.
-        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Start", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.menuButton) },
-        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.menuButton) },
-        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.menuButton) },
-        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.menuButton) },
-        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis, CommonUsages.primary2DAxisClick) },
-        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis, CommonUsages.primary2DAxisClick) },
+        {"Submit", new VrBoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
+        {"DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
+        {"Fire Card", new VrBoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
+        {"Fire Card Alt", new VrBoolBinding(XRNode.RightHand, VrButton.SecondaryButton)},
+        {"Start", new VrBoolBinding(XRNode.LeftHand, VrButton.PrimaryButton)},
+        {"Pause", new VrBoolBinding(XRNode.LeftHand, VrButton.MenuButton)},
+        {"Cancel", new VrBoolBinding(XRNode.LeftHand, VrButton.MenuButton)},
+        {"DialogueFastForward", new VrBoolBinding(XRNode.RightHand, VrButton.MenuButton)},
+        {"Restart", new VrBoolBinding(XRNode.RightHand, VrButton.MenuButton)},
+        {"Jump", new VrBoolBinding(XRNode.LeftHand, VrButton.PrimaryButton)},
+        {"Swap Card", new VrBoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
+        {"MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
+        {"MenuTabRight", new VrBoolBinding(XRNode.RightHand, VrButton.SecondaryButton)},
+        {"Move", new VrVector2PressBinding(XRNode.LeftHand)},
+        {"Look", new VrVector2PressBinding(XRNode.RightHand)}
     };
 
-    private static readonly Dictionary<string, IVrInputBinding> oculusInputMap = new()
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> wmrInputMap = new()
     {
-        { "Submit", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card", new VrBoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { "Fire Card Alt", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Start", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Pause", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
-        { "Cancel", new VrBoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
-        { "DialogueFastForward", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
-        { "Restart", new VrBoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
-        { "Jump", new VrBoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { "Swap Card", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { "MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { "MenuTabRight", new VrBoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { "Move", new VrVector2PressBinding(XRNode.LeftHand, CommonUsages.primary2DAxis) },
-        { "Look", new VrVector2PressBinding(XRNode.RightHand, CommonUsages.primary2DAxis) },
+        { VrButton.PrimaryButton, CommonUsages.triggerButton },
+        { VrButton.SecondaryButton, CommonUsages.gripButton },
+        { VrButton.MenuButton, CommonUsages.secondaryButton }
+    };
+    
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> indexInputMap = new()
+    {
+        { VrButton.PrimaryButton, CommonUsages.triggerButton },
+        { VrButton.SecondaryButton, CommonUsages.primary2DAxisClick },
+        { VrButton.MenuButton, CommonUsages.secondaryButton }
+    };
+    
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> viveInputMap = new()
+    {
+        { VrButton.PrimaryButton, CommonUsages.triggerButton },
+        { VrButton.SecondaryButton, CommonUsages.gripButton },
+        { VrButton.MenuButton, CommonUsages.menuButton }
+    };
+    
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> oculusInputMap = new()
+    {
+        { VrButton.PrimaryButton, CommonUsages.triggerButton },
+        { VrButton.SecondaryButton, CommonUsages.gripButton },
+        { VrButton.MenuButton, CommonUsages.secondaryButton }
     };
 
-    private static Dictionary<string, IVrInputBinding> GetAutoInputMap() => oculusInputMap; // TODO auto input map.
-    private static Dictionary<string, IVrInputBinding> GetInputMap()
+    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetAutoInputMap() => oculusInputMap; // TODO auto input map.
+    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetInputMap()
     {
         return VrSettings.ControlScheme.Value switch
         {
@@ -94,16 +72,22 @@ public static class VrInputMap
             _ => GetAutoInputMap()
         };
     }
+
+    public static InputFeatureUsage<bool> GetUsage(VrButton vrButton)
+    {
+        GetInputMap().TryGetValue(vrButton, out var usage);
+        return usage;
+    }
     
     public static IVrInputBinding GetBinding(string name)
     {
-        GetInputMap().TryGetValue(name, out var binding);
+        vrInputMap.TryGetValue(name, out var binding);
         return binding;
     }
 
     public static void Update()
     {
-        foreach (var binding in GetInputMap().Values)
+        foreach (var binding in vrInputMap.Values)
         {
             binding.Update();
         }
