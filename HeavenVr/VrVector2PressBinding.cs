@@ -16,13 +16,25 @@ public class VrVector2PressBinding: VrInputBinding<Vector2>
         usagePosition = CommonUsages.primary2DAxis;
     }
 
+    private static bool IsTouchAxisMode(InputDevice device)
+    {
+        return VrSettings.AxisMode.Value switch
+        {
+            VrSettings.AxisModeOption.Auto => device.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) < 0,
+            VrSettings.AxisModeOption.Click => false,
+            VrSettings.AxisModeOption.Touch => true,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     private float GetFloatValue()
     {
+        // TODO no need to fetch the device every time.
         var device = VrInputManager.GetInputDevice(Hand);
         
-        if (device.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) < 0) return 1;
+        if (IsTouchAxisMode(device)) return 1;
         
-        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usagePress, out var value);
+        device.TryGetFeatureValue(usagePress, out var value);
         return value ? 1 : 0;
     }
 
