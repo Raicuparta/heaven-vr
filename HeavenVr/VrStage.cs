@@ -134,8 +134,8 @@ public class VrStage: MonoBehaviour
 
     private Vector3 GetMovementDirection()
     {
-        var trackedTransform = VrCamera.transform;
-        // var trackedTransform = isHandOriented ? directionLaser.transform : VrCamera.transform;
+        // TODO use a laser for the movement direction.
+        var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value ? NonDominantHand.transform : VrCamera.transform;
         var trackedTransformOrigin = VrSettings.ControllerBasedMovementDirection.Value ? NonDominantHand.transform.parent : VrCamera.transform.parent;
         var forward = trackedTransformOrigin.InverseTransformDirection(trackedTransform.forward);
         forward.y = 0;
