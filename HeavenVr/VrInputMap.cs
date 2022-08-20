@@ -10,7 +10,6 @@ public static class VrInputMap
         PrimaryButton,
         SecondaryButton,
         MenuButton,
-        Axis,
     }
 
     private static readonly Dictionary<string, IVrInputBinding> vrInputMap = new()

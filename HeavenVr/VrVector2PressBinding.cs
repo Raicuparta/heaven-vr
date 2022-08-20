@@ -1,25 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.XR;
 
 namespace HeavenVr;
 
 public class VrVector2PressBinding: VrInputBinding<Vector2>
 {
-    private readonly InputFeatureUsage<bool>? usagePress;
+    private readonly InputFeatureUsage<bool> usagePress;
     private readonly InputFeatureUsage<Vector2> usagePosition;
     private const float inputThreshold = 0.5f;
 
     public VrVector2PressBinding(XRNode hand) : base(hand)
     {
-        usagePress = CommonUsages.primary2DAxisClick; // TODO press only on Vive
+        usagePress = CommonUsages.primary2DAxisClick;
         usagePosition = CommonUsages.primary2DAxis;
     }
 
     private float GetFloatValue()
     {
-        if (!usagePress.HasValue) return 1;
-
-        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usagePress.Value, out var value);
+        var device = VrInputManager.GetInputDevice(Hand);
+        
+        if (device.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) < 0) return 1;
+        
+        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usagePress, out var value);
         return value ? 1 : 0;
     }
 
