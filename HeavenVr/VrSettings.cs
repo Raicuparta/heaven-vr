@@ -10,7 +10,7 @@ public static class VrSettings
         Oculus,
         Vive,
         Index,
-        WMR,
+        Wmr,
     }
 
     private const string controlsCategory = "Controls";

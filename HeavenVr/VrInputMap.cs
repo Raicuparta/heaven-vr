@@ -90,7 +90,7 @@ public static class VrInputMap
             VrSettings.ControlSchemeOption.Index => indexInputMap,
             VrSettings.ControlSchemeOption.Oculus => oculusInputMap,
             VrSettings.ControlSchemeOption.Vive => viveInputMap,
-            VrSettings.ControlSchemeOption.WMR => wmrInputMap,
+            VrSettings.ControlSchemeOption.Wmr => wmrInputMap,
             _ => GetAutoInputMap()
         };
     }

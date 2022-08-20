@@ -34,14 +34,12 @@ public class LaserInputModule : BaseInputModule
     private const float rayDistance = 30f;
     private Vector3 lastHeadPose;
     private PointerEventData pointerData;
-    private IVrInputBinding clickBinding;
 
     public static void Create(EventSystem eventSystem)
     {
         if (eventSystem.GetComponent<LaserInputModule>()) return;
         
         var instance = eventSystem.gameObject.AddComponent<LaserInputModule>();
-        instance.clickBinding = VrInputMap.GetBinding("Submit");
     }
         
     public static InputDevice GetInputDevice(XRNode hand)
@@ -76,6 +74,8 @@ public class LaserInputModule : BaseInputModule
 
         CastRay();
         UpdateCurrentObject();
+
+        var clickBinding = VrInputMap.GetBinding("Submit");
         
         if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed)
             HandleDrag();
