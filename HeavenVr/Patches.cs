@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using Beautify.Universal;
 using HarmonyLib;
 using LIV.SDK.Unity;
@@ -85,14 +86,20 @@ public class Patches: HeavenVrPatch
         __instance.mainCamera.enabled = false;
     }
     
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [HarmonyPatch(typeof(Camera), nameof(Camera.ViewportPointToRay), typeof(Vector3))]
-    private static bool UseVrAimingDirection(ref Ray __result, Camera __instance)
+    private static void UseVrAimingDirection(Vector3 pos, ref Ray __result, Camera __instance)
     {
-        if (!__instance.CompareTag("MainCamera") || !VrStage.Instance || !VrStage.Instance.AimLaser) return true;
+        if (!__instance.CompareTag("MainCamera") || !VrStage.Instance || !VrStage.Instance.AimLaser) return;
 
-        __result = new Ray(VrStage.Instance.AimLaser.transform.position, VrStage.Instance.AimLaser.transform.forward);
-        return false;
+        var laserTransform = VrStage.Instance.AimLaser.transform;
+        
+        var centerDirection = __instance.ViewportPointToRay(Vector3.one * 0.5f, Camera.MonoOrStereoscopicEye.Mono).direction;
+        var originalDirection = __result.direction;
+        var spreadOffset = originalDirection - centerDirection;
+        var newDirection = laserTransform.forward + spreadOffset;
+        
+        __result = new Ray(laserTransform.position, newDirection);
     }
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.SetVisualOffsetAmount))]
@@ -106,7 +113,6 @@ public class Patches: HeavenVrPatch
     [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.OnSpawn))]
     private static void AdjustProjectileCameraOffset(ProjectileBase __instance)
     {
-        Debug.Log($"_spawnCameraOffset: {__instance._spawnCameraOffset}");
         __instance._spawnCameraOffset = Vector3.zero;
     }
 
@@ -227,16 +233,18 @@ public class Patches: HeavenVrPatch
         VrUi.Create(__instance.transform);
     }
 
+    private static readonly string[] projectileIds = {
+        "Projectiles/ProjectileBomb",
+        "Projectiles/ProjectileMine",
+        "Projectiles/ProjectileRocketFast"
+    };
+    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.CreateProjectile), typeof(string), typeof(Vector3),
         typeof(Vector3), typeof(ProjectileWeapon))]
-    private static void AimProjectilesWithVrLaser(ref Vector3 origin, ref Vector3 forward)
+    private static void AimProjectilesWithVrLaser(string path, ref Vector3 origin, ref Vector3 forward)
     {
-        if (!VrStage.Instance || !VrStage.Instance.AimLaser) return;
-
-        Debug.Log("aiming");
-
-        
+        if (!VrStage.Instance || !VrStage.Instance.AimLaser || !projectileIds.Contains(path)) return;
         
         origin = VrStage.Instance.AimLaser.transform.position;
         forward = VrStage.Instance.AimLaser.transform.forward;
