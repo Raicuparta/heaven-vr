@@ -13,6 +13,7 @@ public static class VrAssetLoader
     public static RenderTexture VrUiRenderTexture;
     public static GameObject VrUiQuadPrefab;
     public static GameObject RightHandPrefab;
+    public static GameObject DebugHelperPrefab;
     
     public static void Init()
     {
@@ -20,6 +21,7 @@ public static class VrAssetLoader
         RunAnimationPrefab = LoadBundle("animation").LoadAsset<GameObject>("RunAnimation");
         VrUiQuadPrefab = LoadBundle("ui").LoadAsset<GameObject>("VrUiQuad");
         RightHandPrefab = LoadBundle("hands").LoadAsset<GameObject>("RightHand");
+        DebugHelperPrefab = LoadBundle("debug").LoadAsset<GameObject>("DebugHelper");
         VrUiRenderTexture = VrUiQuadPrefab.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
     }
     

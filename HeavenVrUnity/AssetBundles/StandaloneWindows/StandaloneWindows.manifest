@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2844033296
+CRC: 489934899
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -13,4 +13,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_3:
       Name: hands
+      Dependencies: {}
+    Info_4:
+      Name: debug
       Dependencies: {}

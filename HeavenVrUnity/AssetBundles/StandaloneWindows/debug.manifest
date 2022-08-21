@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2697858141
+CRC: 1321816755
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b6e03a675c5e513e15cd8a2873717beb
+    Hash: 7e09d994c158d4cd6a75cf4e9cec5429
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0998cbb2330a407d4813914a0c7523a3
+    Hash: 8853307cb717714ebb100eefe6943c79
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -26,8 +26,12 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 - Class: 114
-  Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 222
   Script: {instanceID: 0}
 - Class: 223
   Script: {instanceID: 0}
@@ -35,5 +39,5 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/RightHand.prefab
+- Assets/DebugHelper/DebugHelper.prefab
 Dependencies: []
