@@ -125,13 +125,6 @@ public class LaserInputModule : BaseInputModule
         // Send enter events and update the highlight.
         var go = _pointerData.pointerCurrentRaycast.gameObject;
         HandlePointerExitAndEnter(_pointerData, go);
-        // Update the current selection, or clear if it is no longer the current object.
-        var selected = ExecuteEvents.GetEventHandler<ISelectHandler>(go);
-        if (selected == eventSystem.currentSelectedGameObject)
-            ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, GetBaseEventData(),
-                ExecuteEvents.updateSelectedHandler);
-        else
-            eventSystem.SetSelectedGameObject(null, _pointerData);
     }
 
     private void HandleDrag()
