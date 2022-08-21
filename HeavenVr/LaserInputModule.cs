@@ -22,43 +22,33 @@
 //   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //   THE SOFTWARE.
 
-using System.Collections.Generic;
 using HeavenVr.Input;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.XR;
 
 namespace HeavenVr;
 
 public class LaserInputModule : BaseInputModule
 {
-    private const float rayDistance = 30f;
-    private Vector3 lastHeadPose;
-    private PointerEventData pointerData;
+    private const float RayDistance = 30f;
+    private Vector3 _lastHeadPose;
+    private PointerEventData _pointerData;
 
     public static void Create(EventSystem eventSystem)
     {
         if (eventSystem.GetComponent<LaserInputModule>()) return;
         
-        var instance = eventSystem.gameObject.AddComponent<LaserInputModule>();
+        eventSystem.gameObject.AddComponent<LaserInputModule>();
     }
-        
-    public static InputDevice GetInputDevice(XRNode hand)
-    {
-        var devices = new List<InputDevice>();
-        InputDevices.GetDevicesAtXRNode(hand, devices);
-        return devices.Count > 0 ? devices[0] : default;
-    }
-        
-        
+
     public override void DeactivateModule()
     {
         base.DeactivateModule();
-        if (pointerData != null)
+        if (_pointerData != null)
         {
             HandlePendingClick();
-            HandlePointerExitAndEnter(pointerData, null);
-            pointerData = null;
+            HandlePointerExitAndEnter(_pointerData, null);
+            _pointerData = null;
         }
 
         eventSystem.SetSelectedGameObject(null, GetBaseEventData());
@@ -66,12 +56,12 @@ public class LaserInputModule : BaseInputModule
 
     public override bool IsPointerOverGameObject(int pointerId)
     {
-        return pointerData != null && pointerData.pointerEnter != null;
+        return _pointerData != null && _pointerData.pointerEnter != null;
     }
 
     public override void Process()
     {
-        if (!VrStage.Instance || !VrStage.Instance.AimLaser) return;
+        if (!VrStage.Instance || !VrStage.Instance.aimLaser) return;
 
         CastRay();
         UpdateCurrentObject();
@@ -80,7 +70,7 @@ public class LaserInputModule : BaseInputModule
         
         if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed)
             HandleDrag();
-        else if (!pointerData.eligibleForClick && clickBinding.WasPressedThisFrame)
+        else if (!_pointerData.eligibleForClick && clickBinding.WasPressedThisFrame)
             HandleTrigger();
         else if (clickBinding.WasReleasedThisFrame)
             HandlePendingClick();
@@ -91,10 +81,10 @@ public class LaserInputModule : BaseInputModule
         if (!VrStage.Instance.UiTarget) return;
 
         var isHit = Physics.Raycast(
-            VrStage.Instance.AimLaser.transform.position,
-            VrStage.Instance.AimLaser.transform.forward,
+            VrStage.Instance.aimLaser.transform.position,
+            VrStage.Instance.aimLaser.transform.forward,
             out var hit,
-            rayDistance,
+            RayDistance,
             LayerHelper.GetMask(GameLayer.VrUi));
 
         // if (isHit)
@@ -112,100 +102,100 @@ public class LaserInputModule : BaseInputModule
             // Debug.Log($"{hit.collider.transform.name} worldPoint: {hit.point}; localPoint: {localPoint}; position: {pointerPosition}");
         }
 
-        if (pointerData == null)
+        if (_pointerData == null)
         {
-            pointerData = new PointerEventData(eventSystem);
-            lastHeadPose = pointerPosition;
+            _pointerData = new PointerEventData(eventSystem);
+            _lastHeadPose = pointerPosition;
         }
 
         // Cast a ray into the scene
-        pointerData.Reset();
-        pointerData.position = pointerPosition;
-        eventSystem.RaycastAll(pointerData, m_RaycastResultCache);
-        pointerData.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);
+        _pointerData.Reset();
+        _pointerData.position = pointerPosition;
+        eventSystem.RaycastAll(_pointerData, m_RaycastResultCache);
+        _pointerData.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);
         m_RaycastResultCache.Clear();
-        pointerData.delta = pointerPosition - lastHeadPose;
-        lastHeadPose = hit.point;
+        _pointerData.delta = pointerPosition - _lastHeadPose;
+        _lastHeadPose = hit.point;
     }
 
     private void UpdateCurrentObject()
     {
         // Send enter events and update the highlight.
-        var go = pointerData.pointerCurrentRaycast.gameObject;
-        HandlePointerExitAndEnter(pointerData, go);
+        var go = _pointerData.pointerCurrentRaycast.gameObject;
+        HandlePointerExitAndEnter(_pointerData, go);
         // Update the current selection, or clear if it is no longer the current object.
         var selected = ExecuteEvents.GetEventHandler<ISelectHandler>(go);
         if (selected == eventSystem.currentSelectedGameObject)
             ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, GetBaseEventData(),
                 ExecuteEvents.updateSelectedHandler);
         else
-            eventSystem.SetSelectedGameObject(null, pointerData);
+            eventSystem.SetSelectedGameObject(null, _pointerData);
     }
 
     private void HandleDrag()
     {
-        var moving = pointerData.IsPointerMoving();
+        var moving = _pointerData.IsPointerMoving();
 
-        if (moving && pointerData.pointerDrag != null && !pointerData.dragging)
+        if (moving && _pointerData.pointerDrag != null && !_pointerData.dragging)
         {
-            ExecuteEvents.Execute(pointerData.pointerDrag, pointerData,
+            ExecuteEvents.Execute(_pointerData.pointerDrag, _pointerData,
                 ExecuteEvents.beginDragHandler);
-            pointerData.dragging = true;
+            _pointerData.dragging = true;
         }
 
-        if (!pointerData.dragging || !moving || pointerData.pointerDrag == null) return;
+        if (!_pointerData.dragging || !moving || _pointerData.pointerDrag == null) return;
 
-        ExecuteEvents.Execute(pointerData.pointerDrag, pointerData, ExecuteEvents.dragHandler);
+        ExecuteEvents.Execute(_pointerData.pointerDrag, _pointerData, ExecuteEvents.dragHandler);
     }
 
     private void HandlePendingClick()
     {
-        if (!pointerData.eligibleForClick) return;
+        if (!_pointerData.eligibleForClick) return;
 
-        var go = pointerData.pointerCurrentRaycast.gameObject;
+        var go = _pointerData.pointerCurrentRaycast.gameObject;
 
         // Send pointer up and click events.
-        ExecuteEvents.Execute(pointerData.pointerPress, pointerData, ExecuteEvents.pointerUpHandler);
-        ExecuteEvents.Execute(pointerData.pointerPress, pointerData, ExecuteEvents.pointerClickHandler);
+        ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerUpHandler);
+        ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerClickHandler);
 
-        if (pointerData.pointerDrag != null)
-            ExecuteEvents.ExecuteHierarchy(go, pointerData, ExecuteEvents.dropHandler);
+        if (_pointerData.pointerDrag != null)
+            ExecuteEvents.ExecuteHierarchy(go, _pointerData, ExecuteEvents.dropHandler);
 
-        if (pointerData.pointerDrag != null && pointerData.dragging)
-            ExecuteEvents.Execute(pointerData.pointerDrag, pointerData, ExecuteEvents.endDragHandler);
+        if (_pointerData.pointerDrag != null && _pointerData.dragging)
+            ExecuteEvents.Execute(_pointerData.pointerDrag, _pointerData, ExecuteEvents.endDragHandler);
 
         // Clear the click state.
-        pointerData.pointerPress = null;
-        pointerData.rawPointerPress = null;
-        pointerData.eligibleForClick = false;
-        pointerData.clickCount = 0;
-        pointerData.pointerDrag = null;
-        pointerData.dragging = false;
+        _pointerData.pointerPress = null;
+        _pointerData.rawPointerPress = null;
+        _pointerData.eligibleForClick = false;
+        _pointerData.clickCount = 0;
+        _pointerData.pointerDrag = null;
+        _pointerData.dragging = false;
     }
 
     private void HandleTrigger()
     {
-        var go = pointerData.pointerCurrentRaycast.gameObject;
+        var go = _pointerData.pointerCurrentRaycast.gameObject;
 
         // Send pointer down event.
-        pointerData.pressPosition = pointerData.position;
-        pointerData.pointerPressRaycast = pointerData.pointerCurrentRaycast;
-        pointerData.pointerPress =
-            ExecuteEvents.ExecuteHierarchy(go, pointerData, ExecuteEvents.pointerDownHandler)
+        _pointerData.pressPosition = _pointerData.position;
+        _pointerData.pointerPressRaycast = _pointerData.pointerCurrentRaycast;
+        _pointerData.pointerPress =
+            ExecuteEvents.ExecuteHierarchy(go, _pointerData, ExecuteEvents.pointerDownHandler)
             ?? ExecuteEvents.GetEventHandler<IPointerClickHandler>(go);
 
         // Save the drag handler as well
-        pointerData.pointerDrag = ExecuteEvents.GetEventHandler<IDragHandler>(go);
-        if (pointerData.pointerDrag != null)
-            ExecuteEvents.Execute(pointerData.pointerDrag, pointerData, ExecuteEvents.initializePotentialDrag);
+        _pointerData.pointerDrag = ExecuteEvents.GetEventHandler<IDragHandler>(go);
+        if (_pointerData.pointerDrag != null)
+            ExecuteEvents.Execute(_pointerData.pointerDrag, _pointerData, ExecuteEvents.initializePotentialDrag);
 
         // Save the pending click state.
-        pointerData.rawPointerPress = go;
-        pointerData.eligibleForClick = true;
-        pointerData.delta = Vector2.zero;
-        pointerData.dragging = false;
-        pointerData.useDragThreshold = true;
-        pointerData.clickCount = 1;
-        pointerData.clickTime = Time.unscaledTime;
+        _pointerData.rawPointerPress = go;
+        _pointerData.eligibleForClick = true;
+        _pointerData.delta = Vector2.zero;
+        _pointerData.dragging = false;
+        _pointerData.useDragThreshold = true;
+        _pointerData.clickCount = 1;
+        _pointerData.clickTime = Time.unscaledTime;
     }
 }

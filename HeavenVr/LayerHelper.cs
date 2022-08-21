@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace HeavenVr;
 
+// ReSharper disable UnusedMember.Global
 public enum GameLayer
 {
     // Layers included in base game:
@@ -41,6 +43,7 @@ public enum GameLayer
     VrPlayerUi = 6,
     Unused = 7
 }
+// ReSharper restore UnusedMember.Global
 
 public static class LayerHelper
 {
@@ -52,18 +55,11 @@ public static class LayerHelper
     public static int GetMask(params GameLayer[] layers)
     {
         if (layers == null) throw new ArgumentNullException(nameof(layers));
-        var result = 0;
-        foreach (var layer in layers) result = GetMask(layer, result);
 
-        return result;
+        return layers.Aggregate(0, (current, layer) => GetMask(layer, current));
     }
 
-    public static void SetLayer(Component component, GameLayer layer)
-    {
-        SetLayer(component.gameObject, layer);
-    }
-
-    public static void SetLayer(GameObject gameObject, GameLayer layer)
+    private static void SetLayer(GameObject gameObject, GameLayer layer)
     {
         gameObject.layer = (int) layer;
     }

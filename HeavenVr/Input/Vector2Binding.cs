@@ -6,14 +6,14 @@ namespace HeavenVr.Input;
 
 public class Vector2Binding: InputBinding<Vector2>
 {
-    private readonly InputFeatureUsage<bool> usagePress;
-    private readonly InputFeatureUsage<Vector2> usagePosition;
-    private const float inputThreshold = 0.5f;
+    private readonly InputFeatureUsage<bool> _usagePress;
+    private readonly InputFeatureUsage<Vector2> _usagePosition;
+    private const float InputThreshold = 0.5f;
 
     public Vector2Binding(XRNode hand) : base(hand)
     {
-        usagePress = CommonUsages.primary2DAxisClick;
-        usagePosition = CommonUsages.primary2DAxis;
+        _usagePress = CommonUsages.primary2DAxisClick;
+        _usagePosition = CommonUsages.primary2DAxis;
     }
 
     private static bool IsTouchAxisMode(InputDevice device)
@@ -35,17 +35,17 @@ public class Vector2Binding: InputBinding<Vector2>
         
         if (IsTouchAxisMode(device)) return 1;
         
-        device.TryGetFeatureValue(usagePress, out var value);
+        device.TryGetFeatureValue(_usagePress, out var value);
         return value ? 1 : 0;
     }
 
     protected override Vector2 GetValue()
     {
-        InputManager.GetInputDevice(Hand).TryGetFeatureValue(usagePosition, out var valueVector2);
-        var valueNorth = valueVector2.y > inputThreshold ? GetFloatValue() : 0;
-        var valueSouth = valueVector2.y < -inputThreshold ? GetFloatValue() : 0;
-        var valueEast = valueVector2.x > inputThreshold ? GetFloatValue() : 0;
-        var valueWest = valueVector2.x < -inputThreshold ? GetFloatValue() : 0;
+        InputManager.GetInputDevice(Hand).TryGetFeatureValue(_usagePosition, out var valueVector2);
+        var valueNorth = valueVector2.y > InputThreshold ? GetFloatValue() : 0;
+        var valueSouth = valueVector2.y < -InputThreshold ? GetFloatValue() : 0;
+        var valueEast = valueVector2.x > InputThreshold ? GetFloatValue() : 0;
+        var valueWest = valueVector2.x < -InputThreshold ? GetFloatValue() : 0;
         return new Vector2(valueEast - valueWest, valueNorth - valueSouth);
     }
     

@@ -1,35 +1,35 @@
 ManifestFileVersion: 0
-CRC: 1208472657
-Hashes:
-  AssetFileHash:
-    serializedVersion: 2
-    Hash: 1abeabfd68add0dfc793cf7e9e857563
-  TypeTreeHash:
-    serializedVersion: 2
-    Hash: c89a0e65e9ec04273c5f84b2209737cf
-HashAppended: 0
-ClassTypes:
-- Class: 1
-  Script: {instanceID: 0}
-- Class: 4
-  Script: {instanceID: 0}
-- Class: 43
-  Script: {instanceID: 0}
-- Class: 74
-  Script: {instanceID: 0}
-- Class: 90
-  Script: {instanceID: 0}
-- Class: 91
-  Script: {instanceID: 0}
-- Class: 95
-  Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: 1e541ced171885c4381f382e599552f1, type: 3}
-- Class: 115
-  Script: {instanceID: 0}
-- Class: 137
-  Script: {instanceID: 0}
-SerializeReferenceClassIdentifiers: []
-Assets:
-- Assets/RunAnimation.prefab
-Dependencies: []
+        CRC: 1208472657
+        Hashes:
+        AssetFileHash:
+        serializedVersion: 2
+        Hash: 1abeabfd68add0dfc793cf7e9e857563
+        TypeTreeHash:
+        serializedVersion: 2
+        Hash: c89a0e65e9ec04273c5f84b2209737cf
+        HashAppended: 0
+        ClassTypes:
+        - Class: 1
+        Script: {instanceID: 0}
+        - Class: 4
+        Script: {instanceID: 0}
+        - Class: 43
+        Script: {instanceID: 0}
+        - Class: 74
+        Script: {instanceID: 0}
+        - Class: 90
+        Script: {instanceID: 0}
+        - Class: 91
+        Script: {instanceID: 0}
+        - Class: 95
+        Script: {instanceID: 0}
+        - Class: 114
+        Script: {fileID: 11500000, guid: 1e541ced171885c4381f382e599552f1, type: 3}
+        - Class: 115
+        Script: {instanceID: 0}
+        - Class: 137
+        Script: {instanceID: 0}
+        SerializeReferenceClassIdentifiers: []
+        Assets:
+        - Assets/RunAnimation.prefab
+        Dependencies: []

@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace HeavenVr;
 
 public class WeaponSwapper: MonoBehaviour
 {
-    private PlayerCard previousCard;
-    private GameObject currentWeapon;
+    private PlayerCard _previousCard;
+    private GameObject _currentWeapon;
     
     public static void Create(GameObject gameObject)
     {
@@ -17,60 +18,36 @@ public class WeaponSwapper: MonoBehaviour
         if (RM.mechController == null || RM.mechController.deck == null) return;
 
         var currentCard = RM.mechController.deck.GetCardInHand(0);
-        if (currentCard != previousCard)
-        {
-            if (currentWeapon)
-            {
-                currentWeapon.SetActive(false);
-            }
 
-            currentWeapon = transform.Find(GetWeaponTransformName(currentCard)).gameObject;
-            if (currentWeapon)
-            {
-                currentWeapon.SetActive(true);
-            }
-            previousCard = currentCard;
+        if (currentCard == _previousCard) return;
+
+        if (_currentWeapon)
+        {
+            _currentWeapon.SetActive(false);
         }
+
+        _currentWeapon = transform.Find(GetWeaponTransformName(currentCard)).gameObject;
+        if (_currentWeapon)
+        {
+            _currentWeapon.SetActive(true);
+        }
+        _previousCard = currentCard;
     }
 
-    private string GetWeaponTransformName(PlayerCard card)
+    private static string GetWeaponTransformName(PlayerCard card)
     {
-        switch (card.data.cardID)
+        return card.data.cardID switch
         {
-            case "PISTOL":
-            {
-                return "Pistol";
-            }
-            case "RIFLE":
-            {
-                return "Rifle";
-            }
-            case "MACHINEGUN":
-            {
-                return "MachineGun";
-            }
-            case "UZI":
-            {
-                return "Uzi";
-            }
-            case "SHOTGUN":
-            {
-                return "Shotgun";
-            }
-            case "ROCKETLAUNCHER":
-            {
-                return "RocketLauncher";
-            }
-            case "FISTS":
-            {
-                return "";
-            }
-            case "RAPTURE": // TODO Book of Life. I think it's this ID, but not sure.
-            case "KATANA":
-            default:
-            {
-                return "Katana";
-            }
-        }
+            "PISTOL" => "Pistol",
+            "RIFLE" => "Rifle",
+            "MACHINEGUN" => "MachineGun",
+            "UZI" => "Uzi",
+            "SHOTGUN" => "Shotgun",
+            "ROCKETLAUNCHER" => "RocketLauncher",
+            "FISTS" => "",
+            "RAPTURE" => "Katana", // TODO Book of Life model. I think it's this ID, but not sure.
+            "KATANA" => "Katana",
+            _ => throw new ArgumentOutOfRangeException(card.data.cardID, "Couldn't find a model the selected weapon")
+        };
     }
 }

@@ -6,27 +6,27 @@ namespace HeavenVr;
 // To be used as the position for UI elements that need to be visible or interacted with.
 public class UiTarget : MonoBehaviour
 {
-    private const float rotationSmoothTime = 0.3f;
-    private Vector3 previousForward;
-    private Quaternion rotationVelocity;
-    private Quaternion targetRotation;
-    private Transform targetTransform;
-    private readonly float minAngleDelta = 45f;
-    private VrStage stage;
-    private GameObject vrUiQuad;
+    private const float RotationSmoothTime = 0.3f;
+    private Vector3 _previousForward;
+    private Quaternion _rotationVelocity;
+    private Quaternion _targetRotation;
+    private Transform _targetTransform;
+    private readonly float _minAngleDelta = 45f;
+    private VrStage _stage;
+    private GameObject _vrUiQuad;
     public Camera UiCamera { get; private set; }
-    private VrHand hand;
+    private VrHand _hand;
     public static Camera PlayerHudCamera; // TODO no static
 
     public static UiTarget Create(VrStage stage, VrHand hand)
     {
         var instance = new GameObject(nameof(UiTarget)).AddComponent<UiTarget>();
         instance.transform.SetParent(stage.transform, false);
-        instance.targetTransform = new GameObject("InteractiveUiTargetTransform").transform;
-        instance.targetTransform.SetParent(instance.transform, false);
-        instance.targetTransform.localPosition = new Vector3(0f, 0, 2f);
-        instance.stage = stage;
-        instance.hand = hand;
+        instance._targetTransform = new GameObject("InteractiveUiTargetTransform").transform;
+        instance._targetTransform.SetParent(instance.transform, false);
+        instance._targetTransform.localPosition = new Vector3(0f, 0, 2f);
+        instance._stage = stage;
+        instance._hand = hand;
                 
         instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
         // instance.UiCamera.transform.SetParent(instance.targetTransform, false);
@@ -40,7 +40,7 @@ public class UiTarget : MonoBehaviour
         }
         
         instance.UiCamera.orthographic = true;
-        instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);;
+        instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
         instance.UiCamera.depth = 10;
         return instance;
@@ -48,20 +48,20 @@ public class UiTarget : MonoBehaviour
     
     public void Start()
     {
-        previousForward = GetCameraForward();
+        _previousForward = GetCameraForward();
     }
 
     private RenderTexture GetUiRenderTexture()
     {
-        if (!vrUiQuad)
+        if (!_vrUiQuad)
         {
-            vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, hand.transform, false);
-            LayerHelper.SetLayerRecursive(vrUiQuad, GameLayer.VrUi);
-            vrUiQuad.transform.localPosition = new Vector3(0.3f, 0f, 0f);
-            vrUiQuad.transform.localEulerAngles = new Vector3(-90f, 180f, 0f);
-            vrUiQuad.transform.localScale = Vector3.one * 0.1f;
+            _vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, _hand.transform, false);
+            LayerHelper.SetLayerRecursive(_vrUiQuad, GameLayer.VrUi);
+            _vrUiQuad.transform.localPosition = new Vector3(0.3f, 0f, 0f);
+            _vrUiQuad.transform.localEulerAngles = new Vector3(-90f, 180f, 0f);
+            _vrUiQuad.transform.localScale = Vector3.one * 0.1f;
         }
-        return vrUiQuad.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
+        return _vrUiQuad.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
     }
 
     private void Update()
@@ -77,29 +77,29 @@ public class UiTarget : MonoBehaviour
 
     private Vector3 GetCameraForward()
     {
-        return !stage.VrCamera ? Vector3.forward : MathHelper.GetProjectedForward(stage.VrCamera.transform);
+        return !_stage.VrCamera ? Vector3.forward : MathHelper.GetProjectedForward(_stage.VrCamera.transform);
     }
 
     private void UpdateTransform()
     {
-        if (!stage.VrCamera) return;
+        if (!_stage.VrCamera) return;
 
         var cameraForward = GetCameraForward();
-        var unsignedAngleDelta = Vector3.Angle(previousForward, cameraForward);
-        targetTransform.localRotation = stage.CameraPoseDriver.originPose.rotation;
+        var unsignedAngleDelta = Vector3.Angle(_previousForward, cameraForward);
+        _targetTransform.localRotation = _stage.cameraPoseDriver.originPose.rotation;
 
-        if (unsignedAngleDelta > minAngleDelta)
+        if (unsignedAngleDelta > _minAngleDelta)
         {
-            targetRotation = Quaternion.LookRotation(cameraForward, stage.CameraPoseDriver.transform.parent.rotation * stage.CameraPoseDriver.originPose.rotation * Vector3.up);
-            previousForward = cameraForward;
+            _targetRotation = Quaternion.LookRotation(cameraForward, _stage.cameraPoseDriver.transform.parent.rotation * _stage.cameraPoseDriver.originPose.rotation * Vector3.up);
+            _previousForward = cameraForward;
         }
 
         transform.rotation = MathHelper.SmoothDamp(
             transform.rotation,
-            targetRotation,
-            ref rotationVelocity,
-            rotationSmoothTime);
+            _targetRotation,
+            ref _rotationVelocity,
+            RotationSmoothTime);
 
-        transform.position = stage.VrCamera.transform.position;
+        transform.position = _stage.VrCamera.transform.position;
     }
 }

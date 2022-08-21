@@ -54,13 +54,4 @@ public class Plugin : BaseUnityPlugin
 			
 		InputManager.Create();
 	}
-
-	private void Update()
-	{
-		// var devices = new List<UnityEngine.XR.InputDevice>();
-		// InputDevices.GetDevicesAtXRNode(XRNode.RightHand, devices);
-		// // InputDevices.GetDevices(devices);
-		// devices[0].TryGetFeatureValue(CommonUsages.triggerButton, out var __result);
-		// Debug.Log("count " + __result);
-	}
 }

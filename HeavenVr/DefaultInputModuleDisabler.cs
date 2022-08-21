@@ -13,20 +13,20 @@ namespace HeavenVr;
  */
 public class DefaultInputModuleDisabler: MonoBehaviour
 {
-    private EventSystem eventSystem;
-    private InputSystemUIInputModule inputModule;
+    private EventSystem _eventSystem;
+    private InputSystemUIInputModule _inputModule;
 
     public static void Create(EventSystem eventSystem)
     {
         if (eventSystem.GetComponent<DefaultInputModuleDisabler>()) return;
 
         var instance = eventSystem.gameObject.AddComponent<DefaultInputModuleDisabler>();
-        instance.eventSystem = eventSystem;
-        instance.inputModule = eventSystem.GetComponent<InputSystemUIInputModule>();
+        instance._eventSystem = eventSystem;
+        instance._inputModule = eventSystem.GetComponent<InputSystemUIInputModule>();
     }
     
     private void Update()
     {
-        inputModule.enabled = !eventSystem.enabled;
+        _inputModule.enabled = !_eventSystem.enabled;
     }
 }

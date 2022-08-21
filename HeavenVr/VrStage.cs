@@ -1,6 +1,7 @@
 ﻿using LIV.AvatarTrackers;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -13,25 +14,25 @@ public class VrStage: MonoBehaviour
     // public static VrStage Instance { get; private set; }
     public Camera VrCamera { get; set; }
     public UiTarget UiTarget { get; set; }
-    public float AngleDelta;
-    public TrackedPoseDriver CameraPoseDriver;
-    public VrHand DominantHand;
-    public VrHand NonDominantHand;
+    [FormerlySerializedAs("AngleDelta")] public float angleDelta;
+    [FormerlySerializedAs("CameraPoseDriver")] public TrackedPoseDriver cameraPoseDriver;
+    [FormerlySerializedAs("DominantHand")] public VrHand dominantHand;
+    [FormerlySerializedAs("NonDominantHand")] public VrHand nonDominantHand;
     public static VrStage Instance;
 
-    public VrAimLaser AimLaser;
+    [FormerlySerializedAs("AimLaser")] public VrAimLaser aimLaser;
     // private VrAimLaser directionLaser;
-    private Vector3 previousForward;
-    private Transform stageParent;
-    private int previousSelectableCount;
-    private MouseLook mouseLook;
-    private LIV.SDK.Unity.LIV liv;
-    private Transform livStage;
-    private PathfinderAvatarTrackers avatarTrackers;
-    private float animationSpeedMultiplier = 0.003f;
-    private Transform runAnimationRotationTransform;
+    private Vector3 _previousForward;
+    private Transform _stageParent;
+    private int _previousSelectableCount;
+    private MouseLook _mouseLook;
+    private LIV.SDK.Unity.LIV _liv;
+    private Transform _livStage;
+    private PathfinderAvatarTrackers _avatarTrackers;
+    private float _animationSpeedMultiplier = 0.003f;
+    private Transform _runAnimationRotationTransform;
     
-    public static VrStage Create(Camera mainCamera)
+    public static void Create(Camera mainCamera)
     {
         if (Instance)
         {
@@ -42,8 +43,8 @@ public class VrStage: MonoBehaviour
         Instance = instance;
 
         instance.VrCamera = mainCamera;
-        instance.stageParent = mainCamera.transform.parent;
-        instance.transform.SetParent(instance.stageParent, false);
+        instance._stageParent = mainCamera.transform.parent;
+        instance.transform.SetParent(instance._stageParent, false);
         mainCamera.transform.SetParent(instance.transform, false);
         mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("UI")); // TODO should have a separate UI camera;
         mainCamera.cullingMask = LayerHelper.GetMask(GameLayer.VrUi, mainCamera.cullingMask);
@@ -55,18 +56,16 @@ public class VrStage: MonoBehaviour
         {
             mainCamera.transform.position = RM.drifter.GetFeetPosition();
         }
-        instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
-        instance.CameraPoseDriver.UseRelativeTransform = true;
+        instance.cameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
+        instance.cameraPoseDriver.UseRelativeTransform = true;
 
-        instance.DominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.RightPose);
-        instance.NonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.LeftPose);
-        instance.AimLaser = VrAimLaser.Create(instance.DominantHand.transform);
+        instance.dominantHand = VrHand.Create(instance.transform, instance.cameraPoseDriver, TrackedPoseDriver.TrackedPose.RightPose);
+        instance.nonDominantHand = VrHand.Create(instance.transform, instance.cameraPoseDriver, TrackedPoseDriver.TrackedPose.LeftPose);
+        instance.aimLaser = VrAimLaser.Create(instance.dominantHand.transform);
 
-        instance.previousForward = mainCamera.transform.forward;
-        instance.UiTarget = UiTarget.Create(instance, instance.NonDominantHand);
-        instance.mouseLook = mainCamera.transform.parent.GetComponentInParent<MouseLook>();
-
-        return instance;
+        instance._previousForward = mainCamera.transform.forward;
+        instance.UiTarget = UiTarget.Create(instance, instance.nonDominantHand);
+        instance._mouseLook = mainCamera.transform.parent.GetComponentInParent<MouseLook>();
     }
 
     private void Start()
@@ -78,27 +77,27 @@ public class VrStage: MonoBehaviour
 
     private void SetUpLiv()
     {
-        if (liv)
+        if (_liv)
         {
             return;
         }
 
-        livStage = new GameObject("LivStage").transform;
-        livStage.gameObject.SetActive(false);
-        livStage.transform.SetParent(transform, false);
-        livStage.transform.localPosition = CameraPoseDriver.originPose.position;
-        livStage.transform.localRotation = CameraPoseDriver.originPose.rotation;
+        _livStage = new GameObject("LivStage").transform;
+        _livStage.gameObject.SetActive(false);
+        _livStage.transform.SetParent(transform, false);
+        _livStage.transform.localPosition = cameraPoseDriver.originPose.position;
+        _livStage.transform.localRotation = cameraPoseDriver.originPose.rotation;
 
-        liv = livStage.gameObject.AddComponent<LIV.SDK.Unity.LIV>();
+        _liv = _livStage.gameObject.AddComponent<LIV.SDK.Unity.LIV>();
         var camPrefab = new GameObject("LivCameraPrefab").AddComponent<Camera>();
         camPrefab.gameObject.SetActive(false);
         camPrefab.gameObject.AddComponent<UniversalAdditionalCameraData>();
-        liv.MRCameraPrefab = camPrefab;
-        liv.HMDCamera = VrCamera;
-        liv.stage = livStage;
-        liv.spectatorLayerMask = VrCamera.cullingMask;
-        liv.fixPostEffectsAlpha = true;
-        liv.excludeBehaviours = new []
+        _liv.MRCameraPrefab = camPrefab;
+        _liv.HMDCamera = VrCamera;
+        _liv.stage = _livStage;
+        _liv.spectatorLayerMask = VrCamera.cullingMask;
+        _liv.fixPostEffectsAlpha = true;
+        _liv.excludeBehaviours = new []
         {
             "CameraDistanceCullingSettings",
             "PlayerCamera",
@@ -117,11 +116,11 @@ public class VrStage: MonoBehaviour
             "ShakePosition",
             "CameraStackPriority"
         };
-        livStage.gameObject.SetActive(true);
+        _livStage.gameObject.SetActive(true);
 
-        var animationInstance = Instantiate(VrAssetLoader.RunAnimationPrefab, livStage, false);
-        avatarTrackers = animationInstance.GetComponent<PathfinderAvatarTrackers>();
-        runAnimationRotationTransform = avatarTrackers.transform.Find("Wrapper");
+        var animationInstance = Instantiate(VrAssetLoader.RunAnimationPrefab, _livStage, false);
+        _avatarTrackers = animationInstance.GetComponent<PathfinderAvatarTrackers>();
+        _runAnimationRotationTransform = _avatarTrackers.transform.Find("Wrapper");
     }
 
     private void Recenter()
@@ -134,8 +133,8 @@ public class VrStage: MonoBehaviour
     private Vector3 GetMovementDirection()
     {
         // TODO use a laser for the movement direction.
-        var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value ? NonDominantHand.transform : VrCamera.transform;
-        var trackedTransformOrigin = VrSettings.ControllerBasedMovementDirection.Value ? NonDominantHand.transform.parent : VrCamera.transform.parent;
+        var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value ? nonDominantHand.transform : VrCamera.transform;
+        var trackedTransformOrigin = VrSettings.ControllerBasedMovementDirection.Value ? nonDominantHand.transform.parent : VrCamera.transform.parent;
         var forward = trackedTransformOrigin.InverseTransformDirection(trackedTransform.forward);
         forward.y = 0;
         return forward;
@@ -143,22 +142,22 @@ public class VrStage: MonoBehaviour
 
     private void UpdatePreviousForward()
     {
-        previousForward = GetMovementDirection();
+        _previousForward = GetMovementDirection();
     }
 
     public void UpdateRotation()
     {
         if (!RM.acceptInput || !RM.acceptInputPauseMenu || !RM.drifter) return;
 
-        AngleDelta = Vector3.SignedAngle(previousForward, GetMovementDirection(), Vector3.up);
+        angleDelta = Vector3.SignedAngle(_previousForward, GetMovementDirection(), Vector3.up);
         
-        stageParent.Rotate(Vector3.up, AngleDelta);
-        transform.Rotate(Vector3.up, -AngleDelta);
-        mouseLook.originalRotation *= Quaternion.Euler(0, AngleDelta, 0);
+        _stageParent.Rotate(Vector3.up, angleDelta);
+        transform.Rotate(Vector3.up, -angleDelta);
+        _mouseLook.originalRotation *= Quaternion.Euler(0, angleDelta, 0);
 
-        if (runAnimationRotationTransform)
+        if (_runAnimationRotationTransform)
         {
-            runAnimationRotationTransform.Rotate(Vector3.up, AngleDelta);
+            _runAnimationRotationTransform.Rotate(Vector3.up, angleDelta);
         }
 
         UpdatePreviousForward();
@@ -168,7 +167,7 @@ public class VrStage: MonoBehaviour
     {
         UpdateRotation();
         
-        if (previousSelectableCount != Selectable.allSelectableCount)
+        if (_previousSelectableCount != Selectable.allSelectableCount)
         {
             foreach (var selectable in Selectable.allSelectablesArray)
             {
@@ -178,12 +177,12 @@ public class VrStage: MonoBehaviour
                 collider.size = new Vector3(rectSize.x, rectSize.y, 0.1f);
             }
 
-            previousSelectableCount = Selectable.allSelectableCount;
+            _previousSelectableCount = Selectable.allSelectableCount;
         }
         
-        if (avatarTrackers && RM.drifter)
+        if (_avatarTrackers && RM.drifter)
         {
-            avatarTrackers.SetSpeed(RM.drifter.MovementVelocity.sqrMagnitude * animationSpeedMultiplier);
+            _avatarTrackers.SetSpeed(RM.drifter.MovementVelocity.sqrMagnitude * _animationSpeedMultiplier);
         }
         
         // For some reason, calling this on Start or Invoke crashes the game. So calling it in Update instead.

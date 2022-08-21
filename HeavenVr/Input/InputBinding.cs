@@ -5,17 +5,17 @@ namespace HeavenVr.Input;
 
 public abstract class InputBinding<TValue>: IVrInputBinding
 {
-    public bool WasPressedThisFrame => wasPressedThisFrame;
-    public bool WasReleasedThisFrame => wasReleasedThisFrame;
+    public bool WasPressedThisFrame => _wasPressedThisFrame;
+    public bool WasReleasedThisFrame => _wasReleasedThisFrame;
     public bool IsPressed => GetValueAsBool(Value);
     public Vector2 Position => GetValueAsVector2(Value);
 
     protected readonly XRNode Hand;
     protected TValue Value;
 
-    private TValue previousValue;
-    private bool wasPressedThisFrame;
-    private bool wasReleasedThisFrame;
+    private TValue _previousValue;
+    private bool _wasPressedThisFrame;
+    private bool _wasReleasedThisFrame;
 
     protected InputBinding(XRNode hand)
     {
@@ -28,11 +28,11 @@ public abstract class InputBinding<TValue>: IVrInputBinding
     public virtual void Update()
     {
         Value = GetValue();
-        wasPressedThisFrame = false;
-        wasReleasedThisFrame = false;
-        if (!GetValueAsBool(previousValue) && GetValueAsBool(Value)) wasPressedThisFrame = true;
-        if (GetValueAsBool(previousValue) && !GetValueAsBool(Value)) wasReleasedThisFrame = true;
-        previousValue = Value;
+        _wasPressedThisFrame = false;
+        _wasReleasedThisFrame = false;
+        if (!GetValueAsBool(_previousValue) && GetValueAsBool(Value)) _wasPressedThisFrame = true;
+        if (GetValueAsBool(_previousValue) && !GetValueAsBool(Value)) _wasReleasedThisFrame = true;
+        _previousValue = Value;
     }
 
     protected abstract TValue GetValue();

@@ -8,7 +8,7 @@ namespace HeavenVr;
 
 public static class VrAssetLoader
 {
-    private const string assetsDir = "HeavenVr/Assets/";
+    private const string AssetsDir = "HeavenVr/Assets/";
     public static GameObject RunAnimationPrefab;
     public static RenderTexture VrUiRenderTexture;
     public static GameObject VrUiQuadPrefab;
@@ -25,7 +25,7 @@ public static class VrAssetLoader
     
     private static AssetBundle LoadBundle(string assetName)
     {
-        var bundle = AssetBundle.LoadFromFile(Path.Combine(Paths.PluginPath, Path.Combine(assetsDir, assetName)));
+        var bundle = AssetBundle.LoadFromFile(Path.Combine(Paths.PluginPath, Path.Combine(AssetsDir, assetName)));
 
         if (bundle == null)
         {

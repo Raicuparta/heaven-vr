@@ -18,26 +18,30 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="LIV, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\HeavenVrUnity\Build\HeavenVrUnity_Data\Managed\LIV.dll</HintPath>
-      </Reference>
-      <Reference Include="Unity.XR.Management, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Unity.XR.Management.dll</HintPath>
-      </Reference>
-      <Reference Include="Unity.XR.OpenVR, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Unity.XR.OpenVR.dll</HintPath>
-      </Reference>
-      <Reference Include="Unity.XR.OpenXR, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Unity.XR.OpenXR.dll</HintPath>
-      </Reference>
+        <Reference Include="LIV, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\HeavenVrUnity\Build\HeavenVrUnity_Data\Managed\LIV.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.XR.Management, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\lib\Unity.XR.Management.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.XR.OpenVR, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\lib\Unity.XR.OpenVR.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.XR.OpenXR, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\lib\Unity.XR.OpenXR.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\HeavenVrUnity\AssetBundles\StandaloneWindows\**">
-        <LinkBase>Assets</LinkBase>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <Content Include="..\HeavenVrUnity\AssetBundles\StandaloneWindows\**">
+            <LinkBase>Assets</LinkBase>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="ModFiles\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="UI\Patches" />
     </ItemGroup>
 
     <Target Name="Copy mod files" AfterTargets="PostBuildEvent">

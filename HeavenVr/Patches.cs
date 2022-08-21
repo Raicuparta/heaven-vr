@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Beautify.Universal;
 using HarmonyLib;
+using HeavenVr.UI;
 using LIV.SDK.Unity;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -88,9 +89,9 @@ public class Patches: HeavenVrPatch
     [HarmonyPatch(typeof(Camera), nameof(Camera.ViewportPointToRay), typeof(Vector3))]
     private static void UseVrAimingDirection(Vector3 pos, ref Ray __result, Camera __instance)
     {
-        if (!__instance.CompareTag("MainCamera") || !VrStage.Instance || !VrStage.Instance.AimLaser) return;
+        if (!__instance.CompareTag("MainCamera") || !VrStage.Instance || !VrStage.Instance.aimLaser) return;
 
-        var laserTransform = VrStage.Instance.AimLaser.transform;
+        var laserTransform = VrStage.Instance.aimLaser.transform;
         
         var centerDirection = __instance.ViewportPointToRay(Vector3.one * 0.5f, Camera.MonoOrStereoscopicEye.Mono).direction;
         var originalDirection = __result.direction;
@@ -127,10 +128,10 @@ public class Patches: HeavenVrPatch
     [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.ForceDash))]
     private static void PreventRotatingCameraVertically(ref Vector3 newDashDirection, ref Vector3 newDashEndVelocity)
     {
-        if (!VrStage.Instance || !VrStage.Instance.AimLaser || !RM.mechController) return;
+        if (!VrStage.Instance || !VrStage.Instance.aimLaser || !RM.mechController) return;
 
         float endVelocity;
-        var direction = VrStage.Instance.AimLaser.transform.forward;
+        var direction = VrStage.Instance.aimLaser.transform.forward;
         
         switch (RM.mechController.m_lastDiscardAbility)
         {
@@ -182,8 +183,6 @@ public class Patches: HeavenVrPatch
     [HarmonyPatch(typeof(MenuScreenMapAesthetics), nameof(MenuScreenMapAesthetics.Start))]
     private static void FixMapScreen(MenuScreenMapAesthetics __instance)
     {
-        // VrUi.Create(__instance.transform.Find("Map"), 0.5f);
-        // __instance.transform.localScale *= 0.5f;
         LayerHelper.SetLayerRecursive(__instance.gameObject, GameLayer.UI);
     }
     
@@ -194,7 +193,7 @@ public class Patches: HeavenVrPatch
         VrUi.Create(__instance.transform);
     }
 
-    private static readonly string[] projectileIds = {
+    private static readonly string[] ProjectileIds = {
         "Projectiles/ProjectileBomb",
         "Projectiles/ProjectileMine",
         "Projectiles/ProjectileRocketFast"
@@ -205,10 +204,10 @@ public class Patches: HeavenVrPatch
         typeof(Vector3), typeof(ProjectileWeapon))]
     private static void AimProjectilesWithVrLaser(string path, ref Vector3 origin, ref Vector3 forward)
     {
-        if (!VrStage.Instance || !VrStage.Instance.AimLaser || !projectileIds.Contains(path)) return;
+        if (!VrStage.Instance || !VrStage.Instance.aimLaser || !ProjectileIds.Contains(path)) return;
         
-        origin = VrStage.Instance.AimLaser.transform.position;
-        forward = VrStage.Instance.AimLaser.transform.forward;
+        origin = VrStage.Instance.aimLaser.transform.position;
+        forward = VrStage.Instance.aimLaser.transform.forward;
     }
     
     [HarmonyPostfix]

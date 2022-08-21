@@ -6,8 +6,8 @@ namespace HeavenVr.Input;
 
 public class InputManager: MonoBehaviour
 {
-    private static InputDevice leftInputDevice;
-    private static InputDevice rightInputDevice;
+    private static InputDevice _leftInputDevice;
+    private static InputDevice _rightInputDevice;
 
     private void OnEnable()
     {
@@ -25,11 +25,11 @@ public class InputManager: MonoBehaviour
 
         if ((device.characteristics & InputDeviceCharacteristics.Right) != 0)
         {
-            rightInputDevice = device;
+            _rightInputDevice = device;
         }
         if ((device.characteristics & InputDeviceCharacteristics.Left) != 0)
         {
-            leftInputDevice = device;
+            _leftInputDevice = device;
         }
         InputMap.UpdateInputMap(device);
     }
@@ -53,8 +53,8 @@ public class InputManager: MonoBehaviour
     {
         return hand switch
         {
-            XRNode.RightHand => rightInputDevice,
-            XRNode.LeftHand => leftInputDevice,
+            XRNode.RightHand => _rightInputDevice,
+            XRNode.LeftHand => _leftInputDevice,
             _ => throw new ArgumentOutOfRangeException(nameof(hand), hand, null)
         };
     }

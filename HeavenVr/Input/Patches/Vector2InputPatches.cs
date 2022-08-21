@@ -7,11 +7,13 @@ namespace HeavenVr.Input.Patches;
 
 [HarmonyPatch]
 public static class Vector2InputPatches {
+    // ReSharper disable once UnusedMember.Local
     [HarmonyTargetMethod]
     private static MethodInfo TargetMethod() {
         return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(Vector2));
     }
 
+    [HarmonyPatch]
     [HarmonyPrefix]
     private static bool SetVector2Inputs(ref Vector2 __result, InputAction __instance)
     {   

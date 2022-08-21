@@ -20,7 +20,7 @@ public static class VrSettings
         Click
     }
 
-    private const string controlsCategory = "Controls";
+    private const string ControlsCategory = "Controls";
 
     public static ConfigFile Config { get; private set; }
     public static ConfigEntry<bool> ControllerBasedMovementDirection { get; private set; }
@@ -30,11 +30,11 @@ public static class VrSettings
     public static void SetUp(ConfigFile config)
     {
         Config = config;
-        ControlScheme = config.Bind(controlsCategory, "ControlScheme", ControlSchemeOption.Auto,
+        ControlScheme = config.Bind(ControlsCategory, "ControlScheme", ControlSchemeOption.Auto,
             "Control scheme | Pick a control scheme manually or select auto to select it based on the detected controllers.");
-        AxisMode = config.Bind(controlsCategory, "AxisMode", AxisModeOption.Auto,
+        AxisMode = config.Bind(ControlsCategory, "AxisMode", AxisModeOption.Auto,
             "Axis mode | Touch is better for thumb sticks. Click is better for touch pads. Auto tries to pick the best for your controller.");
-        ControllerBasedMovementDirection = config.Bind(controlsCategory, "ControllerBasedMovementDirection", false,
+        ControllerBasedMovementDirection = config.Bind(ControlsCategory, "ControllerBasedMovementDirection", false,
             "Controller-based movement direction | Enabled: controller-based direction. Disabled: head-based direction.");
     }
 }
