@@ -10,6 +10,6 @@ public static class UiPatches
     [HarmonyPatch(typeof(CanvasScaler), "OnEnable")]
     private static void AddCanvasCollider(CanvasScaler __instance)
     {
-        HeavenVr.VrUi.VrUi.Create(__instance.transform);
+        VrUi.Create(__instance.transform);
     }
 }

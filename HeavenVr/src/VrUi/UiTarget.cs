@@ -13,7 +13,7 @@ public class UiTarget : MonoBehaviour
     private Quaternion _rotationVelocity;
     private Quaternion _targetRotation;
     private Transform _targetTransform;
-    private readonly float _minAngleDelta = 45f;
+    private const float MinAngleDelta = 45f;
     private VrStage _stage;
     private GameObject _vrUiQuad;
     public Camera UiCamera { get; private set; }
@@ -90,7 +90,7 @@ public class UiTarget : MonoBehaviour
         var unsignedAngleDelta = Vector3.Angle(_previousForward, cameraForward);
         _targetTransform.localRotation = _stage.cameraPoseDriver.originPose.rotation;
 
-        if (unsignedAngleDelta > _minAngleDelta)
+        if (unsignedAngleDelta > MinAngleDelta)
         {
             _targetRotation = Quaternion.LookRotation(cameraForward, _stage.cameraPoseDriver.transform.parent.rotation * _stage.cameraPoseDriver.originPose.rotation * Vector3.up);
             _previousForward = cameraForward;

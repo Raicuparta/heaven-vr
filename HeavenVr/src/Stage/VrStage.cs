@@ -33,7 +33,7 @@ public class VrStage: MonoBehaviour
     private LIV.SDK.Unity.LIV _liv;
     private Transform _livStage;
     private PathfinderAvatarTrackers _avatarTrackers;
-    private readonly float _animationSpeedMultiplier = 0.003f;
+    private const float AnimationSpeedMultiplier = 0.003f;
     private Transform _runAnimationRotationTransform;
     
     public static void Create(Camera mainCamera)
@@ -187,7 +187,7 @@ public class VrStage: MonoBehaviour
         
         if (_avatarTrackers && RM.drifter)
         {
-            _avatarTrackers.SetSpeed(RM.drifter.MovementVelocity.sqrMagnitude * _animationSpeedMultiplier);
+            _avatarTrackers.SetSpeed(RM.drifter.MovementVelocity.sqrMagnitude * AnimationSpeedMultiplier);
         }
         
         // For some reason, calling this on Start or Invoke crashes the game. So calling it in Update instead.
