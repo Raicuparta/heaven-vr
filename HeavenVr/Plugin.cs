@@ -30,7 +30,7 @@ public class Plugin : BaseUnityPlugin
 			ScriptableObject.CreateInstance<HTCViveControllerProfile>(),
 			ScriptableObject.CreateInstance<OculusTouchControllerProfile>(),
 			ScriptableObject.CreateInstance<MicrosoftMotionControllerProfile>(),
-			ScriptableObject.CreateInstance<ValveIndexControllerProfile>(),
+			ScriptableObject.CreateInstance<ValveIndexControllerProfile>()
 		};
 		var xrLoader = ScriptableObject.CreateInstance<OpenXRLoader>();
 		OpenXRSettings.Instance.renderMode = OpenXRSettings.RenderMode.MultiPass;
@@ -52,7 +52,7 @@ public class Plugin : BaseUnityPlugin
 		managerSetings.InitializeLoaderSync();
 		managerSetings.StartSubsystems();
 			
-		VrInputManager.Create();
+		InputManager.Create();
 	}
 
 	private void Update()

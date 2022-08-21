@@ -1,36 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.XR;
 
 namespace HeavenVr.Input;
 
-public static class VrInputMap
+public static class InputMap
 {
     public enum VrButton
     {
         PrimaryButton,
         SecondaryButton,
-        MenuButton,
+        MenuButton
     }
 
     private static readonly Dictionary<string, IVrInputBinding> vrInputMap = new()
     {
-        {"Submit", new VrBoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
-        {"DialogueAdvance ", new VrBoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
-        {"Fire Card", new VrBoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
-        {"Fire Card Alt", new VrBoolBinding(XRNode.RightHand, VrButton.SecondaryButton)},
-        {"Start", new VrBoolBinding(XRNode.LeftHand, VrButton.PrimaryButton)},
-        {"Pause", new VrBoolBinding(XRNode.LeftHand, VrButton.MenuButton)},
-        {"Cancel", new VrBoolBinding(XRNode.LeftHand, VrButton.MenuButton)},
-        {"DialogueFastForward", new VrBoolBinding(XRNode.RightHand, VrButton.MenuButton)},
-        {"Restart", new VrBoolBinding(XRNode.RightHand, VrButton.MenuButton)},
-        {"Jump", new VrBoolBinding(XRNode.LeftHand, VrButton.PrimaryButton)},
-        {"Swap Card", new VrBoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
-        {"MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
-        {"MenuTabRight", new VrBoolBinding(XRNode.RightHand, VrButton.SecondaryButton)},
-        {"Move", new VrVector2Binding(XRNode.LeftHand)},
-        {"Look", new VrVector2Binding(XRNode.RightHand)}
+        {"Submit", new BoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
+        {"DialogueAdvance ", new BoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
+        {"Fire Card", new BoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
+        {"Fire Card Alt", new BoolBinding(XRNode.RightHand, VrButton.SecondaryButton)},
+        {"Start", new BoolBinding(XRNode.LeftHand, VrButton.PrimaryButton)},
+        {"Pause", new BoolBinding(XRNode.LeftHand, VrButton.MenuButton)},
+        {"Cancel", new BoolBinding(XRNode.LeftHand, VrButton.MenuButton)},
+        {"DialogueFastForward", new BoolBinding(XRNode.RightHand, VrButton.MenuButton)},
+        {"Restart", new BoolBinding(XRNode.RightHand, VrButton.MenuButton)},
+        {"Jump", new BoolBinding(XRNode.LeftHand, VrButton.PrimaryButton)},
+        {"Swap Card", new BoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
+        {"MenuTabLeft", new BoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
+        {"MenuTabRight", new BoolBinding(XRNode.RightHand, VrButton.SecondaryButton)},
+        {"Move", new Vector2Binding(XRNode.LeftHand)},
+        {"Look", new Vector2Binding(XRNode.RightHand)}
     };
 
     private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> wmrInputMap = new()

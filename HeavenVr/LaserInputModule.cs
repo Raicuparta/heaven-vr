@@ -76,7 +76,7 @@ public class LaserInputModule : BaseInputModule
         CastRay();
         UpdateCurrentObject();
 
-        var clickBinding = VrInputMap.GetBinding("Submit");
+        var clickBinding = InputMap.GetBinding("Submit");
         
         if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed)
             HandleDrag();

@@ -1,6 +1,5 @@
 ﻿using LIV.AvatarTrackers;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SpatialTracking;
 using UnityEngine.UI;
@@ -116,7 +115,7 @@ public class VrStage: MonoBehaviour
             "CameraStackPriority",
             "UnityEngine.SpatialTracking.TrackedPoseDriver",
             "ShakePosition",
-            "CameraStackPriority",
+            "CameraStackPriority"
         };
         livStage.gameObject.SetActive(true);
 

@@ -15,7 +15,7 @@ public static class Vector2InputPatches {
     [HarmonyPrefix]
     private static bool SetVector2Inputs(ref Vector2 __result, InputAction __instance)
     {   
-        var binding = VrInputMap.GetBinding(__instance.name);
+        var binding = InputMap.GetBinding(__instance.name);
         if (binding == null) return true;
 
         __result = binding.Position;

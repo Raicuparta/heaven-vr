@@ -4,7 +4,7 @@ using UnityEngine.XR;
 
 namespace HeavenVr.Input;
 
-public class VrInputManager: MonoBehaviour
+public class InputManager: MonoBehaviour
 {
     private static InputDevice leftInputDevice;
     private static InputDevice rightInputDevice;
@@ -31,12 +31,12 @@ public class VrInputManager: MonoBehaviour
         {
             leftInputDevice = device;
         }
-        VrInputMap.UpdateInputMap(device);
+        InputMap.UpdateInputMap(device);
     }
 
     public static void Create()
     {
-        new GameObject("VrInputManager").AddComponent<VrInputManager>();
+        new GameObject("VrInputManager").AddComponent<InputManager>();
     }
 
     private void Awake()
@@ -46,7 +46,7 @@ public class VrInputManager: MonoBehaviour
 
     private void Update()
     {
-        VrInputMap.Update();
+        InputMap.Update();
     }
 
     public static InputDevice GetInputDevice(XRNode hand)

@@ -39,7 +39,7 @@ public enum GameLayer
     // Custom VR layers:
     VrUi = 3,
     VrPlayerUi = 6,
-    Unused = 7,
+    Unused = 7
 }
 
 public static class LayerHelper

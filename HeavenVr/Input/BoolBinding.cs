@@ -3,21 +3,21 @@ using UnityEngine.XR;
 
 namespace HeavenVr.Input;
 
-public class VrBoolBinding: VrInputBinding<bool>
+public class BoolBinding: InputBinding<bool>
 {
-    private readonly VrInputMap.VrButton vrButton;
+    private readonly InputMap.VrButton vrButton;
     
-    public VrBoolBinding(XRNode hand, VrInputMap.VrButton vrButton) : base(hand)
+    public BoolBinding(XRNode hand, InputMap.VrButton vrButton) : base(hand)
     {
         this.vrButton = vrButton;
     }
 
     protected override bool GetValue()
     {
-        var usage = VrInputMap.GetUsage(vrButton);
+        var usage = InputMap.GetUsage(vrButton);
         if (!usage.HasValue) return false;
 
-        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usage.Value, out Value);
+        InputManager.GetInputDevice(Hand).TryGetFeatureValue(usage.Value, out Value);
         return Value;
     }
 
