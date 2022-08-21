@@ -33,6 +33,7 @@ namespace HeavenVr.Laser;
 public class LaserInputModule : BaseInputModule
 {
     private const float RayDistance = 30f;
+    private const float ClickMovementTreshold = 10f;
     private Vector3 _lastHeadPose;
     private PointerEventData _pointerData;
     private Vector2 _previousClickPosition;
@@ -152,7 +153,7 @@ public class LaserInputModule : BaseInputModule
 
         // Send pointer up and click events.
         ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerUpHandler);
-        if (Vector2.Distance(_previousClickPosition, _pointerData.position) <= 10)
+        if (Vector2.Distance(_previousClickPosition, _pointerData.position) <= ClickMovementTreshold)
         {
             ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerClickHandler);
         }
