@@ -33,7 +33,7 @@ public class VrStage: MonoBehaviour
     private LIV.SDK.Unity.LIV _liv;
     private Transform _livStage;
     private PathfinderAvatarTrackers _avatarTrackers;
-    private float _animationSpeedMultiplier = 0.003f;
+    private readonly float _animationSpeedMultiplier = 0.003f;
     private Transform _runAnimationRotationTransform;
     
     public static void Create(Camera mainCamera)
