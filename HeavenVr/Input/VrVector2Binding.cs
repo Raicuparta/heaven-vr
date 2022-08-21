@@ -2,15 +2,15 @@
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace HeavenVr;
+namespace HeavenVr.Input;
 
-public class VrVector2PressBinding: VrInputBinding<Vector2>
+public class VrVector2Binding: VrInputBinding<Vector2>
 {
     private readonly InputFeatureUsage<bool> usagePress;
     private readonly InputFeatureUsage<Vector2> usagePosition;
     private const float inputThreshold = 0.5f;
 
-    public VrVector2PressBinding(XRNode hand) : base(hand)
+    public VrVector2Binding(XRNode hand) : base(hand)
     {
         usagePress = CommonUsages.primary2DAxisClick;
         usagePosition = CommonUsages.primary2DAxis;
@@ -20,6 +20,7 @@ public class VrVector2PressBinding: VrInputBinding<Vector2>
     {
         return VrSettings.AxisMode.Value switch
         {
+            // TODO use events instead of checking this every time.
             VrSettings.AxisModeOption.Auto => device.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) < 0,
             VrSettings.AxisModeOption.Click => false,
             VrSettings.AxisModeOption.Touch => true,

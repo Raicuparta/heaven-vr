@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace HeavenVr;
+namespace HeavenVr.Input;
 
 public class VrInputManager: MonoBehaviour
 {

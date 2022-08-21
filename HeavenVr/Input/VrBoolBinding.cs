@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.XR;
 
-namespace HeavenVr;
+namespace HeavenVr.Input;
 
 public class VrBoolBinding: VrInputBinding<bool>
 {
@@ -14,7 +14,10 @@ public class VrBoolBinding: VrInputBinding<bool>
 
     protected override bool GetValue()
     {
-        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(VrInputMap.GetUsage(vrButton), out Value);
+        var usage = VrInputMap.GetUsage(vrButton);
+        if (!usage.HasValue) return false;
+
+        VrInputManager.GetInputDevice(Hand).TryGetFeatureValue(usage.Value, out Value);
         return Value;
     }
 

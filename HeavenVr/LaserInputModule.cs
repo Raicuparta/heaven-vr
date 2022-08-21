@@ -23,6 +23,7 @@
 //   THE SOFTWARE.
 
 using System.Collections.Generic;
+using HeavenVr.Input;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR;

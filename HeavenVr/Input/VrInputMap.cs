@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace HeavenVr;
+namespace HeavenVr.Input;
 
 public static class VrInputMap
 {
@@ -29,8 +29,8 @@ public static class VrInputMap
         {"Swap Card", new VrBoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
         {"MenuTabLeft", new VrBoolBinding(XRNode.LeftHand, VrButton.SecondaryButton)},
         {"MenuTabRight", new VrBoolBinding(XRNode.RightHand, VrButton.SecondaryButton)},
-        {"Move", new VrVector2PressBinding(XRNode.LeftHand)},
-        {"Look", new VrVector2PressBinding(XRNode.RightHand)}
+        {"Move", new VrVector2Binding(XRNode.LeftHand)},
+        {"Look", new VrVector2Binding(XRNode.RightHand)}
     };
 
     private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> wmrInputMap = new()
@@ -103,8 +103,10 @@ public static class VrInputMap
         };
     }
 
-    public static InputFeatureUsage<bool> GetUsage(VrButton vrButton)
+    public static InputFeatureUsage<bool>? GetUsage(VrButton vrButton)
     {
+        if (inputMap == null) return null;
+
         inputMap.TryGetValue(vrButton, out var usage);
         return usage;
     }

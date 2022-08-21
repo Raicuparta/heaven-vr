@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using System.Reflection;
 using Beautify.Universal;
 using HarmonyLib;
 using LIV.SDK.Unity;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -123,43 +121,6 @@ public class Patches: HeavenVrPatch
         var dummy = new GameObject("VrCameraRotationDummy").transform;
         dummy.SetParent(__instance.m_cameraHolder.parent);
         __instance.m_cameraHolder = dummy;
-    }
-    
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(InputAction), nameof(InputAction.IsPressed))]
-    private static bool SetInputIsPressed(ref bool __result, InputAction __instance)
-    {
-        var binding = VrInputMap.GetBinding(__instance.name);
-        if (binding == null) return true;
-
-        __result = binding.IsPressed;
-
-        return false;
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasPressedThisFrame))]
-    [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasPerformedThisFrame))]
-    private static bool SetInputWasPressed(ref bool __result, InputAction __instance)
-    {
-        var binding = VrInputMap.GetBinding(__instance.name);
-        if (binding == null) return true;
-
-        __result = binding.WasPressedThisFrame;
-
-        return false;
-    }
-    
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasReleasedThisFrame))]
-    private static bool SetPreviousBoolInputsReleased(ref bool __result, InputAction __instance)
-    {
-        var binding = VrInputMap.GetBinding(__instance.name);
-        if (binding == null) return true;
-
-        __result = binding.WasReleasedThisFrame;
-        
-        return false;
     }
 
     [HarmonyPrefix]
@@ -295,44 +256,6 @@ public class Patches: HeavenVrPatch
 
         LaserInputModule.Create(__instance);
         DefaultInputModuleDisabler.Create(__instance);
-    }
-    
-    [HarmonyPatch]
-    public static class Vector2InputPatches {
-        [HarmonyTargetMethod]
-        private static MethodInfo TargetMethod() {
-            return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(Vector2));
-        }
-
-        [HarmonyPrefix]
-        private static bool SetVector2Inputs(ref Vector2 __result, InputAction __instance)
-        {   
-            var binding = VrInputMap.GetBinding(__instance.name);
-            if (binding == null) return true;
-
-            __result = binding.Position;
-    
-            return false;
-        }
-    }
-
-    [HarmonyPatch]
-    public static class FloatInputPatches {
-        [HarmonyTargetMethod]
-        private static MethodInfo TargetMethod() {
-            return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(float));
-        }
-
-        [HarmonyPrefix]
-        private static bool SetFloatInputs(ref float __result, InputAction __instance)
-        {
-            var binding = VrInputMap.GetBinding(__instance.name);
-            if (binding == null) return true;
-
-            __result = binding.IsPressed ? 1 : 0;
-    
-            return false;
-        }
     }
 
     [HarmonyPrefix]
