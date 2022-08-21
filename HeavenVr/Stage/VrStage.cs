@@ -1,4 +1,8 @@
-﻿using LIV.AvatarTrackers;
+﻿using HeavenVr.Helpers;
+using HeavenVr.Laser;
+using HeavenVr.ModSettings;
+using HeavenVr.VrUi;
+using LIV.AvatarTrackers;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
@@ -75,6 +79,7 @@ public class VrStage: MonoBehaviour
         Recenter();
     }
 
+    // TODO move to LivManager
     private void SetUpLiv()
     {
         if (_liv)

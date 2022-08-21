@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
-using HeavenVr.Stage;
 using UnityEngine;
+
+namespace HeavenVr.Stage.Patches;
 
 [HarmonyPatch]
 public static class StagePatches
