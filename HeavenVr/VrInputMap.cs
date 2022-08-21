@@ -63,8 +63,6 @@ public static class VrInputMap
 
     private static Dictionary<VrButton, InputFeatureUsage<bool>> GetAutoInputMap(InputDevice inputDevice)
     {
-        Debug.Log($"inputdevice {inputDevice.name}");
-        // TODO use InputDevices.deviceConnected event instead of trying every update.
         if (inputDevice.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) >= 0)
         {
             return viveInputMap;
