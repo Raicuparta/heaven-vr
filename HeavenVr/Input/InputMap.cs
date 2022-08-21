@@ -13,7 +13,7 @@ public static class InputMap
         MenuButton
     }
 
-    private static readonly Dictionary<string, IVrInputBinding> VRInputMap = new()
+    private static readonly Dictionary<string, IInputBinding> VRInputMap = new()
     {
         {"Submit", new BoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
         {"DialogueAdvance ", new BoolBinding(XRNode.RightHand, VrButton.PrimaryButton)},
@@ -111,7 +111,7 @@ public static class InputMap
     }
     
     // TODO use an enum or a class or something instead of plain strings.
-    public static IVrInputBinding GetBinding(string name)
+    public static IInputBinding GetBinding(string name)
     {
         VRInputMap.TryGetValue(name, out var binding);
         return binding;

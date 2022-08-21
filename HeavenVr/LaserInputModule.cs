@@ -23,6 +23,7 @@
 //   THE SOFTWARE.
 
 using HeavenVr.Input;
+using HeavenVr.Stage;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

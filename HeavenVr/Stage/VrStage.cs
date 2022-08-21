@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.XR;
 using CommonUsages = UnityEngine.XR.CommonUsages;
 
-namespace HeavenVr;
+namespace HeavenVr.Stage;
 
 public class VrStage: MonoBehaviour
 {

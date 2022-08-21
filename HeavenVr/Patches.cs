@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using Beautify.Universal;
 using HarmonyLib;
-using HeavenVr.UI;
+using HeavenVr.Stage;
 using LIV.SDK.Unity;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace HeavenVr;
@@ -15,66 +14,11 @@ namespace HeavenVr;
 [HarmonyPatch]
 public class Patches: HeavenVrPatch
 {
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(PlayerCamera), nameof(PlayerCamera.Start))]
-    private static void EnableCameraTracking(PlayerCamera __instance)
-    {
-        VrStage.Create(__instance.PlayerCam);
-    }
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(MenuCamera), nameof(MenuCamera.Start))]
-    private static void EnableCameraTracking(MenuCamera __instance)
-    {
-        __instance.m_startColor = Color.black;
-        VrStage.Create(__instance.cam);
-    }
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(MissionCompleteManager), nameof(MissionCompleteManager.Start))]
-    private static void EnableCameraTracking(MissionCompleteManager __instance)
-    {
-        VrStage.Create(__instance.GetComponentInChildren<Camera>());
-    }
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(ShakePosition), nameof(ShakePosition.Start))]
-    private static void EnableCameraTracking(ShakePosition __instance)
-    {
-        var camera = __instance.GetComponent<Camera>();
-        if (camera)
-        {
-            VrStage.Create(camera);
-        }
-    }
-    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(PlanarReflectionRenderFeature), nameof(PlanarReflectionRenderFeature.Create))]
     private static void DisableReflections(PlanarReflectionRenderFeature __instance)
     {
         __instance.m_Settings.m_ReflectLayers = 0;
-    }
-
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(PlayerUI), nameof(PlayerUI.Start))]
-    private static void FixPlayerUi(PlayerUI __instance)
-    {
-        Object.Destroy(__instance.Cam.GetComponent<CameraStackPriority>());
-        Object.Destroy(__instance.Cam.GetComponent<UniversalAdditionalCameraData>());
-        __instance.Cam.orthographicSize = 20;
-        __instance.Cam.targetTexture = VrAssetLoader.VrUiRenderTexture;
-        __instance.Cam.clearFlags = CameraClearFlags.Depth;
-        __instance.Cam.depth = 1;
-        __instance.Cam.cullingMask = LayerHelper.GetMask(GameLayer.UI);
-        __instance.Cam.farClipPlane = 100;
-        __instance.transform.localScale = Vector3.one * 3f;
-        __instance.timerHolder.transform.localScale = Vector3.one * 0.05f;
-        __instance.timerHolder.transform.localPosition = Vector3.up * 1.6f;
-        __instance.demonCounterHolder.transform.localScale = Vector3.one * 1.5f;
-        
-        LayerHelper.SetLayerRecursive(__instance.gameObject, GameLayer.UI);
-        UiTarget.PlayerHudCamera = __instance.Cam;
-        
     }
     
     [HarmonyPostfix]
@@ -160,7 +104,6 @@ public class Patches: HeavenVrPatch
         
         newDashDirection = direction;
         newDashEndVelocity = direction * endVelocity;
-        
     }
     
     [HarmonyPrefix]
@@ -177,20 +120,6 @@ public class Patches: HeavenVrPatch
     {
         __result = -1;
         return false;
-    }
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(MenuScreenMapAesthetics), nameof(MenuScreenMapAesthetics.Start))]
-    private static void FixMapScreen(MenuScreenMapAesthetics __instance)
-    {
-        LayerHelper.SetLayerRecursive(__instance.gameObject, GameLayer.UI);
-    }
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(CanvasScaler), "OnEnable")]
-    private static void AddCanvasCollider(CanvasScaler __instance)
-    {
-        VrUi.Create(__instance.transform);
     }
 
     private static readonly string[] ProjectileIds = {

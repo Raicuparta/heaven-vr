@@ -3,7 +3,7 @@ using UnityEngine.XR;
 
 namespace HeavenVr.Input;
 
-public abstract class InputBinding<TValue>: IVrInputBinding
+public abstract class InputBinding<TValue>: IInputBinding
 {
     public bool WasPressedThisFrame => _wasPressedThisFrame;
     public bool WasReleasedThisFrame => _wasReleasedThisFrame;

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace HeavenVr;
+namespace HeavenVr.Input;
 
-public interface IVrInputBinding
+public interface IInputBinding
 {
     public void Update();
     public bool WasPressedThisFrame { get; }

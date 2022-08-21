@@ -40,10 +40,6 @@
         <Content Include="ModFiles\**" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="UI\Patches" />
-    </ItemGroup>
-
     <Target Name="Copy mod files" AfterTargets="PostBuildEvent">
         <ItemGroup>
             <_Files Remove="@(_Files)" />
