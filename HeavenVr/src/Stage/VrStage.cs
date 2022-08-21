@@ -158,7 +158,7 @@ public class VrStage: MonoBehaviour
         
         _stageParent.Rotate(Vector3.up, angleDelta);
         transform.Rotate(Vector3.up, -angleDelta);
-        _mouseLook.originalRotation *= Quaternion.Euler(0, angleDelta, 0);
+        _mouseLook.AddFrameRotation(angleDelta, 0);
 
         if (_runAnimationRotationTransform)
         {
