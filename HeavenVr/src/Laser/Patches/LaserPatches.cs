@@ -21,8 +21,43 @@ public static class LaserPatches
     private static bool ForceDisableTargetAssist(TargetAssist __instance)
     {
         // TODO try to actually fix the target assist, or hide the option.
-        // TODO also check if this one is actually doing anything when the lock-on option is off.
         __instance.MasterAssistIntensity = 0;
         return false;
+    }
+
+    private static void ForceAimingSettings(MenuScreenOptionsPanel optionsPanel)
+    {
+        // TODO try to actually fix the lock-on behavior, or hide the option.
+        if (optionsPanel._lockOnToggle)
+        {
+            optionsPanel._lockOnToggle.Value = false;
+        }
+
+        if (optionsPanel._aimAssistSlider)
+        {
+            optionsPanel._aimAssistSlider.Value = 0;
+        }
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.ApplyChanges))]
+    private static void ForceAimingSettingsPre(MenuScreenOptionsPanel __instance)
+    {
+        ForceAimingSettings(__instance);
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.LoadValues))]
+    [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.SpawnColumnSettings))]
+    private static void ForceAimingSettingsPost(MenuScreenOptionsPanel __instance)
+    {
+        ForceAimingSettings(__instance);
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(GS), nameof(GS.LockOn))]
+    private static void ForceAimingSettingsSet(out bool enable)
+    {
+        enable = false;
     }
 }
