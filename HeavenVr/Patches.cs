@@ -334,4 +334,12 @@ public class Patches: HeavenVrPatch
             return false;
         }
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(TargetAssist), nameof(TargetAssist.LoadPrefs))]
+    private static bool ForceDisableTargetAssist(TargetAssist __instance)
+    {
+        __instance.MasterAssistIntensity = 0;
+        return false;
+    }
 }
