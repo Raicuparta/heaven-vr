@@ -20,8 +20,6 @@ public class UiTarget : MonoBehaviour
 
     public static UiTarget Create(VrStage stage, VrHand hand)
     {
-        Debug.Log($"Create {hand == null}");
-        
         var instance = new GameObject(nameof(UiTarget)).AddComponent<UiTarget>();
         instance.transform.SetParent(stage.transform, false);
         instance.targetTransform = new GameObject("InteractiveUiTargetTransform").transform;
@@ -62,9 +60,6 @@ public class UiTarget : MonoBehaviour
             vrUiQuad.transform.localPosition = new Vector3(0.3f, 0f, 0f);
             vrUiQuad.transform.localEulerAngles = new Vector3(-90f, 180f, 0f);
             vrUiQuad.transform.localScale = Vector3.one * 0.1f;
-            LookAtCamera.Create(vrUiQuad.transform, stage.VrCamera);
-            // VrMaterialHelper.MakeMaterialDrawOnTop(vrUiQuad.GetComponentInChildren<Renderer>().material);
-            // vrUiQuad.GetComponentInChildren<Renderer>().material.shader = Shader.Find("NW/Particles/AlphaBlendDrawOnTop");
         }
         return vrUiQuad.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
     }
