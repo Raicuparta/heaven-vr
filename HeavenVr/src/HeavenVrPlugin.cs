@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using BepInEx;
 using HarmonyLib;
@@ -15,7 +14,7 @@ using UnityEngine.XR.OpenXR.Features.Interactions;
 namespace HeavenVr;
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-public class Plugin : BaseUnityPlugin
+public class HeavenVrPlugin : BaseUnityPlugin
 {
 	private void Awake()
 	{
@@ -24,7 +23,12 @@ public class Plugin : BaseUnityPlugin
 		Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 		VrSettings.SetUp(Config);
 		VrAssetLoader.Init();
-	        
+		SetUpXr();
+		InputManager.Create();
+	}
+
+	private static void SetUpXr()
+	{
 		var generalSettings = ScriptableObject.CreateInstance<XRGeneralSettings>();
 		var managerSetings = ScriptableObject.CreateInstance<XRManagerSettings>();
 		var features = new OpenXRInteractionFeature[]
@@ -43,8 +47,14 @@ public class Plugin : BaseUnityPlugin
 		}
 
 		generalSettings.Manager = managerSetings;
-		managerSetings.SetValue("m_RegisteredLoaders", new HashSet<XRLoader> {xrLoader});
-		managerSetings.TrySetLoaders(new List<XRLoader> {xrLoader});
+#pragma warning disable CS0618
+		/*
+		 * ManagerSettings.loaders is deprecated but very useful, allows me to add the xr loader without reflection.
+		 * Should be fine unless the game's Unity version gets majorly updated, in which case the whole mod will be
+		 * broken, so I'll have to update it anyway.
+		 */
+		managerSetings.loaders.Add(xrLoader);
+#pragma warning restore CS0618
 
 		managerSetings.InitializeLoaderSync();
 		if (managerSetings.activeLoader == null) throw new Exception("Cannot initialize OpenVR Loader");
@@ -53,7 +63,5 @@ public class Plugin : BaseUnityPlugin
 
 		managerSetings.InitializeLoaderSync();
 		managerSetings.StartSubsystems();
-			
-		InputManager.Create();
 	}
 }
