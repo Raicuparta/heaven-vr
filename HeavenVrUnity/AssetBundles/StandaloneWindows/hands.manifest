@@ -1,39 +1,39 @@
 ManifestFileVersion: 0
-        CRC: 804416788
-        Hashes:
-        AssetFileHash:
-        serializedVersion: 2
-        Hash: 473eba93751b7d971bf412c8b30f2094
-        TypeTreeHash:
-        serializedVersion: 2
-        Hash: 0998cbb2330a407d4813914a0c7523a3
-        HashAppended: 0
-        ClassTypes:
-        - Class: 1
-        Script: {instanceID: 0}
-        - Class: 4
-        Script: {instanceID: 0}
-        - Class: 21
-        Script: {instanceID: 0}
-        - Class: 23
-        Script: {instanceID: 0}
-        - Class: 28
-        Script: {instanceID: 0}
-        - Class: 33
-        Script: {instanceID: 0}
-        - Class: 43
-        Script: {instanceID: 0}
-        - Class: 48
-        Script: {instanceID: 0}
-        - Class: 114
-        Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
-        - Class: 115
-        Script: {instanceID: 0}
-        - Class: 223
-        Script: {instanceID: 0}
-        - Class: 224
-        Script: {instanceID: 0}
-        SerializeReferenceClassIdentifiers: []
-        Assets:
-        - Assets/RightHand.prefab
-        Dependencies: []
+CRC: 2697858141
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 857ba61c7921c2def32f4f0de5a5ef41
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0998cbb2330a407d4813914a0c7523a3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/RightHand.prefab
+Dependencies: []

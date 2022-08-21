@@ -1,16 +1,16 @@
 ManifestFileVersion: 0
-        CRC: 1163025352
-        AssetBundleManifest:
-        AssetBundleInfos:
-        Info_0:
-        Name: liv-shaders
-        Dependencies: {}
-        Info_1:
-        Name: animation
-        Dependencies: {}
-        Info_2:
-        Name: ui
-        Dependencies: {}
-        Info_3:
-        Name: hands
-        Dependencies: {}
+CRC: 2844033296
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: liv-shaders
+      Dependencies: {}
+    Info_1:
+      Name: animation
+      Dependencies: {}
+    Info_2:
+      Name: ui
+      Dependencies: {}
+    Info_3:
+      Name: hands
+      Dependencies: {}

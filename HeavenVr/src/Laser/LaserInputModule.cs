@@ -82,7 +82,7 @@ public class LaserInputModule : BaseInputModule
 
     private void CastRay()
     {
-        if (!VrStage.Instance.UiTarget) return;
+        if (!VrStage.Instance || !VrStage.Instance.aimLaser) return;
 
         var isHit = Physics.Raycast(
             VrStage.Instance.aimLaser.transform.position,
@@ -91,10 +91,8 @@ public class LaserInputModule : BaseInputModule
             RayDistance,
             LayerHelper.GetMask(GameLayer.VrUi));
 
-        // if (isHit)
-        //     vrLaser.SetTarget(hit.point);
-        // else
-        //     vrLaser.SetTarget(null);
+
+        VrStage.Instance.aimLaser.SetDistance(isHit ? hit.distance : RayDistance);
             
         var pointerPosition = Vector3.zero;
         if (isHit)
@@ -103,7 +101,6 @@ public class LaserInputModule : BaseInputModule
             var localPoint = hit.collider.transform.InverseTransformPoint(hit.point) + Vector3.one * 0.5f;
             var localTexturePoint = new Vector2(renderTexture.width, renderTexture.height);
             pointerPosition = new Vector2(localTexturePoint.x * localPoint.x, localTexturePoint.y * localPoint.y);
-            // Debug.Log($"{hit.collider.transform.name} worldPoint: {hit.point}; localPoint: {localPoint}; position: {pointerPosition}");
         }
 
         if (_pointerData == null)

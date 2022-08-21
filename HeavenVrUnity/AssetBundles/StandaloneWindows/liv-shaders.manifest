@@ -1,25 +1,25 @@
 ManifestFileVersion: 0
-        CRC: 3544804302
-        Hashes:
-        AssetFileHash:
-        serializedVersion: 2
-        Hash: 708971b4628fbaf26fd13c5dc2aac807
-        TypeTreeHash:
-        serializedVersion: 2
-        Hash: 68c985bf88fecc38b460cdb825182138
-        HashAppended: 0
-        ClassTypes:
-        - Class: 48
-        Script: {instanceID: 0}
-        SerializeReferenceClassIdentifiers: []
-        Assets:
-        - Assets/LIV/Resources/Shaders/LIV_CombineAlpha.shader
-        - Assets/LIV/Resources/Shaders/LIV_ClipPlaneSimpleDebug.shader
-        - Assets/LIV/Resources/Shaders/LIV_ForceForwardRendering.shader
-        - Assets/LIV/Resources/Shaders/LIV_ClipPlaneComplex.shader
-        - Assets/LIV/Resources/Shaders/LIV_ClipPlaneSimple.shader
-        - Assets/LIV/Resources/Shaders/LIV_Write.shader
-        - Assets/LIV/Resources/Shaders/LIV_Font.shader
-        - Assets/LIV/Resources/Shaders/LIV_WriteOpaqueToAlpha.shader
-        - Assets/LIV/Resources/Shaders/LIV_ClipPlaneComplexDebug.shader
-        Dependencies: []
+CRC: 1383571113
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 708971b4628fbaf26fd13c5dc2aac807
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 68c985bf88fecc38b460cdb825182138
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/LIV/Resources/Shaders/LIV_CombineAlpha.shader
+- Assets/LIV/Resources/Shaders/LIV_ClipPlaneSimpleDebug.shader
+- Assets/LIV/Resources/Shaders/LIV_ForceForwardRendering.shader
+- Assets/LIV/Resources/Shaders/LIV_ClipPlaneComplex.shader
+- Assets/LIV/Resources/Shaders/LIV_ClipPlaneSimple.shader
+- Assets/LIV/Resources/Shaders/LIV_Write.shader
+- Assets/LIV/Resources/Shaders/LIV_Font.shader
+- Assets/LIV/Resources/Shaders/LIV_WriteOpaqueToAlpha.shader
+- Assets/LIV/Resources/Shaders/LIV_ClipPlaneComplexDebug.shader
+Dependencies: []
