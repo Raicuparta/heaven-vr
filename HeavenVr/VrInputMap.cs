@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.XR;
 
 namespace HeavenVr;
@@ -59,8 +61,39 @@ public static class VrInputMap
         { VrButton.MenuButton, CommonUsages.secondaryButton }
     };
 
-    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetAutoInputMap() => oculusInputMap; // TODO auto input map.
-    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetInputMap()
+    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetAutoInputMap(InputDevice inputDevice)
+    {
+        Debug.Log($"inputdevice {inputDevice.name}");
+        // TODO use InputDevices.deviceConnected event instead of trying every update.
+        if (inputDevice.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return viveInputMap;
+        }
+        if (inputDevice.name.IndexOf("oculus", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return oculusInputMap;
+        }
+        if (inputDevice.name.IndexOf("windows", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return wmrInputMap;
+        }
+        if (inputDevice.name.IndexOf("index", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return indexInputMap;
+        }
+
+        throw new KeyNotFoundException(
+            $"Failed to automatically find control scheme for {inputDevice.name}. Please select the control scheme manually in the VR settings menu.");
+    }
+
+    private static Dictionary<VrButton, InputFeatureUsage<bool>> inputMap;
+
+    public static void UpdateInputMap(InputDevice inputDevice)
+    {
+        inputMap = GetInputMap(inputDevice);
+    }
+
+    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetInputMap(InputDevice inputDevice)
     {
         return VrSettings.ControlScheme.Value switch
         {
@@ -68,16 +101,17 @@ public static class VrInputMap
             VrSettings.ControlSchemeOption.Oculus => oculusInputMap,
             VrSettings.ControlSchemeOption.Vive => viveInputMap,
             VrSettings.ControlSchemeOption.Wmr => wmrInputMap,
-            _ => GetAutoInputMap()
+            _ => GetAutoInputMap(inputDevice)
         };
     }
 
     public static InputFeatureUsage<bool> GetUsage(VrButton vrButton)
     {
-        GetInputMap().TryGetValue(vrButton, out var usage);
+        inputMap.TryGetValue(vrButton, out var usage);
         return usage;
     }
     
+    // TODO use an enum or a class or something instead of plain strings.
     public static IVrInputBinding GetBinding(string name)
     {
         vrInputMap.TryGetValue(name, out var binding);
