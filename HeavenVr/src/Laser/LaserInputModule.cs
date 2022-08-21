@@ -35,7 +35,7 @@ public class LaserInputModule : BaseInputModule
     private const float RayDistance = 30f;
     private Vector3 _lastHeadPose;
     private PointerEventData _pointerData;
-    private Vector2 previousClickPosition;
+    private Vector2 _previousClickPosition;
 
     public static void Create(EventSystem eventSystem)
     {
@@ -152,7 +152,7 @@ public class LaserInputModule : BaseInputModule
 
         // Send pointer up and click events.
         ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerUpHandler);
-        if (Vector2.Distance(previousClickPosition, _pointerData.position) <= 10)
+        if (Vector2.Distance(_previousClickPosition, _pointerData.position) <= 10)
         {
             ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerClickHandler);
         }
@@ -174,7 +174,7 @@ public class LaserInputModule : BaseInputModule
 
     private void HandleClick()
     {
-        previousClickPosition = _pointerData.position;
+        _previousClickPosition = _pointerData.position;
         
         var go = _pointerData.pointerCurrentRaycast.gameObject;
 
