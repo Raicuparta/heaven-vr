@@ -13,4 +13,12 @@ public static class SettingsPatches
         __result = true;
         return false;
     }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(MenuScreenDialogue), nameof(MenuScreenDialogue.OnFastForwardButtonToggled))]
+    private static void SkipGodAwfulDialogue(MenuScreenDialogue __instance)
+    {
+        // TODO still need to actually force the skip option, this just speeds it up.
+        __instance.ffTimescale = 100f;
+    }
 }
