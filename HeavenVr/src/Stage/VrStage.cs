@@ -1,5 +1,6 @@
 ﻿using HeavenVr.Helpers;
 using HeavenVr.Laser;
+using HeavenVr.ModSettings;
 using HeavenVr.VrUi;
 using LIV.AvatarTrackers;
 using UnityEngine;
@@ -68,6 +69,17 @@ public class VrStage: MonoBehaviour
     {
         Recenter();
         movementDirectionPointer = _nonDominantHand.transform; // TODO add movement laser.
+    }
+    
+    public Vector3 GetMovementDirection()
+    {
+        if (!movementDirectionPointer || !VrCamera) return Vector3.forward;
+        
+        // TODO use a laser for the movement direction.
+        var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value ? movementDirectionPointer.transform : VrCamera.transform;
+        var forward = trackedTransform.forward;
+        forward.y = 0;
+        return forward;
     }
 
     // TODO move to LivManager

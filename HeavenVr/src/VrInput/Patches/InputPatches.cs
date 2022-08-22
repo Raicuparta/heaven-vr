@@ -46,22 +46,13 @@ public static class InputPatches
         return false;
     }
     
-    private static Vector3 GetMovementDirection()
-    {
-        // TODO use a laser for the movement direction.
-        var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value ? VrStage.Instance.movementDirectionPointer.transform : VrStage.Instance.VrCamera.transform;
-        var forward = trackedTransform.forward;
-        forward.y = 0;
-        return forward;
-    }
-    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.UpdateVelocity))]
     private static void UseVrMovementDirection(FirstPersonDrifter __instance)
     {
-        if (!VrStage.Instance || !VrStage.Instance.VrCamera) return;
+        if (!VrStage.Instance || !VrStage.Instance.transform.parent) return;
 
-        var forward = GetMovementDirection();
+        var forward = VrStage.Instance.GetMovementDirection();
         var rotation = Quaternion.FromToRotation(VrStage.Instance.transform.parent.forward, forward);
 
         var input = new Vector3(__instance.inputX, 0, __instance.inputY);
