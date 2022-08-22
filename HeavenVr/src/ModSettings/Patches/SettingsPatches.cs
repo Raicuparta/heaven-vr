@@ -16,9 +16,8 @@ public static class SettingsPatches
     
     [HarmonyPrefix]
     [HarmonyPatch(typeof(MenuScreenDialogue), nameof(MenuScreenDialogue.OnFastForwardButtonToggled))]
-    private static void SkipGodAwfulDialogue(MenuScreenDialogue __instance)
+    private static void SpeedDialogueSkip(MenuScreenDialogue __instance)
     {
-        // TODO still need to actually force the skip option, this just speeds it up.
         __instance.ffTimescale = 100f;
     }
 }
