@@ -19,5 +19,16 @@ public static class SettingsPatches
     private static void SpeedDialogueSkip(MenuScreenDialogue __instance)
     {
         __instance.ffTimescale = 100f;
+    }    
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(GameDataManager), nameof(GameDataManager.OnReadPowerPrefsComplete))]
+    private static void PreventSubmittingScores(GameDataManager __instance)
+    {
+        // Since the VR mod changes a lot of how the game works,
+        // it wouldn't make sense to submit scores to the same leaderboard.
+        // For now I'm just disabling score submission altogether.
+        // TODO: submit vr scores to a separate leaderboard.
+        GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
     }
 }
