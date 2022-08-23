@@ -14,10 +14,14 @@ public class BoolBinding: InputBinding<bool>
 
     protected override bool GetValue()
     {
-        var usage = InputMap.GetUsage(_vrButton);
-        if (!usage.HasValue) return false;
+        var usages = InputMap.GetUsage(_vrButton);
+        if (usages == null) return false;
 
-        InputManager.GetInputDevice(Hand).TryGetFeatureValue(usage.Value, out Value);
+        foreach (var usage in usages)
+        {
+            InputManager.GetInputDevice(Hand).TryGetFeatureValue(usage, out var usageValue);
+            Value = Value || usageValue;
+        }
         return Value;
     }
 

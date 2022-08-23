@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HeavenVr.ModSettings;
+using JetBrains.Annotations;
 using UnityEngine.XR;
 
 namespace HeavenVr.VrInput;
@@ -33,35 +34,35 @@ public static class InputMap
         {"Look", new Vector2Binding(XRNode.RightHand)}
     };
 
-    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> WmrInputMap = new()
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>[]> WmrInputMap = new()
     {
-        { VrButton.PrimaryButton, CommonUsages.triggerButton },
-        { VrButton.SecondaryButton, CommonUsages.gripButton },
-        { VrButton.MenuButton, CommonUsages.secondaryButton }
+        { VrButton.PrimaryButton, new[] { CommonUsages.triggerButton } },
+        { VrButton.SecondaryButton, new[] { CommonUsages.gripButton } },
+        { VrButton.MenuButton, new[] { CommonUsages.secondaryButton } }
     };
     
-    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> IndexInputMap = new()
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>[]> IndexInputMap = new()
     {
-        { VrButton.PrimaryButton, CommonUsages.triggerButton },
-        { VrButton.SecondaryButton, CommonUsages.primary2DAxisClick },
-        { VrButton.MenuButton, CommonUsages.secondaryButton }
+        { VrButton.PrimaryButton, new[] { CommonUsages.triggerButton } },
+        { VrButton.SecondaryButton, new[] { CommonUsages.primary2DAxisClick, CommonUsages.primaryButton } },
+        { VrButton.MenuButton, new[] { CommonUsages.secondaryButton } }
     };
     
-    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> ViveInputMap = new()
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>[]> ViveInputMap = new()
     {
-        { VrButton.PrimaryButton, CommonUsages.triggerButton },
-        { VrButton.SecondaryButton, CommonUsages.gripButton },
-        { VrButton.MenuButton, CommonUsages.menuButton }
+        { VrButton.PrimaryButton, new[] { CommonUsages.triggerButton } },
+        { VrButton.SecondaryButton, new[] { CommonUsages.gripButton } },
+        { VrButton.MenuButton, new[] { CommonUsages.menuButton } }
     };
     
-    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>> OculusInputMap = new()
+    private static readonly Dictionary<VrButton, InputFeatureUsage<bool>[]> OculusInputMap = new()
     {
-        { VrButton.PrimaryButton, CommonUsages.triggerButton },
-        { VrButton.SecondaryButton, CommonUsages.gripButton },
-        { VrButton.MenuButton, CommonUsages.secondaryButton }
+        { VrButton.PrimaryButton, new[] { CommonUsages.triggerButton } },
+        { VrButton.SecondaryButton, new[] { CommonUsages.gripButton, CommonUsages.primaryButton } },
+        { VrButton.MenuButton, new[] { CommonUsages.secondaryButton } }
     };
 
-    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetAutoInputMap(InputDevice inputDevice)
+    private static Dictionary<VrButton, InputFeatureUsage<bool>[]> GetAutoInputMap(InputDevice inputDevice)
     {
         if (inputDevice.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) >= 0)
         {
@@ -84,14 +85,14 @@ public static class InputMap
             $"Failed to automatically find control scheme for {inputDevice.name}. Please select the control scheme manually in the VR settings menu.");
     }
 
-    private static Dictionary<VrButton, InputFeatureUsage<bool>> _inputMap;
+    private static Dictionary<VrButton, InputFeatureUsage<bool>[]> _inputMap;
 
     public static void UpdateInputMap(InputDevice inputDevice)
     {
         _inputMap = GetInputMap(inputDevice);
     }
 
-    private static Dictionary<VrButton, InputFeatureUsage<bool>> GetInputMap(InputDevice inputDevice)
+    private static Dictionary<VrButton, InputFeatureUsage<bool>[]> GetInputMap(InputDevice inputDevice)
     {
         return VrSettings.ControlScheme.Value switch
         {
@@ -103,12 +104,13 @@ public static class InputMap
         };
     }
 
-    public static InputFeatureUsage<bool>? GetUsage(VrButton vrButton)
+    [CanBeNull]
+    public static InputFeatureUsage<bool>[] GetUsage(VrButton vrButton)
     {
         if (_inputMap == null) return null;
 
-        _inputMap.TryGetValue(vrButton, out var usage);
-        return usage;
+        _inputMap.TryGetValue(vrButton, out var usages);
+        return usages;
     }
     
     // TODO use an enum or a class or something instead of plain strings.
