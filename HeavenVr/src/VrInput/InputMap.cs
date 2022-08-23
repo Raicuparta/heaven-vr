@@ -105,8 +105,9 @@ public static class InputMap
     }
 
     [CanBeNull]
-    public static InputFeatureUsage<bool>[] GetUsage(VrButton vrButton)
+    public static InputFeatureUsage<bool>[] GetUsages(VrButton vrButton)
     {
+        // TODO _inputMap might not be updated with manual settings.
         if (_inputMap == null) return null;
 
         _inputMap.TryGetValue(vrButton, out var usages);

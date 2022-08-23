@@ -14,8 +14,10 @@ public class BoolBinding: InputBinding<bool>
 
     protected override bool GetValue()
     {
-        var usages = InputMap.GetUsage(_vrButton);
+        var usages = InputMap.GetUsages(_vrButton);
         if (usages == null) return false;
+
+        Value = false;
 
         foreach (var usage in usages)
         {
