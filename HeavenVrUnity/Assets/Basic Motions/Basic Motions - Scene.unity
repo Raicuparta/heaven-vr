@@ -1213,11 +1213,39 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
       propertyPath: playerHeight
-      value: 2.17
+      value: 1.8
       objectReference: {fileID: 0}
-    - target: {fileID: 1483587964607275650, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: playerArmSpan
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: boneMappings.Array.data[0].EulerOffset.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: boneMappings.Array.data[3].EulerOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: boneMappings.Array.data[3].EulerOffset.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: boneMappings.Array.data[3].EulerOffset.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: boneMappings.Array.data[5].EulerOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: boneMappings.Array.data[5].EulerOffset.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826481240, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
+      propertyPath: boneMappings.Array.data[5].EulerOffset.z
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 1483587964614266138, guid: 0311b9e6e4d50fb46aa8a6f3feed282a, type: 3}
       propertyPath: m_RootOrder

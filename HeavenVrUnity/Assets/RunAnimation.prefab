@@ -1782,30 +1782,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boneMappings:
-  - Path: bob.stage.avatar.trackers.head
+  - Path: stage.avatar.trackers.head
     BoneTransform: {fileID: 1483587964614266204}
-  - Path: bob.stage.avatar.trackers.chest
+  - Path: stage.avatar.trackers.chest
     BoneTransform: {fileID: 1483587964614266132}
-  - Path: bob.stage.avatar.trackers.waist
+  - Path: stage.avatar.trackers.waist
     BoneTransform: {fileID: 1483587964614266146}
-  - Path: bob.stage.avatar.trackers.leftHand
+  - Path: stage.avatar.trackers.leftHand
     BoneTransform: {fileID: 1224396059849927519}
-  - Path: bob.stage.avatar.trackers.leftElbowGoal
+  - Path: stage.avatar.trackers.leftElbowGoal
     BoneTransform: {fileID: 4234104248707492211}
-  - Path: bob.stage.avatar.trackers.rightHand
+  - Path: stage.avatar.trackers.rightHand
     BoneTransform: {fileID: 5231703400889716360}
-  - Path: bob.stage.avatar.trackers.rightElbowGoal
+  - Path: stage.avatar.trackers.rightElbowGoal
     BoneTransform: {fileID: 2919574088886255768}
-  - Path: bob.stage.avatar.trackers.leftFoot
+  - Path: stage.avatar.trackers.leftFoot
     BoneTransform: {fileID: 5223426303657492104}
-  - Path: bob.stage.avatar.trackers.leftKneeGoal
+  - Path: stage.avatar.trackers.leftKneeGoal
     BoneTransform: {fileID: 783903934957872193}
-  - Path: bob.stage.avatar.trackers.rightFoot
+  - Path: stage.avatar.trackers.rightFoot
     BoneTransform: {fileID: 8196945940329380994}
-  - Path: bob.stage.avatar.trackers.rightKneeGoal
+  - Path: stage.avatar.trackers.rightKneeGoal
     BoneTransform: {fileID: 2067610778243597231}
   animator: {fileID: 1483587964607275650}
-  playerHeight: 1.73
+  playerHeight: 2.17
   playerArmSpan: 1.6
 --- !u!1 &6631918774679195390
 GameObject:

@@ -11,14 +11,16 @@ namespace LIV.AvatarTrackers
 	    [Serializable]
 	    public struct BoneMapping
 	    {
-		    public BoneMapping(string path, Transform boneTransform = null)
+		    public BoneMapping(string path, Transform boneTransform = null, Vector3 eulerOffset = default)
 		    {
 			    Path = path;
 			    BoneTransform = boneTransform;
+			    EulerOffset = eulerOffset;
 		    }
 		    
 		    public string Path;
 		    public Transform BoneTransform;
+		    public Vector3 EulerOffset;
 	    }
 	    
 	    private const string localPathBase = "localAvatarTrackers";
@@ -29,17 +31,17 @@ namespace LIV.AvatarTrackers
 
 	    [SerializeField] private List<BoneMapping> boneMappings = new List<BoneMapping>()
 	    {
-		    new BoneMapping("bob.stage.avatar.trackers.head"),
-		    new BoneMapping("bob.stage.avatar.trackers.chest"),
-			new BoneMapping("bob.stage.avatar.trackers.waist"),
-			new BoneMapping("bob.stage.avatar.trackers.leftHand"),
-			new BoneMapping("bob.stage.avatar.trackers.leftElbowGoal"),
-			new BoneMapping("bob.stage.avatar.trackers.rightHand"),
-			new BoneMapping("bob.stage.avatar.trackers.rightElbowGoal"),
-			new BoneMapping("bob.stage.avatar.trackers.leftFoot"),
-			new BoneMapping("bob.stage.avatar.trackers.leftKneeGoal"),
-			new BoneMapping("bob.stage.avatar.trackers.rightFoot"),
-			new BoneMapping("bob.stage.avatar.trackers.rightKneeGoal"),
+		    new BoneMapping("stage.avatar.trackers.head"),
+		    new BoneMapping("stage.avatar.trackers.chest"),
+			new BoneMapping("stage.avatar.trackers.waist"),
+			new BoneMapping("stage.avatar.trackers.leftHand"),
+			new BoneMapping("stage.avatar.trackers.leftElbowGoal"),
+			new BoneMapping("stage.avatar.trackers.rightHand"),
+			new BoneMapping("stage.avatar.trackers.rightElbowGoal"),
+			new BoneMapping("stage.avatar.trackers.leftFoot"),
+			new BoneMapping("stage.avatar.trackers.leftKneeGoal"),
+			new BoneMapping("stage.avatar.trackers.rightFoot"),
+			new BoneMapping("stage.avatar.trackers.rightKneeGoal"),
 	    };
 
 	    [SerializeField] private Animator animator;
@@ -51,19 +53,19 @@ namespace LIV.AvatarTrackers
 			pathfinderRigidTransforms = new List<PathfinderRigidTransform>();
 	        foreach (var boneMapping in boneMappings)
 	        {
-		        pathfinderRigidTransforms.Add(CreatePathfinderTransform(boneMapping.BoneTransform, boneMapping.Path));
+		        pathfinderRigidTransforms.Add(CreatePathfinderTransform(boneMapping));
 	        }
         }
 
-        private PathfinderRigidTransform CreatePathfinderTransform(Transform boneTransform, string path)
+        private PathfinderRigidTransform CreatePathfinderTransform(BoneMapping boneMapping)
         {
-	        var pathfinderTransform = new GameObject($"Pathfinder-{boneTransform.name}").AddComponent<PathfinderRigidTransform>();
-			pathfinderTransform.transform.SetParent(boneTransform, false);
+	        var pathfinderTransform = new GameObject($"Pathfinder-{boneMapping.BoneTransform.name}").AddComponent<PathfinderRigidTransform>();
+			pathfinderTransform.transform.SetParent(boneMapping.BoneTransform, false);
 	        pathfinderTransform.Root = transform;
-			pathfinderTransform.Key = path;
+			pathfinderTransform.Key = boneMapping.Path;
 			pathfinderTransform.PathBase = localPathBase;
 
-			pathfinderTransform.transform.localEulerAngles = new Vector3(0f, 0, 90f);
+			pathfinderTransform.transform.localEulerAngles = boneMapping.EulerOffset;
 			
 
 			return pathfinderTransform;
@@ -81,12 +83,12 @@ namespace LIV.AvatarTrackers
 	        if (Mathf.Abs(playerHeight - previousHeight) > 0.1f)
 	        {
 		        previousHeight = playerHeight;
-				SDKBridgePathfinder.SetValue($"{localPathBase}.bob.stage.avatar.height", ref playerHeight, (int) PathfinderType.Float);
+				SDKBridgePathfinder.SetValue($"{localPathBase}.stage.avatar.height", ref playerHeight, (int) PathfinderType.Float);
 	        }
 	        if (Mathf.Abs(playerArmSpan - previousArmSpan) > 0.1f)
 	        {
 		        previousArmSpan = playerArmSpan;
-				SDKBridgePathfinder.SetValue($"{localPathBase}.bob.stage.avatar.armspan", ref playerArmSpan, (int) PathfinderType.Float);
+				SDKBridgePathfinder.SetValue($"{localPathBase}.stage.avatar.armspan", ref playerArmSpan, (int) PathfinderType.Float);
 	        }
 	        
 	        SDKBridgePathfinder.CopyPath(globalPathBase, localPathBase);
