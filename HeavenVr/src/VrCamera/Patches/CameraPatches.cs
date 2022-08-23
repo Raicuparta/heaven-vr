@@ -31,4 +31,12 @@ public static class CameraPatches
         __result = -1;
         return false;
     }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(HeadBob), nameof(HeadBob.Start))]
+    private static bool DisableHeadBob(HeadBob __instance)
+    {
+        __instance.enabled = false;
+        return false;
+    }
 }
