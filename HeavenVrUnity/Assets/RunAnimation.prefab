@@ -1815,7 +1815,7 @@ MonoBehaviour:
   boneMappings:
   - Path: stage.avatar.trackers.head
     BoneTransform: {fileID: 4418431416079244688}
-    EulerOffset: {x: 0, y: 0, z: 90}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.chest
     BoneTransform: {fileID: 1483587964614266132}
     EulerOffset: {x: 0, y: 0, z: 0}
@@ -1823,14 +1823,14 @@ MonoBehaviour:
     BoneTransform: {fileID: 1483587964614266146}
     EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.leftHand
-    BoneTransform: {fileID: 8747483020291473275}
-    EulerOffset: {x: -90, y: 0, z: -90}
+    BoneTransform: {fileID: 1224396059849927519}
+    EulerOffset: {x: 0, y: -90, z: 0}
   - Path: stage.avatar.trackers.leftElbowGoal
     BoneTransform: {fileID: 4234104248707492211}
     EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.rightHand
-    BoneTransform: {fileID: 8903713302640527024}
-    EulerOffset: {x: 90, y: 0, z: -90}
+    BoneTransform: {fileID: 5231703400889716360}
+    EulerOffset: {x: 0, y: -90, z: 180}
   - Path: stage.avatar.trackers.rightElbowGoal
     BoneTransform: {fileID: 2919574088886255768}
     EulerOffset: {x: 0, y: 0, z: 0}
@@ -1847,8 +1847,8 @@ MonoBehaviour:
     BoneTransform: {fileID: 2067610778243597231}
     EulerOffset: {x: 0, y: 0, z: 0}
   animator: {fileID: 1483587964607275650}
-  playerHeight: 1.8
-  playerArmSpan: 1.9
+  playerHeight: 1.731876
+  playerArmSpan: 1.573143
 --- !u!1 &6631918774679195390
 GameObject:
   m_ObjectHideFlags: 0
