@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &188282087642162985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4418431416079244688}
+  m_Layer: 0
+  m_Name: Eyes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4418431416079244688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188282087642162985}
+  m_LocalRotation: {x: -0.019330252, y: -0.019330252, z: 0.70684254, w: 0.70684254}
+  m_LocalPosition: {x: -0.1018, y: 0, z: 0.1297}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1483587964614266204}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: -3.133, z: 90}
 --- !u!1 &239507629454176061
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +514,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1483587964614265364}
+  - {fileID: 4418431416079244688}
   m_Father: {fileID: 1483587964614266144}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1783,30 +1814,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boneMappings:
   - Path: stage.avatar.trackers.head
-    BoneTransform: {fileID: 1483587964614266204}
+    BoneTransform: {fileID: 4418431416079244688}
+    EulerOffset: {x: 0, y: 0, z: 90}
   - Path: stage.avatar.trackers.chest
     BoneTransform: {fileID: 1483587964614266132}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.waist
     BoneTransform: {fileID: 1483587964614266146}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.leftHand
-    BoneTransform: {fileID: 1224396059849927519}
+    BoneTransform: {fileID: 8747483020291473275}
+    EulerOffset: {x: -90, y: 0, z: -90}
   - Path: stage.avatar.trackers.leftElbowGoal
     BoneTransform: {fileID: 4234104248707492211}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.rightHand
-    BoneTransform: {fileID: 5231703400889716360}
+    BoneTransform: {fileID: 8903713302640527024}
+    EulerOffset: {x: 90, y: 0, z: -90}
   - Path: stage.avatar.trackers.rightElbowGoal
     BoneTransform: {fileID: 2919574088886255768}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.leftFoot
     BoneTransform: {fileID: 5223426303657492104}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.leftKneeGoal
     BoneTransform: {fileID: 783903934957872193}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.rightFoot
     BoneTransform: {fileID: 8196945940329380994}
+    EulerOffset: {x: 0, y: 0, z: 0}
   - Path: stage.avatar.trackers.rightKneeGoal
     BoneTransform: {fileID: 2067610778243597231}
+    EulerOffset: {x: 0, y: 0, z: 0}
   animator: {fileID: 1483587964607275650}
-  playerHeight: 2.17
-  playerArmSpan: 1.6
+  playerHeight: 1.8
+  playerArmSpan: 1.9
 --- !u!1 &6631918774679195390
 GameObject:
   m_ObjectHideFlags: 0
