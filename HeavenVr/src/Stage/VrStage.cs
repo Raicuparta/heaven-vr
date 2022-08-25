@@ -100,6 +100,7 @@ public class VrStage: MonoBehaviour
         var camPrefab = new GameObject("LivCameraPrefab").AddComponent<Camera>();
         camPrefab.gameObject.SetActive(false);
         camPrefab.gameObject.AddComponent<UniversalAdditionalCameraData>();
+        camPrefab.nearClipPlane = 0.03f;
         _liv.MRCameraPrefab = camPrefab;
         _liv.HMDCamera = VrCamera;
         _liv.stage = _livStage;
