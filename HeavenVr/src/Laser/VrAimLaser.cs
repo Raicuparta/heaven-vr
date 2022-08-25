@@ -23,6 +23,7 @@ public class VrAimLaser: MonoBehaviour
     {
         _laserScaler = transform.Find("LaserScaler");
         SetUpCrosshair();
+        SetUpMuzzleFlash();
     }
 
     public void SetDistance(float distance)
@@ -41,8 +42,18 @@ public class VrAimLaser: MonoBehaviour
         _crosshair.SetParent(transform, false);
         _crosshair.localScale = Vector3.one * 0.1f;
         _crosshair.localPosition = Vector3.forward;
-        _crosshair.localEulerAngles = Vector3.forward * -90f;
         LayerHelper.SetLayerRecursive(RM.ui.crosshair.parent.gameObject, GameLayer.Default);
+    }
+
+    private void SetUpMuzzleFlash()
+    {
+        if (!RM.mechController || !RM.mechController.muzzleFlashController) return;
+
+        var muzzleFlash = RM.mechController.muzzleFlashController.transform;
+        
+        muzzleFlash.SetParent(transform, false);
+        muzzleFlash.localScale = Vector3.one * 0.1f;
+        muzzleFlash.localPosition = Vector3.forward;
     }
 
     private void Update()
