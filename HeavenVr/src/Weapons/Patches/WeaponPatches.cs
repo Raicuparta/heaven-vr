@@ -55,4 +55,11 @@ public static class WeaponPatches
     {
         __instance._spawnCameraOffset = Vector3.zero;
     }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(MechController), nameof(MechController.GetTelefragTarget))]
+    private static void PreventRotatingAfterTelefrag(MechController.TelefragTarget __result)
+    {
+        __result.wasPreviousTarget = false;
+    }
 }
