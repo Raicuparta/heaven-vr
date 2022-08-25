@@ -13,29 +13,51 @@ public class WeaponSwapper: MonoBehaviour
         gameObject.AddComponent<WeaponSwapper>();
     }
 
+    private static PlayerCard GetCurrentCard()
+    {
+        if (RM.mechController == null ||
+            RM.mechController.deck == null ||
+            RM.time == null ||
+            RM.time.GetIsTimeScaleZero())
+            return null;
+
+        return RM.mechController.deck.GetCardInHand(0);
+    }
+
     private void Update()
     {
-        if (RM.mechController == null || RM.mechController.deck == null) return;
-
-        var currentCard = RM.mechController.deck.GetCardInHand(0);
+        var currentCard = GetCurrentCard();
 
         if (currentCard == _previousCard) return;
+
+        _previousCard = currentCard;
 
         if (_currentWeapon)
         {
             _currentWeapon.SetActive(false);
         }
 
-        _currentWeapon = transform.Find(GetWeaponTransformName(currentCard)).gameObject;
+        var currentWeaponTransformName = GetWeaponTransformName(currentCard);
+        
+        _currentWeapon = GetWeaponObject(currentWeaponTransformName);
         if (_currentWeapon)
         {
             _currentWeapon.SetActive(true);
         }
-        _previousCard = currentCard;
+    }
+
+    private GameObject GetWeaponObject(string transformName)
+    {
+        return transformName == null ? null : transform.Find(transformName).gameObject;
     }
 
     private static string GetWeaponTransformName(PlayerCard card)
     {
+        if (card == null)
+        {
+            return null;
+        }
+        
         return card.data.cardID switch
         {
             "PISTOL" => "Pistol",
@@ -44,8 +66,8 @@ public class WeaponSwapper: MonoBehaviour
             "UZI" => "Uzi",
             "SHOTGUN" => "Shotgun",
             "ROCKETLAUNCHER" => "RocketLauncher",
-            "FISTS" => "",
-            "RAPTURE" => "Katana", // TODO Book of Life model. I think it's this ID, but not sure.
+            "FISTS" => null, // TODO fists model.
+            "RAPTURE" => null, // TODO Book of Life model.
             "KATANA" => "Katana",
             _ => throw new ArgumentOutOfRangeException(card.data.cardID, "Couldn't find a model the selected weapon")
         };
