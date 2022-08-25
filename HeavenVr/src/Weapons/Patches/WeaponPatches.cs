@@ -60,6 +60,8 @@ public static class WeaponPatches
     [HarmonyPatch(typeof(MechController), nameof(MechController.GetTelefragTarget))]
     private static void PreventRotatingAfterTelefrag(MechController.TelefragTarget __result)
     {
+        if (__result == null) return;
+
         __result.wasPreviousTarget = false;
     }
 }
