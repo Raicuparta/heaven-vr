@@ -14,14 +14,9 @@ public static class CameraPatches
     {
         // I forgot to write a comment for this so I don't remember what it's for.
         var dummy = new GameObject("VrCameraRotationDummy").transform;
-        dummy.SetParent(__instance.m_cameraHolder.parent);
-        var positionConstraint = dummy.gameObject.AddComponent<PositionConstraint>();
-        positionConstraint.constraintActive = true;
-        positionConstraint.locked = true;
-        positionConstraint.AddSource(new ConstraintSource
-        {
-            sourceTransform = VrStage.Instance.VrCamera.transform
-        });
+        dummy.SetParent(__instance.m_cameraHolder.parent, false);
+        dummy.transform.localPosition = Vector3.zero;
+        dummy.transform.localRotation = Quaternion.identity;
         __instance.m_cameraHolder = dummy;
     }
 
