@@ -67,7 +67,7 @@ public class WeaponSwapper: MonoBehaviour
             "SHOTGUN" => "Shotgun",
             "ROCKETLAUNCHER" => "RocketLauncher",
             "FISTS" => null, // TODO fists model.
-            "RAPTURE" => null, // TODO Book of Life model.
+            "RAPTURE" => "BookOfLife", // TODO Book of Life model.
             "KATANA" => "Katana",
             _ => throw new ArgumentOutOfRangeException(card.data.cardID, "Couldn't find a model the selected weapon")
         };

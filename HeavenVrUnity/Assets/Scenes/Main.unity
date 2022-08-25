@@ -1395,7 +1395,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 64
-  laser: {fileID: 0}
+  laser: {fileID: 563722253}
   debugLocalPoint: {x: 0, y: 0, z: 0}
   debugpointerPosition: {x: 0, y: 0, z: 0}
   renderTexture: {fileID: 8400000, guid: cfd385cdada65c94792b5abc833321d0, type: 2}
@@ -9305,6 +9305,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556241367}
   m_CullTransparentMesh: 1
+--- !u!4 &563722253 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8651134231152208977, guid: cbbe3e44c01aec84492ac6d988e6f52b, type: 3}
+  m_PrefabInstance: {fileID: 96566746}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &569875776
 GameObject:
   m_ObjectHideFlags: 0

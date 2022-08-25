@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1208472657
+CRC: 1370755366
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1abeabfd68add0dfc793cf7e9e857563
+    Hash: 2a06a5424e0c6809d8b2a4f41bacfe2e
   TypeTreeHash:
     serializedVersion: 2
     Hash: c89a0e65e9ec04273c5f84b2209737cf
@@ -31,5 +31,5 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/RunAnimation.prefab
+- Assets/Animation/RunAnimation.prefab
 Dependencies: []
