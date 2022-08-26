@@ -60,5 +60,23 @@ public class PlayerBodyIkController: MonoBehaviour
         vrIk.solver.plantFeet = false;
 
         vrIk.transform.localScale = Vector3.one * 2f; // calculate scale.
+
+        var grounder = vrIk.GetComponentInChildren<GrounderIK>();
+        var leftLegSolver = (grounder.legs[0] as LimbIK).solver;
+        var rightLegSolver = (grounder.legs[1] as LimbIK).solver;
+
+        leftLegSolver.bone1.transform = vrIk.references.leftThigh;
+        leftLegSolver.bone2.transform = vrIk.references.leftCalf;
+        leftLegSolver.bone3.transform = vrIk.references.leftFoot;
+        rightLegSolver.bone1.transform = vrIk.references.rightThigh;
+        rightLegSolver.bone2.transform = vrIk.references.rightCalf;
+        rightLegSolver.bone3.transform = vrIk.references.rightFoot;
+
+        if (RM.drifter)
+        {
+            grounder.transform.SetParent(RM.drifter.transform, false);
+            grounder.transform.localPosition = Vector3.zero;
+        }
+
     }
 }
