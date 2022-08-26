@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace HeavenVr.Player;
 
 public class PlayerBodyIkController: MonoBehaviour
 {
+    private VRIK _vrIk;
+    
     public static void Create(Transform camera, Transform leftHand, Transform rightHand)
     {
         var instance = Instantiate(VrAssetLoader.PlayerBodyIk, camera.parent, false).AddComponent<PlayerBodyIkController>();
@@ -30,6 +33,7 @@ public class PlayerBodyIkController: MonoBehaviour
         var allBones = root.GetComponentsInChildren<Transform>();
         
         var vrIk = instance.GetComponent<VRIK>();
+        instance._vrIk = vrIk;
         
         vrIk.references.root = root;
         vrIk.references.pelvis = allBones.First(bone => bone.name == "WhiteRig_ROOTSHJnt");
@@ -57,7 +61,6 @@ public class PlayerBodyIkController: MonoBehaviour
         vrIk.solver.spine.headTarget = headTarget;
         vrIk.solver.leftArm.target = leftHandTarget;
         vrIk.solver.rightArm.target = rightHandTarget;
-        vrIk.solver.spine.pelvisTarget = instance.transform.Find("TrackingSpace/Pelvis");
         vrIk.solver.plantFeet = false;
         vrIk.solver.locomotion.stepThreshold = 0.1f;
         vrIk.solver.locomotion.stepSpeed = 10f;
@@ -81,5 +84,23 @@ public class PlayerBodyIkController: MonoBehaviour
             instance.transform.localPosition = Vector3.up * -2f;
         }
 
+    }
+
+    private void Update()
+    {
+        if (!RM.drifter) return;
+
+        if (RM.drifter.grounded)
+        {
+            transform.localPosition = Vector3.up * -2f;
+            _vrIk.solver.locomotion.stepThreshold = 0.1f;
+            _vrIk.solver.locomotion.stepSpeed = 10f;
+        }
+        else
+        {
+            transform.localPosition = Vector3.up * -6f;
+            _vrIk.solver.locomotion.stepThreshold = 0.5f;
+            _vrIk.solver.locomotion.stepSpeed = 2f;
+        }
     }
 }
