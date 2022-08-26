@@ -21,6 +21,9 @@
         <Reference Include="LIV, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\HeavenVrUnity\Build\HeavenVrUnity_Data\Managed\LIV.dll</HintPath>
         </Reference>
+        <Reference Include="RootMotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\HeavenVrUnity\Build\HeavenVrUnity_Data\Managed\RootMotion.dll</HintPath>
+        </Reference>
         <Reference Include="Unity.XR.Management, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\lib\Unity.XR.Management.dll</HintPath>
         </Reference>

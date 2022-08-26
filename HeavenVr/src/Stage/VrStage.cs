@@ -1,6 +1,7 @@
 ﻿using HeavenVr.Helpers;
 using HeavenVr.Laser;
 using HeavenVr.ModSettings;
+using HeavenVr.Player;
 using HeavenVr.VrUi;
 using LIV.AvatarTrackers;
 using UnityEngine;
@@ -60,6 +61,8 @@ public class VrStage: MonoBehaviour
         instance._dominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.RightPose);
         instance._nonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.LeftPose);
         instance.aimLaser = VrAimLaser.Create(instance._dominantHand.transform);
+        
+        PlayerBodyIkController.Create(mainCamera.transform, instance._nonDominantHand.transform,  instance._dominantHand.transform);
 
         instance.UiTarget = UiTarget.Create(instance, instance._nonDominantHand);
         mainCamera.transform.parent.GetComponentInParent<MouseLook>();
