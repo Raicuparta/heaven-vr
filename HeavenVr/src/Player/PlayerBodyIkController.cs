@@ -8,7 +8,7 @@ public class PlayerBodyIkController: MonoBehaviour
 {
     public static void Create(Transform camera, Transform leftHand, Transform rightHand)
     {
-        var instance = Instantiate(VrAssetLoader.PlayerBodyIk).AddComponent<PlayerBodyIkController>();
+        var instance = Instantiate(VrAssetLoader.PlayerBodyIk, camera.parent, false).AddComponent<PlayerBodyIkController>();
 
         var headTarget = new GameObject("VrIkHeadTarget").transform;
         headTarget.SetParent(camera, false);
@@ -57,25 +57,28 @@ public class PlayerBodyIkController: MonoBehaviour
         vrIk.solver.spine.headTarget = headTarget;
         vrIk.solver.leftArm.target = leftHandTarget;
         vrIk.solver.rightArm.target = rightHandTarget;
+        vrIk.solver.spine.pelvisTarget = instance.transform.Find("TrackingSpace/Pelvis");
         vrIk.solver.plantFeet = false;
+        vrIk.solver.locomotion.stepThreshold = 0.1f;
+        vrIk.solver.locomotion.stepSpeed = 10f;
 
         vrIk.transform.localScale = Vector3.one * 2f; // calculate scale.
 
-        var grounder = vrIk.GetComponentInChildren<GrounderIK>();
-        var leftLegSolver = (grounder.legs[0] as LimbIK).solver;
-        var rightLegSolver = (grounder.legs[1] as LimbIK).solver;
-
-        leftLegSolver.bone1.transform = vrIk.references.leftThigh;
-        leftLegSolver.bone2.transform = vrIk.references.leftCalf;
-        leftLegSolver.bone3.transform = vrIk.references.leftFoot;
-        rightLegSolver.bone1.transform = vrIk.references.rightThigh;
-        rightLegSolver.bone2.transform = vrIk.references.rightCalf;
-        rightLegSolver.bone3.transform = vrIk.references.rightFoot;
+        // var grounder = vrIk.GetComponentInChildren<GrounderIK>();
+        // var leftLegSolver = (grounder.legs[0] as LimbIK).solver;
+        // var rightLegSolver = (grounder.legs[1] as LimbIK).solver;
+        //
+        // leftLegSolver.bone1.transform = vrIk.references.leftThigh;
+        // leftLegSolver.bone2.transform = vrIk.references.leftCalf;
+        // leftLegSolver.bone3.transform = vrIk.references.leftFoot;
+        // rightLegSolver.bone1.transform = vrIk.references.rightThigh;
+        // rightLegSolver.bone2.transform = vrIk.references.rightCalf;
+        // rightLegSolver.bone3.transform = vrIk.references.rightFoot;
 
         if (RM.drifter)
         {
-            grounder.transform.SetParent(RM.drifter.transform, false);
-            grounder.transform.localPosition = Vector3.zero;
+            instance.transform.SetParent(RM.drifter.transform, false);
+            instance.transform.localPosition = Vector3.up * -2f;
         }
 
     }

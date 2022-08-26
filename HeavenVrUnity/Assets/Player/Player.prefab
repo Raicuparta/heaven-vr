@@ -192,7 +192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1729038804
 Transform:
   m_ObjectHideFlags: 0
@@ -311,6 +311,7 @@ Transform:
   - {fileID: 6283020849746591167}
   - {fileID: 649082291908130570}
   - {fileID: 5995874649461817579}
+  - {fileID: 8376505076020599472}
   m_Father: {fileID: 3707247855157513860}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -398,13 +399,43 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106163572782494452}
   m_LocalRotation: {x: 0.3619251, y: -0, z: -0, w: 0.93220717}
-  m_LocalPosition: {x: -0.413, y: -0.583, z: 0.171}
+  m_LocalPosition: {x: 0.36, y: -0.615, z: -0.674}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6792089915911480175}
   m_Father: {fileID: 5417938437757760255}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 42.437, y: 0, z: 0}
+--- !u!1 &2598419802317557395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8376505076020599472}
+  m_Layer: 0
+  m_Name: Pelvis
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8376505076020599472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2598419802317557395}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.71, z: 0.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5417938437757760255}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3168307184777111044
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3168307184777111044}
   m_LocalRotation: {x: 0.3619251, y: -0, z: -0, w: 0.93220717}
-  m_LocalPosition: {x: 0.413, y: -0.583, z: 0.171}
+  m_LocalPosition: {x: -0.456, y: -0.61500007, z: -0.674}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5039255231858713057}
@@ -665,13 +696,13 @@ MonoBehaviour:
       headTarget: {fileID: 1768642974747346049}
       positionWeight: 1
       rotationWeight: 1
-      headClampWeight: 0.6
+      headClampWeight: 0
       minHeadHeight: 0.8
       useAnimatedHeadHeightWeight: 0
       useAnimatedHeadHeightRange: 0.1
       animatedHeadHeightBlend: 0.3
-      pelvisTarget: {fileID: 0}
-      pelvisPositionWeight: 0
+      pelvisTarget: {fileID: 8376505076020599472}
+      pelvisPositionWeight: 0.9
       pelvisRotationWeight: 0
       maintainPelvisPosition: 0.2
       chestGoal: {fileID: 0}
@@ -683,7 +714,7 @@ MonoBehaviour:
       neckStiffness: 0.2
       moveBodyBackWhenCrouching: 0.5
       maxRootAngle: 25
-      rootHeadingOffset: -180
+      rootHeadingOffset: 0
     leftArm:
       bones: []
       target: {fileID: 6792089915911480175}
@@ -781,14 +812,14 @@ MonoBehaviour:
       maxRootAngleStanding: 90
       stepLengthMlp: 1
       footDistance: 0.3
-      stepThreshold: 0.4
+      stepThreshold: 0.1
       angleThreshold: 60
       comAngleMlp: 1
       maxVelocity: 0.4
       velocityFactor: 0.4
       maxLegStretch: 1
-      rootSpeed: 20
-      stepSpeed: 3
+      rootSpeed: 40
+      stepSpeed: 6
       stepHeight:
         serializedVersion: 2
         m_Curve:
