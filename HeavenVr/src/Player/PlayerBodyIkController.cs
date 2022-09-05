@@ -83,11 +83,13 @@ public class PlayerBodyIkController: MonoBehaviour
 
         if (RM.drifter.grounded)
         {
-            transform.localPosition = Vector3.up * -2f;
+            _vrIk.solver.locomotion.maxVelocity = 3f;
+            _vrIk.solver.locomotion.stepSpeed = 6f;
         }
         else
         {
-            transform.localPosition = Vector3.up * -6f;
+            _vrIk.solver.locomotion.maxVelocity = 0f;
+            _vrIk.solver.locomotion.stepSpeed = 4f;
         }
     }
 }
