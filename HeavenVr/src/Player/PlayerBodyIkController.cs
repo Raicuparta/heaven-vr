@@ -64,19 +64,10 @@ public class PlayerBodyIkController: MonoBehaviour
         vrIk.solver.plantFeet = false;
         vrIk.solver.locomotion.stepThreshold = 0.1f;
         vrIk.solver.locomotion.stepSpeed = 10f;
+        vrIk.solver.locomotion.maxVelocity = 3f;
+        vrIk.solver.locomotion.stepSpeed = 6f;
 
-        vrIk.transform.localScale = Vector3.one * 2f; // calculate scale.
-
-        // var grounder = vrIk.GetComponentInChildren<GrounderIK>();
-        // var leftLegSolver = (grounder.legs[0] as LimbIK).solver;
-        // var rightLegSolver = (grounder.legs[1] as LimbIK).solver;
-        //
-        // leftLegSolver.bone1.transform = vrIk.references.leftThigh;
-        // leftLegSolver.bone2.transform = vrIk.references.leftCalf;
-        // leftLegSolver.bone3.transform = vrIk.references.leftFoot;
-        // rightLegSolver.bone1.transform = vrIk.references.rightThigh;
-        // rightLegSolver.bone2.transform = vrIk.references.rightCalf;
-        // rightLegSolver.bone3.transform = vrIk.references.rightFoot;
+        vrIk.transform.localScale = Vector3.one * 2f; // TODO calculate scale.
 
         if (RM.drifter)
         {
@@ -93,14 +84,10 @@ public class PlayerBodyIkController: MonoBehaviour
         if (RM.drifter.grounded)
         {
             transform.localPosition = Vector3.up * -2f;
-            _vrIk.solver.locomotion.stepThreshold = 0.1f;
-            _vrIk.solver.locomotion.stepSpeed = 10f;
         }
         else
         {
             transform.localPosition = Vector3.up * -6f;
-            _vrIk.solver.locomotion.stepThreshold = 0.5f;
-            _vrIk.solver.locomotion.stepSpeed = 2f;
         }
     }
 }
