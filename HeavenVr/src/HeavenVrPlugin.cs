@@ -19,7 +19,8 @@ public class HeavenVrPlugin : BaseUnityPlugin
 {
 	private void Awake()
 	{
-		VRIK a;
+		// Referencing so it gets loaded. TODO: figure out how to clean this up.
+		VRIK vrIk;
 		
 		Debug.Log($"Game version: {Application.version}");
 	        

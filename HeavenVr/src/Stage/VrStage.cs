@@ -1,4 +1,5 @@
-﻿using HeavenVr.Helpers;
+﻿using System;
+using HeavenVr.Helpers;
 using HeavenVr.Laser;
 using HeavenVr.Liv;
 using HeavenVr.ModSettings;
@@ -30,7 +31,8 @@ public class VrStage: MonoBehaviour
     {
         if (Instance)
         {
-            Destroy(Instance);
+            Instance.VrCamera.transform.SetParent(Instance._stageParent, false);
+            Destroy(Instance.gameObject);
         }
         
         var instance = new GameObject("VrStage").AddComponent<VrStage>();
