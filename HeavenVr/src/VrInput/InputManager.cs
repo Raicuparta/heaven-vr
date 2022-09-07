@@ -1,4 +1,5 @@
 ﻿using System;
+using HeavenVr.ModSettings;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -12,11 +13,13 @@ public class InputManager: MonoBehaviour
     private void OnEnable()
     {
         InputDevices.deviceConnected += OnDeviceConnected;
+        VrSettings.ControlScheme.SettingChanged += OnControlSchemeChanged;
     }
 
     private void OnDisable()
     {
         InputDevices.deviceConnected -= OnDeviceConnected;
+        VrSettings.ControlScheme.SettingChanged -= OnControlSchemeChanged;
     }
 
     private static void OnDeviceConnected(InputDevice device)
@@ -32,6 +35,11 @@ public class InputManager: MonoBehaviour
             _leftInputDevice = device;
         }
         InputMap.UpdateInputMap(device);
+    }
+
+    private static void OnControlSchemeChanged(object sender, EventArgs e)
+    {
+        InputMap.UpdateInputMap(_rightInputDevice);
     }
 
     public static void Create()
