@@ -91,7 +91,6 @@ public class LaserInputModule : BaseInputModule
             RayDistance,
             LayerHelper.GetMask(GameLayer.VrUi));
 
-
         VrStage.Instance.aimLaser.SetDistance(isHit ? hit.distance : RayDistance);
             
         var pointerPosition = Vector3.zero;
