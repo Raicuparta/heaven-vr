@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
 using JetBrains.Annotations;
 using UnityEngine.XR;
@@ -64,19 +65,19 @@ public static class InputMap
 
     private static Dictionary<VrButton, InputFeatureUsage<bool>[]> GetAutoInputMap(InputDevice inputDevice)
     {
-        if (inputDevice.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) >= 0)
+        if (StringHelper.ContainsCaseInsensitive(inputDevice.name, "vive"))
         {
             return ViveInputMap;
         }
-        if (inputDevice.name.IndexOf("oculus", StringComparison.OrdinalIgnoreCase) >= 0)
+        if (StringHelper.ContainsCaseInsensitive(inputDevice.name, "oculus"))
         {
             return OculusInputMap;
         }
-        if (inputDevice.name.IndexOf("windows", StringComparison.OrdinalIgnoreCase) >= 0)
+        if (StringHelper.ContainsCaseInsensitive(inputDevice.name, "windows"))
         {
             return WmrInputMap;
         }
-        if (inputDevice.name.IndexOf("index", StringComparison.OrdinalIgnoreCase) >= 0)
+        if (StringHelper.ContainsCaseInsensitive(inputDevice.name, "index"))
         {
             return IndexInputMap;
         }
