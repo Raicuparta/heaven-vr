@@ -39,7 +39,7 @@ public static class InputMap
     {
         { VrButton.PrimaryButton, new[] { CommonUsages.triggerButton } },
         { VrButton.SecondaryButton, new[] { CommonUsages.gripButton } },
-        { VrButton.MenuButton, new[] { CommonUsages.secondaryButton } }
+        { VrButton.MenuButton, new[] { CommonUsages.menuButton } }
     };
     
     private static readonly Dictionary<VrButton, InputFeatureUsage<bool>[]> IndexInputMap = new()
