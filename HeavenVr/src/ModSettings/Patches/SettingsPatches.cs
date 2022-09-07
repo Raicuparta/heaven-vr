@@ -18,7 +18,7 @@ public static class SettingsPatches
     [HarmonyPatch(typeof(MenuScreenDialogue), nameof(MenuScreenDialogue.OnFastForwardButtonToggled))]
     private static void SpeedDialogueSkip(MenuScreenDialogue __instance)
     {
-        __instance.ffTimescale = 100f;
+        __instance.ffTimescale = 20f;
     }    
     
     [HarmonyPostfix]
