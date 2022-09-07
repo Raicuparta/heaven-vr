@@ -53,7 +53,7 @@ public static class InputPatches
         if (!VrStage.Instance || !VrStage.Instance.transform.parent) return;
 
         var forward = VrStage.Instance.GetMovementDirection();
-        var rotation = Quaternion.FromToRotation(VrStage.Instance.transform.parent.forward, forward);
+        var rotation = Quaternion.FromToRotation(VrStage.Instance.transform.forward, forward);
 
         var input = new Vector3(__instance.inputX, 0, __instance.inputY);
         input = rotation * input;
