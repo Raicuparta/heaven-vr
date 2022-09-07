@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using HeavenVr.Helpers;
+using HeavenVr.ModSettings;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -89,12 +90,7 @@ public class PlayerBodyIkController: MonoBehaviour
 
     private void UpdateRendererVisibility()
     {
-        if (PauseHelper.IsPaused())
-        {
-            _renderer.enabled = false;
-            return;
-        }
-        _renderer.enabled = true;
+        _renderer.enabled = !PauseHelper.IsPaused() && VrSettings.ShowPlayerBody.Value;
     }
 
     private void UpdateLocomotion()
