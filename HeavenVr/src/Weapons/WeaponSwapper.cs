@@ -1,4 +1,5 @@
 ﻿using System;
+using HeavenVr.Helpers;
 using UnityEngine;
 
 namespace HeavenVr.Weapons;
@@ -15,13 +16,7 @@ public class WeaponSwapper: MonoBehaviour
 
     private static PlayerCard GetCurrentCard()
     {
-        if (RM.mechController == null ||
-            RM.mechController.deck == null ||
-            RM.time == null ||
-            RM.time.GetIsTimeScaleZero())
-            return null;
-
-        return RM.mechController.deck.GetCardInHand(0);
+        return PauseHelper.IsPaused() ? null : RM.mechController.deck.GetCardInHand(0);
     }
 
     private void Update()

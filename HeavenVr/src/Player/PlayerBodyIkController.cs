@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HeavenVr.Helpers;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace HeavenVr.Player;
 public class PlayerBodyIkController: MonoBehaviour
 {
     private VRIK _vrIk;
+    private SkinnedMeshRenderer _renderer;
     
     public static void Create(Transform camera, Transform leftHand, Transform rightHand)
     {
@@ -75,11 +77,29 @@ public class PlayerBodyIkController: MonoBehaviour
             instance.transform.localPosition = Vector3.up * -2f;
         }
 
+        instance._renderer = instance.GetComponentInChildren<SkinnedMeshRenderer>();
+
     }
 
     private void Update()
     {
-        if (!RM.drifter) return;
+        UpdateRendererVisibility();
+        UpdateLocomotion();
+    }
+
+    private void UpdateRendererVisibility()
+    {
+        if (PauseHelper.IsPaused())
+        {
+            _renderer.enabled = false;
+            return;
+        }
+        _renderer.enabled = true;
+    }
+
+    private void UpdateLocomotion()
+    {
+        if (!RM.drifter || PauseHelper.IsPaused()) return;
 
         if (RM.drifter.grounded)
         {
