@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace HeavenVr.VrUi;
 
-// This is an invisible object that's always(ish) somewhere in front of the camera.
-// To be used as the position for UI elements that need to be visible or interacted with.
 public class UiTarget : MonoBehaviour
 {
     private const float RotationSmoothTime = 0.3f;

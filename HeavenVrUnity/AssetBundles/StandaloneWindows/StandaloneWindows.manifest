@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2856333812
+CRC: 3730326110
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -16,4 +16,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_4:
       Name: debug
+      Dependencies: {}
+    Info_5:
+      Name: player
       Dependencies: {}

@@ -5,6 +5,7 @@ using HarmonyLib;
 using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
 using HeavenVr.VrInput;
+using RootMotion.FinalIK;
 using UnityEngine;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
@@ -18,6 +19,8 @@ public class HeavenVrPlugin : BaseUnityPlugin
 {
 	private void Awake()
 	{
+		VRIK a;
+		
 		Debug.Log($"Game version: {Application.version}");
 	        
 		Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
