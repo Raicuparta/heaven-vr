@@ -50,7 +50,7 @@ public static class InputPatches
     [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.UpdateVelocity))]
     private static void UseVrMovementDirection(FirstPersonDrifter __instance)
     {
-        if (!VrStage.Instance || !VrStage.Instance.transform.parent) return;
+        if (!VrStage.Instance) return;
 
         var forward = VrStage.Instance.GetMovementDirection();
         var rotation = Quaternion.FromToRotation(VrStage.Instance.transform.forward, forward);
