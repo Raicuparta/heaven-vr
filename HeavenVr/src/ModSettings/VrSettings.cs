@@ -41,7 +41,6 @@ public static class VrSettings
         ControllerBasedMovementDirection = config.Bind(ControlsCategory, "ControllerBasedMovementDirection", false,
             "Controller-based movement direction | Enabled: controller-based direction. Disabled: head-based direction.");
         
-        ShowPlayerBody = config.Bind(VisualsCategory, "ShowPlayerBody", false,
-            "Show player body");
+        ShowPlayerBody = config.Bind(VisualsCategory, "ShowPlayerBody", true, "Show player body");
     }
 }

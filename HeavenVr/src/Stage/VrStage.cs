@@ -32,6 +32,7 @@ public class VrStage: MonoBehaviour
         if (Instance)
         {
             Instance.VrCamera.transform.SetParent(Instance._stageParent, false);
+            Destroy(Instance.VrCamera.GetComponent<TrackedPoseDriver>());
             Destroy(Instance.gameObject);
         }
         

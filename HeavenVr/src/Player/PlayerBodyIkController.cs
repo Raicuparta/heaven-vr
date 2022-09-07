@@ -70,7 +70,7 @@ public class PlayerBodyIkController: MonoBehaviour
         vrIk.solver.locomotion.maxVelocity = 3f;
         vrIk.solver.locomotion.stepSpeed = 6f;
 
-        vrIk.transform.localScale = Vector3.one * 2f; // TODO calculate scale.
+        vrIk.transform.localScale = Vector3.one; // TODO calculate scale.
 
         if (RM.drifter)
         {
