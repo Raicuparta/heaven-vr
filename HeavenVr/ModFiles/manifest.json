@@ -1,0 +1,13 @@
+{
+  "id": "heaven-vr",
+  "modTitle": "HeavenVR",
+  "gameTitle": "Neon White",
+  "providers": [
+    {
+      "providerId": "steam",
+      "gameIdentifier": "Neon White",
+      "requireAdmin": false,
+      "gameExe": "Neon White.exe"
+    }
+  ]
+}

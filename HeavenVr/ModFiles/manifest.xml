@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<manifest>
-    <id>heaven-vr</id>
-    <modTitle>HeavenVR</modTitle>
-    <gameTitle>Neon White</gameTitle>
-    <gameExe>Neon White.exe</gameExe>
-    <requireAdmin>False</requireAdmin>
-</manifest>
