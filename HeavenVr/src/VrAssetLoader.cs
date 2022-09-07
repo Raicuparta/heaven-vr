@@ -15,10 +15,11 @@ public static class VrAssetLoader
     public static GameObject RightHandPrefab;
     public static GameObject DebugHelperPrefab;
     public static GameObject PlayerBodyIk;
+    public static AssetBundle LivShadersBundle;
     
     public static void Init()
     {
-        SDKShaders.LoadFromAssetBundle(LoadBundle("liv-shaders"));
+        LivShadersBundle = LoadBundle("liv-shaders");
         RunAnimationPrefab = LoadBundle("animation").LoadAsset<GameObject>("RunAnimation");
         VrUiQuadPrefab = LoadBundle("ui").LoadAsset<GameObject>("VrUiQuad");
         RightHandPrefab = LoadBundle("hands").LoadAsset<GameObject>("RightHand");
