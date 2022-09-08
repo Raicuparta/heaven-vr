@@ -55,9 +55,9 @@ public static class InputMap
     {
         { VrButton.Fire, new BoolBinding(XRNode.RightHand, CommonUsages.triggerButton ) },
         { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton ) },
-        { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.primary2DAxisClick, CommonUsages.primaryButton ) },
-        { VrButton.Swap, new BoolBinding(XRNode.LeftHand, CommonUsages.primary2DAxisClick, CommonUsages.primaryButton ) },
-        { VrButton.Menu, new BoolBinding(XRNode.RightHand, CommonUsages.secondaryButton ) },
+        { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.secondaryButton ) },
+        { VrButton.Swap, new BoolBinding(XRNode.RightHand, CommonUsages.primaryButton ) },
+        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.primaryButton ) },
         { VrButton.Restart, new BoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton ) }
     };
     
