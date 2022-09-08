@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.XR;
 
 namespace HeavenVr.VrInput;
@@ -6,21 +7,39 @@ namespace HeavenVr.VrInput;
 public class BoolBinding: InputBinding<bool>
 {
     private readonly InputFeatureUsage<bool>[] _usages;
+    private readonly InputFeatureUsage<float>? _floatUsage;
+
+    private float _sensitivity = 1; // TODO sensitivity option;
     
     public BoolBinding(XRNode hand, params InputFeatureUsage<bool>[] usages) : base(hand)
     {
         this._usages = usages;
+        if (usages.Contains(CommonUsages.triggerButton))
+        {
+            this._floatUsage = CommonUsages.trigger;
+        }
     }
-
+    
     protected override bool GetValue()
     {
-        Value = false;
+        // TODO get this only once;
+        var device = InputManager.GetInputDevice(Hand);
 
-        foreach (var usage in _usages)
+        if (_floatUsage.HasValue && _sensitivity > 0)
         {
-            InputManager.GetInputDevice(Hand).TryGetFeatureValue(usage, out var usageValue);
-            Value = Value || usageValue;
+            device.TryGetFeatureValue(_floatUsage.Value, out var floatValue);
+            Value = floatValue > _sensitivity;
         }
+        else
+        {
+            Value = false;
+            foreach (var usage in _usages)
+            {
+                device.TryGetFeatureValue(usage, out var boolValue);
+                Value = Value || boolValue;
+            }
+        }
+
         return Value;
     }
 
