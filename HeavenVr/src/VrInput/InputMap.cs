@@ -18,7 +18,7 @@ public static class InputMap
         Restart
     }
 
-    private static readonly Dictionary<string, VrButton> VRInputMap = new()
+    private static readonly Dictionary<string, VrButton> BoolMap = new()
     {
         {"Submit", VrButton.Fire},
         {"DialogueAdvance ", VrButton.Fire},
@@ -33,8 +33,12 @@ public static class InputMap
         {"Swap Card", VrButton.Swap},
         {"MenuTabLeft", VrButton.Swap},
         {"MenuTabRight", VrButton.Discard},
-        // {"Move", new Vector2Binding(XRNode.LeftHand)},
-        // {"Look", new Vector2Binding(XRNode.RightHand)}
+    };
+
+    private static readonly Dictionary<string, Vector2Binding> Vector2Map = new()
+    {
+        { "Move", new Vector2Binding(XRNode.LeftHand) },
+        { "Look", new Vector2Binding(XRNode.RightHand) }
     };
 
     private static readonly Dictionary<VrButton, BoolBinding> WmrInputMap = new()
@@ -122,17 +126,47 @@ public static class InputMap
     // TODO use an enum or a class or something instead of plain strings.
     public static IInputBinding GetBinding(string name)
     {
-        VRInputMap.TryGetValue(name, out var vrButton);
+        return GetVector2Binding(name) ?? GetBoolBinding(name);
+    }
+    
+    private static IInputBinding GetBoolBinding(string name)
+    {
+        BoolMap.TryGetValue(name, out var vrButton);
         _inputMap.TryGetValue(vrButton, out var binding);
+        return binding;
+    }
+    
+    private static IInputBinding GetVector2Binding(string name)
+    {
+        Vector2Map.TryGetValue(name, out var binding);
         return binding;
     }
 
     public static void Update()
     {
+        UpdateBool();
+        UpdateVector2();
+    }
+    
+    private static void UpdateBool()
+    {
         foreach (var vrButton in Enum.GetValues(typeof(VrButton)))
         {
             _inputMap.TryGetValue((VrButton) vrButton, out var binding);
             binding?.Update();
+            foreach (var vector2Binding in Vector2Map.Values)
+            {
+                vector2Binding.Update();
+            }
         }
     }
+        
+    private static void UpdateVector2()
+    {
+        foreach (var vector2Binding in Vector2Map.Values)
+        {
+            vector2Binding.Update();
+        }
+    }
+
 }
