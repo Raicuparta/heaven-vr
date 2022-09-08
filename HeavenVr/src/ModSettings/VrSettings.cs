@@ -54,7 +54,7 @@ public static class VrSettings
         ShowPlayerBody = config.Bind(VisualsCategory, "ShowPlayerBody", false,
             "Show player body | It's pretty broken, so mostly useful for LIV");
         
-        SkipIntro = config.Bind(VisualsCategory, "SkipIntro", true,
+        SkipIntro = config.Bind(MiscCategory, "SkipIntro", true,
             "Skip game intro cutscene");
     }
 }
