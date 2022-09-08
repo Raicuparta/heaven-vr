@@ -49,6 +49,6 @@ public static class VrSettings
                 "Trigger Sensitivity | Leave at zero to use the default \"trigger click\" sensitivity.",
                 new AcceptableValueRange<int>(0, MaxTriggerSensitivity)));
 
-        ShowPlayerBody = config.Bind(VisualsCategory, "ShowPlayerBody", false, "Show player body");
+        ShowPlayerBody = config.Bind(VisualsCategory, "ShowPlayerBody", false, "Show player body | It's pretty broken, so mostly useful for LIV");
     }
 }
