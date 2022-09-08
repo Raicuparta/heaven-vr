@@ -47,8 +47,8 @@ public static class InputMap
         { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton ) },
         { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.gripButton ) },
         { VrButton.Swap, new BoolBinding(XRNode.LeftHand, CommonUsages.gripButton ) },
-        { VrButton.Menu, new BoolBinding(XRNode.RightHand, CommonUsages.menuButton ) },
-        { VrButton.Restart, new BoolBinding(XRNode.LeftHand, CommonUsages.menuButton ) }
+        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.menuButton ) },
+        { VrButton.Restart, new BoolBinding(XRNode.RightHand, CommonUsages.menuButton ) }
     };
     
     private static readonly Dictionary<VrButton, BoolBinding> IndexInputMap = new()
@@ -67,8 +67,8 @@ public static class InputMap
         { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton ) },
         { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.gripButton ) },
         { VrButton.Swap, new BoolBinding(XRNode.LeftHand, CommonUsages.gripButton ) },
-        { VrButton.Menu, new BoolBinding(XRNode.RightHand, CommonUsages.menuButton ) },
-        { VrButton.Restart, new BoolBinding(XRNode.LeftHand, CommonUsages.menuButton ) }
+        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.menuButton ) },
+        { VrButton.Restart, new BoolBinding(XRNode.RightHand, CommonUsages.menuButton ) }
     };
     
     private static readonly Dictionary<VrButton, BoolBinding> OculusInputMap = new()
@@ -77,8 +77,8 @@ public static class InputMap
         { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton ) },
         { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.gripButton, CommonUsages.primaryButton ) },
         { VrButton.Swap, new BoolBinding(XRNode.LeftHand, CommonUsages.gripButton, CommonUsages.primaryButton ) },
-        { VrButton.Menu, new BoolBinding(XRNode.RightHand, CommonUsages.secondaryButton ) },
-        { VrButton.Restart, new BoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton ) }
+        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton ) },
+        { VrButton.Restart, new BoolBinding(XRNode.RightHand, CommonUsages.secondaryButton ) }
     };
 
     private static Dictionary<VrButton, BoolBinding> GetAutoInputMap(InputDevice inputDevice)

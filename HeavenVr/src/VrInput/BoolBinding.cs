@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using HeavenVr.ModSettings;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -8,8 +9,6 @@ public class BoolBinding: InputBinding<bool>
 {
     private readonly InputFeatureUsage<bool>[] _usages;
     private readonly InputFeatureUsage<float>? _floatUsage;
-
-    private float _sensitivity = 1; // TODO sensitivity option;
     
     public BoolBinding(XRNode hand, params InputFeatureUsage<bool>[] usages) : base(hand)
     {
@@ -25,10 +24,12 @@ public class BoolBinding: InputBinding<bool>
         // TODO get this only once;
         var device = InputManager.GetInputDevice(Hand);
 
-        if (_floatUsage.HasValue && _sensitivity > 0)
+        var sensitivity = (float) VrSettings.TriggerSensitivity.Value / VrSettings.MaxTriggerSensitivity;
+        
+        if (_floatUsage.HasValue && sensitivity > 0)
         {
             device.TryGetFeatureValue(_floatUsage.Value, out var floatValue);
-            Value = floatValue > _sensitivity;
+            Value = floatValue > sensitivity;
         }
         else
         {
