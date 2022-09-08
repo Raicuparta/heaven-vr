@@ -5,21 +5,18 @@ namespace HeavenVr.VrInput;
 
 public class BoolBinding: InputBinding<bool>
 {
-    private readonly InputMap.VrButton _vrButton;
+    private readonly InputFeatureUsage<bool>[] _usages;
     
-    public BoolBinding(XRNode hand, InputMap.VrButton vrButton) : base(hand)
+    public BoolBinding(XRNode hand, params InputFeatureUsage<bool>[] usages) : base(hand)
     {
-        this._vrButton = vrButton;
+        this._usages = usages;
     }
 
     protected override bool GetValue()
     {
-        var usages = InputMap.GetUsages(_vrButton);
-        if (usages == null) return false;
-
         Value = false;
 
-        foreach (var usage in usages)
+        foreach (var usage in _usages)
         {
             InputManager.GetInputDevice(Hand).TryGetFeatureValue(usage, out var usageValue);
             Value = Value || usageValue;
