@@ -22,6 +22,7 @@ public static class VrSettings
 
     private const string ControlsCategory = "Controls";
     private const string VisualsCategory = "Visuals";
+    private const string MiscCategory = "Misc";
     public const int MaxTriggerSensitivity = 100;
 
     public static ConfigFile Config { get; private set; }
@@ -30,6 +31,7 @@ public static class VrSettings
     public static ConfigEntry<AxisModeOption> AxisMode { get; private set; }
     public static ConfigEntry<int> TriggerSensitivity { get; private set; }
     public static ConfigEntry<bool> ShowPlayerBody { get; private set; }
+    public static ConfigEntry<bool> SkipIntro { get; private set; }
 
     public static void SetUp(ConfigFile config)
     {
@@ -49,6 +51,10 @@ public static class VrSettings
                 "Trigger Sensitivity | Leave at zero to use the default \"trigger click\" sensitivity.",
                 new AcceptableValueRange<int>(0, MaxTriggerSensitivity)));
 
-        ShowPlayerBody = config.Bind(VisualsCategory, "ShowPlayerBody", false, "Show player body | It's pretty broken, so mostly useful for LIV");
+        ShowPlayerBody = config.Bind(VisualsCategory, "ShowPlayerBody", false,
+            "Show player body | It's pretty broken, so mostly useful for LIV");
+        
+        SkipIntro = config.Bind(VisualsCategory, "SkipIntro", false,
+            "Skip game intro cutscene");
     }
 }

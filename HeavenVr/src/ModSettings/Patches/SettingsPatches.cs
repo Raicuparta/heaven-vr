@@ -9,9 +9,11 @@ public static class SettingsPatches
     [HarmonyPatch(typeof(IntroCard), nameof(IntroCard.IsDone))]
     private static bool SkipIntro(ref bool __result)
     {
-        // TODO read this from a setting.
+        if (!VrSettings.SkipIntro.Value) return true;
+
         __result = true;
         return false;
+
     }
     
     [HarmonyPrefix]
