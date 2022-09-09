@@ -69,6 +69,7 @@ public class VrStage: MonoBehaviour
 
     private void Start()
     {
+        SetUpRotationDummy();
         RecenterRotation();
         movementDirectionPointer = _nonDominantHand.transform; // TODO add movement laser.
     }
@@ -120,5 +121,20 @@ public class VrStage: MonoBehaviour
         }
 
         _previousSelectableCount = Selectable.allSelectableCount;
+    }
+
+    // There's a lot of code that depends on this "cameraHolder", but needs it to be afttached to the player body.
+    // There's also code that tries to modify the cameraHolder transform.
+    // Since in VR the camera can be far from the body and can't be moved / rotated manually,
+    // we replace the cameraHolder with a dummy object that's always attached.
+    private void SetUpRotationDummy()
+    {
+        if (RM.drifter == null) return;
+        
+        var dummy = new GameObject("VrCameraRotationDummy").transform;
+        dummy.SetParent(transform.parent, false);
+        dummy.transform.localPosition = Vector3.zero;
+        dummy.transform.localRotation = Quaternion.identity;
+        RM.drifter.m_cameraHolder = dummy;
     }
 }
