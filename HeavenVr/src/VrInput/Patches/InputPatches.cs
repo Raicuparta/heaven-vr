@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using HeavenVr.ModSettings;
 using HeavenVr.Stage;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -70,13 +69,17 @@ public static class InputPatches
         typeof(int),
         typeof(float),
         typeof(bool))]
-    private static bool TestInputIconReplace(out string __result, InputAction inputAction,
+    private static bool UseVrBindingsInPrompts(ref string __result, InputAction inputAction,
         int fontsize,
         int bindingIndex = -1,
         int iconScale = 120,
         float iconOffset = -0.1f,
         bool tint = false)
     {
+        var binding = InputMap.GetBinding(inputAction.name);
+
+        if (binding == null) return true;
+
         __result = InputMap.GetBinding(inputAction.name).Name;
         return false;
     }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using HeavenVr.ModSettings;
 using UnityEngine;
 using UnityEngine.XR;
@@ -56,6 +57,6 @@ public class BoolBinding: InputBinding<bool>
 
     protected override string GetName()
     {
-        return $"{(Hand == XRNode.RightHand ? "Right" : "Left")} {_usages[0].name}";
+        return InputManager.GetUsageName(_usages[0], Hand);
     }
 }

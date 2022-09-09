@@ -17,12 +17,11 @@ public class Vector2Binding: InputBinding<Vector2>
         _usagePosition = CommonUsages.primary2DAxis;
     }
 
-    private static bool IsTouchAxisMode(InputDevice device)
+    private static bool IsTouchAxisMode()
     {
         return VrSettings.AxisMode.Value switch
         {
-            // TODO use events instead of checking this every time.
-            VrSettings.AxisModeOption.Auto => device.name.IndexOf("vive", StringComparison.OrdinalIgnoreCase) < 0,
+            VrSettings.AxisModeOption.Auto => !InputManager.IsDevice("vive"),
             VrSettings.AxisModeOption.Click => false,
             VrSettings.AxisModeOption.Touch => true,
             _ => throw new ArgumentOutOfRangeException()
@@ -34,7 +33,7 @@ public class Vector2Binding: InputBinding<Vector2>
         // TODO no need to fetch the device every time.
         var device = InputManager.GetInputDevice(Hand);
         
-        if (IsTouchAxisMode(device)) return 1;
+        if (IsTouchAxisMode()) return 1;
         
         device.TryGetFeatureValue(_usagePress, out var value);
         return value ? 1 : 0;
@@ -62,6 +61,8 @@ public class Vector2Binding: InputBinding<Vector2>
 
     protected override string GetName()
     {
-        return $"{(Hand == XRNode.RightHand ? "Right" : "Left")} {_usagePosition.name}";
+        return IsTouchAxisMode()
+            ? InputManager.GetUsageName(_usagePosition, Hand)
+            : InputManager.GetUsageName(_usagePress, Hand);
     }
 }

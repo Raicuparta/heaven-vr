@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -65,5 +68,88 @@ public class InputManager: MonoBehaviour
             XRNode.LeftHand => _leftInputDevice,
             _ => throw new ArgumentOutOfRangeException(nameof(hand), hand, null)
         };
+    }
+
+    [CanBeNull]
+    private static string GetGenericUsageName<T>(InputFeatureUsage<T> usage)
+    {
+        if (usage.name == CommonUsages.triggerButton.name)
+        {
+            return "Trigger";
+        }
+        if (usage.name == CommonUsages.gripButton.name)
+        {
+            return "Grip";
+        }
+        if (usage.name == CommonUsages.menuButton.name)
+        {
+            return "Menu Button";
+        }
+        if (usage.name == CommonUsages.primary2DAxis.name)
+        {
+            return "Thumbstick";
+        }
+        if (usage.name == CommonUsages.primary2DAxisClick.name)
+        {
+            return "Touchpad";
+        }
+
+        return null;
+    }
+
+    [CanBeNull]
+    private static string GetIndexUsageName<T>(InputFeatureUsage<T> usage)
+    {
+        if (usage.name == CommonUsages.primaryButton.name)
+        {
+            return "A";
+        }
+        if (usage.name == CommonUsages.secondaryButton.name)
+        {
+            return "B";
+        }
+
+        return null;
+    }
+
+    [CanBeNull]
+    private static string GetOculusUsageName<T>(InputFeatureUsage<T> usage, XRNode hand)
+    {
+        if (usage.name == CommonUsages.primaryButton.name)
+        {
+            return hand == XRNode.RightHand ? "A" : "X";
+        }
+        if (usage.name == CommonUsages.secondaryButton.name)
+        {
+            return hand == XRNode.RightHand ? "B" : "Y";
+        }
+
+        return null;
+    }
+
+    public static bool IsDevice(string deviceName)
+    {
+        return StringHelper.ContainsCaseInsensitive(_rightInputDevice.name, deviceName);
+    }
+    
+    public static string GetUsageName<T>(InputFeatureUsage<T> usage, XRNode hand)
+    {
+        var usageName = GetGenericUsageName(usage);
+        var handSufix = hand == XRNode.RightHand ? "Right " : "Left ";
+
+        if (usageName == null)
+        {
+            if (IsDevice("index"))
+            {
+                usageName = GetIndexUsageName(usage);
+            }
+            if (IsDevice("oculus"))
+            {
+                usageName = GetOculusUsageName(usage, hand);
+                handSufix = "";
+            }
+        }
+
+        return usageName == null ? "[N/A]" : $"{handSufix}{usageName}";
     }
 }
