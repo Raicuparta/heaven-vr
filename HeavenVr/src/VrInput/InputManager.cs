@@ -70,6 +70,7 @@ public class InputManager: MonoBehaviour
         };
     }
 
+    // TODO move all this input prompt code to another class.
     [CanBeNull]
     private static string GetGenericUsageName<T>(InputFeatureUsage<T> usage)
     {
