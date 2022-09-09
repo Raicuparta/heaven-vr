@@ -93,7 +93,7 @@ public class LivManager: MonoBehaviour
 		gameObject.SetActive(true);
 	}
 
-	private Camera GetCameraPrefab()
+	private static Camera GetCameraPrefab()
 	{
 		var cameraPrefab = new GameObject("LivCameraPrefab").AddComponent<Camera>();
 		cameraPrefab.gameObject.SetActive(false);
