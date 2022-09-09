@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace HeavenVr.Player.Patches;
 
+/*
+* There are a bunch of triggers in the game that don't check if the collider that entered the trigger
+* belongs to the player object. This mod may add some extra colliders for VR, so we need to make sure
+* no other collider is detected by these triggers.
+*/
 [HarmonyPatch]
 public static class ColliderPatches
 {
-    /*
-     * There are a bunch of triggers in the game that don't check if the collider that entered the trigger
-     * belongs to the player object. This mod may add some extra colliders for VR, so we need to make sure
-     * no other collider is detected by these triggers.
-     */
     private static bool IsPlayer(Component component)
     {
         return component.CompareTag(GameTag.Player);
