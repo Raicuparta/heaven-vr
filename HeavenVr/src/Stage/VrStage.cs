@@ -1,5 +1,4 @@
-﻿using System;
-using HeavenVr.Helpers;
+﻿using HeavenVr.Helpers;
 using HeavenVr.Laser;
 using HeavenVr.Liv;
 using HeavenVr.ModSettings;
@@ -53,6 +52,7 @@ public class VrStage: MonoBehaviour
         {
             mainCamera.transform.position = RM.drifter.GetFeetPosition();
         }
+
         instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
         instance.CameraPoseDriver.UseRelativeTransform = true;
 
@@ -70,7 +70,7 @@ public class VrStage: MonoBehaviour
 
     private void Start()
     {
-        Recenter();
+        RecenterRotation();
         movementDirectionPointer = _nonDominantHand.transform; // TODO add movement laser.
     }
     
@@ -85,15 +85,30 @@ public class VrStage: MonoBehaviour
         return forward;
     }
 
-    private void Recenter()
+    private void RecenterRotation()
     {
         InputDevices.GetDeviceAtXRNode(XRNode.CenterEye).TryGetFeatureValue(CommonUsages.centerEyeRotation, out var centerEyerotation);
 		transform.localRotation = Quaternion.Inverse(centerEyerotation);
 		transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }
 
+    private void RecenterPosition()
+    {
+        if (RM.drifter == null) return;
+        
+        transform.position -= VrCamera.transform.position - (RM.drifter.transform.position + Vector3.up * 1.456f);
+    }
+
+    private bool _isRecentered;
+
     private void Update()
     {
+        if (!_isRecentered)
+        {
+            RecenterPosition();
+            _isRecentered = true;
+        }
+        
         // TODO is this still needed?
         if (_previousSelectableCount == Selectable.allSelectableCount) return;
 
