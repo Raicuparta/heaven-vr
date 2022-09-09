@@ -1,0 +1,16 @@
+{
+  "source": "builtin",
+  "applications": [
+    {
+      "app_key": "steam.app.1533420",
+      "image_path": "https://steamcdn-a.akamaihd.net/steam/apps/1533420/header.jpg",
+      "launch_type": "url",
+      "url": "steam://launch/1533420/VR",
+      "strings": {
+        "en_us": {
+          "name": "Neon White VR"
+        }
+      }
+    }
+  ]
+}

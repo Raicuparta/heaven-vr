@@ -45,7 +45,6 @@ public static class ApplicationManifestHelper
     {
         try
         {
-
             var vrManifest = new VrManifest();
 
             vrManifest.applications[0].last_played_time = CurrentUnixTimestamp().ToString();
