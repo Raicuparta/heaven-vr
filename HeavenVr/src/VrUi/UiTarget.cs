@@ -13,9 +13,10 @@ public class UiTarget : MonoBehaviour
     private Transform _targetTransform;
     private const float MinAngleDelta = 45f;
     private VrStage _stage;
+    private Collider _collider;
     private GameObject _vrUiQuad;
-    public Camera UiCamera { get; private set; }
     private VrHand _hand;
+    public Camera UiCamera { get; private set; }
     public static Camera PlayerHudCamera; // TODO no static
 
     public static UiTarget Create(VrStage stage, VrHand hand)
@@ -60,6 +61,7 @@ public class UiTarget : MonoBehaviour
             _vrUiQuad.transform.localPosition = new Vector3(0.3f, 0f, 0f);
             _vrUiQuad.transform.localEulerAngles = new Vector3(-90f, 180f, 0f);
             _vrUiQuad.transform.localScale = Vector3.one * 0.1f;
+            _collider = _vrUiQuad.GetComponentInChildren<Collider>();
         }
         return _vrUiQuad.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
     }
@@ -68,6 +70,12 @@ public class UiTarget : MonoBehaviour
     {
         UpdateTransform();
         UpdateClearFlags();
+        UpdateCollider();
+    }
+
+    private void UpdateCollider()
+    {
+        _collider.enabled = PauseHelper.IsPaused();
     }
 
     private void UpdateClearFlags()
