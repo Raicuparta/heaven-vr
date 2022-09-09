@@ -42,7 +42,7 @@ public class VrStage: MonoBehaviour
         instance._stageParent = mainCamera.transform.parent;
         instance.transform.SetParent(instance._stageParent, false);
         mainCamera.transform.SetParent(instance.transform, false);
-        mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("UI")); // TODO should have a separate UI camera;
+        mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("UI"));
         mainCamera.cullingMask = LayerHelper.GetMask(GameLayer.VrUi, mainCamera.cullingMask);
         
         mainCamera.transform.localEulerAngles = Vector3.up * mainCamera.transform.localEulerAngles.y;
