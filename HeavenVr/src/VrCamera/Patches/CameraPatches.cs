@@ -12,7 +12,10 @@ public static class CameraPatches
     [HarmonyPatch(typeof(FirstPersonDrifter), "Start")]
     private static void SetUpDummyRotation(FirstPersonDrifter __instance)
     {
-        // I forgot to write a comment for this so I don't remember what it's for.
+        // There's a lot of code that depends on this "cameraHolder", but needs it to be afttached to the player body.
+        // There's also code that tries to modify the cameraHolder transform.
+        // Since in VR the camera can be far from the body and can't be moved / rotated manually,
+        // we replace the cameraHolder with a dummy object that's always attached.
         var dummy = new GameObject("VrCameraRotationDummy").transform;
         dummy.SetParent(__instance.m_cameraHolder.parent, false);
         dummy.transform.localPosition = Vector3.zero;
