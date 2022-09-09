@@ -59,4 +59,9 @@ public class Vector2Binding: InputBinding<Vector2>
     {
         return Value;
     }
+
+    protected override string GetName()
+    {
+        return $"{(Hand == XRNode.RightHand ? "Right" : "Left")} {_usagePosition.name}";
+    }
 }

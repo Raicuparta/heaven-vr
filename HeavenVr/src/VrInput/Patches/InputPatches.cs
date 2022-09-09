@@ -60,5 +60,24 @@ public static class InputPatches
 
         __instance.inputX = input.x;
         __instance.inputY = input.z;
+    }    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(GameInput),
+        nameof(GameInput.GetKey),
+        typeof(InputAction),
+        typeof(int),
+        typeof(int),
+        typeof(int),
+        typeof(float),
+        typeof(bool))]
+    private static bool TestInputIconReplace(out string __result, InputAction inputAction,
+        int fontsize,
+        int bindingIndex = -1,
+        int iconScale = 120,
+        float iconOffset = -0.1f,
+        bool tint = false)
+    {
+        __result = InputMap.GetBinding(inputAction.name).Name;
+        return false;
     }
 }

@@ -31,7 +31,7 @@ public class VrUi: MonoBehaviour
         var overlays = transform.Find("GameplayOverlays");
 
         if (overlays == null) return;
-        transform.Find("GameplayOverlays").localScale = Vector3.one * 0.5f;
+        overlays.localScale = Vector3.one * 0.4f;
     }
 
     private void Update()

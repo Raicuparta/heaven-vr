@@ -9,6 +9,7 @@ public abstract class InputBinding<TValue>: IInputBinding
     public bool WasReleasedThisFrame { get; private set; }
     public bool IsPressed => GetValueAsBool(Value);
     public Vector2 Position => GetValueAsVector2(Value);
+    public string Name => GetName();
 
     protected readonly XRNode Hand;
     protected TValue Value;
@@ -34,4 +35,5 @@ public abstract class InputBinding<TValue>: IInputBinding
     }
 
     protected abstract TValue GetValue();
+    protected abstract string GetName();
 }

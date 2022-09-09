@@ -9,4 +9,5 @@ public interface IInputBinding
     public bool WasReleasedThisFrame { get; }
     public bool IsPressed { get; }
     public Vector2 Position { get; }
+    public string Name { get; }
 }

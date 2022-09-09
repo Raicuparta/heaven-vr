@@ -53,4 +53,9 @@ public class BoolBinding: InputBinding<bool>
     {
         return value ? Vector2.one : Vector2.zero;
     }
+
+    protected override string GetName()
+    {
+        return $"{(Hand == XRNode.RightHand ? "Right" : "Left")} {_usages[0].name}";
+    }
 }
