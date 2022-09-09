@@ -18,7 +18,7 @@ public class VrHand: MonoBehaviour
             poseDriver.UseRelativeTransform = true;
             poseDriver.originPose = cameraPose.originPose;
             
-            WeaponSwapper.Create(instance.gameObject);
+            WeaponSwapper.Create(instance.transform.Find("Wrapper").gameObject);
             
             return instance;
         }

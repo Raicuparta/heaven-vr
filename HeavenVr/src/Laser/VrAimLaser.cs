@@ -1,8 +1,8 @@
 ﻿using System;
 using HeavenVr.Helpers;
+using HeavenVr.ModSettings;
 using HeavenVr.Stage;
 using UnityEngine;
-using UnityEngine.SpatialTracking;
 
 namespace HeavenVr.Laser;
 
@@ -10,10 +10,11 @@ public class VrAimLaser: MonoBehaviour
 {
     private Transform _laserScaler;
     private Transform _crosshair;
+    private Vector3 _initialLocalEuler;
     
     public static VrAimLaser Create(Transform hand)
     {
-        var instance = hand.Find("Laser").GetOrAddComponent<VrAimLaser>();
+        var instance = hand.Find("Wrapper/Laser").GetOrAddComponent<VrAimLaser>();
         LayerHelper.SetLayerRecursive(instance.gameObject, GameLayer.VrUi);
         
         return instance;
@@ -22,8 +23,27 @@ public class VrAimLaser: MonoBehaviour
     private void Start()
     {
         _laserScaler = transform.Find("LaserScaler");
+        _initialLocalEuler = transform.parent.localEulerAngles;
         SetUpCrosshair();
         SetUpMuzzleFlash();
+    }
+
+    private void OnEnable()
+    {
+        VrSettings.AimingAngleOffset.SettingChanged += OnAimingAngleSettingChanged;
+    }
+
+    private void OnDisable()
+    {
+        VrSettings.AimingAngleOffset.SettingChanged -= OnAimingAngleSettingChanged;
+    }
+
+    // TODO this should probably be in a VrHand component instead of here.
+    private void OnAimingAngleSettingChanged(object sender, EventArgs e)
+    {
+        transform.parent.localEulerAngles = new Vector3(_initialLocalEuler.x + VrSettings.AimingAngleOffset.Value,
+            _initialLocalEuler.y,
+            _initialLocalEuler.z);
     }
 
     public void SetDistance(float distance)
