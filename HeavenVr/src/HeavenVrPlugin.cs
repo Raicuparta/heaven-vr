@@ -67,5 +67,7 @@ public class HeavenVrPlugin : BaseUnityPlugin
 
 		managerSetings.InitializeLoaderSync();
 		managerSetings.StartSubsystems();
+		
+		ApplicationManifestHelper.UpdateManifest();
 	}
 }
