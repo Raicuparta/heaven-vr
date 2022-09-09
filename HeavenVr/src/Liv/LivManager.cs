@@ -1,5 +1,4 @@
 ﻿using HeavenVr.Stage;
-using LIV.AvatarTrackers;
 using LIV.SDK.Unity;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -9,7 +8,6 @@ namespace HeavenVr.Liv;
 
 public class LivManager: MonoBehaviour
 {
-	private const float AnimationSpeedMultiplier = 0.003f;
 	private readonly string[] _excludeBehaviours = {
 		"CameraDistanceCullingSettings",
 		"PlayerCamera",
@@ -30,7 +28,6 @@ public class LivManager: MonoBehaviour
 	};
 
 	private LIV.SDK.Unity.LIV _liv;
-	private PathfinderAvatarTrackers _avatarTrackers;
 	private TrackedPoseDriver _poseDriver;
 
 	public static void Create(VrStage stage, TrackedPoseDriver poseDriver)
@@ -47,18 +44,8 @@ public class LivManager: MonoBehaviour
 
 	private void Update()
 	{
-		UpdateTrackers();
-
 		// For some reason, calling this on Start or Invoke crashes the game. So calling it in Update instead.
 		SetUp();
-	}
-
-	private void UpdateTrackers()
-	{
-		if (_avatarTrackers && RM.drifter)
-		{
-			_avatarTrackers.SetSpeed(RM.drifter.MovementVelocity.sqrMagnitude * AnimationSpeedMultiplier);
-		}
 	}
 
 	private void SetUp()
@@ -70,7 +57,6 @@ public class LivManager: MonoBehaviour
 
         SetUpTransform();
         SetUpLivComponent();
-        SetUpAnimation();
 	}
 
 	private void SetUpTransform()
@@ -100,12 +86,5 @@ public class LivManager: MonoBehaviour
 		cameraPrefab.gameObject.AddComponent<UniversalAdditionalCameraData>();
 		cameraPrefab.nearClipPlane = 0.03f;
 		return cameraPrefab;
-	}
-
-	private void SetUpAnimation()
-	{
-		var animationInstance = Instantiate(VrAssetLoader.RunAnimationPrefab, transform, false);
-		_avatarTrackers = animationInstance.GetComponent<PathfinderAvatarTrackers>();
-		_avatarTrackers.transform.Find("Wrapper");
 	}
 }
