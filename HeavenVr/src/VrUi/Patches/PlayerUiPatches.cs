@@ -27,5 +27,10 @@ public static class PlayerUiPatches
         
         LayerHelper.SetLayerRecursive(__instance.gameObject, GameLayer.UI);
         UiTarget.PlayerHudCamera = __instance.Cam;
+
+        var overlays = __instance.transform.Find("Overlays");
+        overlays.Find("BoostOverlay").gameObject.SetActive(false);
+        overlays.Find("UIScreenFader").gameObject.SetActive(false);
+        overlays.Find("BottomBar").gameObject.SetActive(false);
     }
 }
