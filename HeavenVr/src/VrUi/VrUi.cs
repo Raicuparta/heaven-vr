@@ -1,4 +1,5 @@
-﻿using HeavenVr.Stage;
+﻿using System;
+using HeavenVr.Stage;
 using UnityEngine;
 
 namespace HeavenVr.VrUi;
@@ -15,9 +16,25 @@ public class VrUi: MonoBehaviour
         instance.gameObject.layer = LayerMask.NameToLayer("UI");
         
         instance._canvas = target.GetComponent<Canvas>();
+        instance._canvas.renderMode = RenderMode.ScreenSpaceCamera;
     }
 
-    public void Update()
+    private void Start()
+    {
+        MoveOverlaysToVrUi();
+    }
+
+    private void MoveOverlaysToVrUi()
+    {
+        if (!GetComponent<PlayerOverlayUI>()) return;
+
+        var overlays = transform.Find("GameplayOverlays");
+
+        if (overlays == null) return;
+        transform.Find("GameplayOverlays").localScale = Vector3.one * 0.5f;
+    }
+
+    private void Update()
     {
         // TODO do this more efficiently, not on update.
         if (!_canvas || !VrStage.Instance || !VrStage.Instance.UiTarget || !VrStage.Instance.UiTarget.UiCamera) return;
