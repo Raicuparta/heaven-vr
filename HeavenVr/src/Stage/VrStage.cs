@@ -63,7 +63,6 @@ public class VrStage: MonoBehaviour
         PlayerBodyIkController.Create(mainCamera.transform, instance._nonDominantHand.transform,  instance._dominantHand.transform);
 
         instance.UiTarget = UiTarget.Create(instance, instance._nonDominantHand);
-        mainCamera.transform.parent.GetComponentInParent<MouseLook>();
         
         LivManager.Create(instance, instance.CameraPoseDriver);
     }
