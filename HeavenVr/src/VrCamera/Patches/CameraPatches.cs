@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
-using HeavenVr.Stage;
 using UnityEngine;
-using UnityEngine.Animations;
 
 namespace HeavenVr.VrCamera.Patches;
 

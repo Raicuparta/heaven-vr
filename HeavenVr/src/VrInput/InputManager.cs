@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
 using JetBrains.Annotations;

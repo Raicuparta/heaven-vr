@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
 using RootMotion.FinalIK;
