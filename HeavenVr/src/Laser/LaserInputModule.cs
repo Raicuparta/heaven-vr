@@ -71,6 +71,7 @@ public class LaserInputModule : BaseInputModule
         UpdateCurrentObject();
 
         var clickBinding = InputMap.GetBinding("Submit");
+        if (clickBinding == null) return;
         
         if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed)
             HandleDrag();
