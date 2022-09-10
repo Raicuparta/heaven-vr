@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using HeavenVr.ModSettings;
 using UnityEngine;
 
 namespace HeavenVr.Stage.Patches;
@@ -37,5 +38,20 @@ public static class StagePatches
         {
             VrStage.Create(camera);
         }
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(CreditsPlayer), nameof(CreditsPlayer.PlayCreditsRoutine))]
+    private static void CreateStage()
+    {
+        if (VrStage.Instance != null) return;
+
+        if (Camera.allCameras.Length == 0)
+        {
+            Debug.LogError("Failed to find camera when creating stage for credits scene");
+            return;
+        }
+        
+        VrStage.Create(Camera.allCameras[0]);
     }
 }
