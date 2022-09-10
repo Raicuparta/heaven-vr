@@ -85,7 +85,7 @@ public class VrStage: MonoBehaviour
         return forward;
     }
 
-    private void RecenterRotation()
+    public void RecenterRotation()
     {
         InputDevices.GetDeviceAtXRNode(XRNode.CenterEye).TryGetFeatureValue(CommonUsages.centerEyeRotation, out var centerEyerotation);
 		transform.localRotation = Quaternion.Inverse(centerEyerotation);
