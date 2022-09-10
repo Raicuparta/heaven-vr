@@ -33,4 +33,13 @@ public static class PlayerUiPatches
         overlays.Find("UIScreenFader").gameObject.SetActive(false);
         overlays.Find("BottomBar").gameObject.SetActive(false);
     }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(PlayerUICardHUDAbilityIcon), nameof(PlayerUICardHUDAbilityIcon.Initialize))]
+    private static void FixAbilityIconVisibility(PlayerUICardHUDAbilityIcon __instance)
+    {
+        // These ability icons use a shader that becomes invisible for some reason in the VR UI.
+        // So I'm using the default UI shader to make it visible. Hopefully that looks OK.
+        __instance._abilityIconMat.shader = Shader.Find("UI/Default");
+    }
 }
