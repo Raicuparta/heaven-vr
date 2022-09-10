@@ -1,6 +1,10 @@
-﻿using HarmonyLib;
+﻿using System.Linq;
+using HarmonyLib;
 using HeavenVr.ModSettings;
+using MessengerExtensions;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 namespace HeavenVr.Stage.Patches;
 
@@ -42,7 +46,7 @@ public static class StagePatches
     
     [HarmonyPostfix]
     [HarmonyPatch(typeof(CreditsPlayer), nameof(CreditsPlayer.PlayCreditsRoutine))]
-    private static void CreateStage()
+    private static void CreateCreditsStage()
     {
         if (VrStage.Instance != null) return;
 
@@ -53,5 +57,26 @@ public static class StagePatches
         }
         
         VrStage.Create(Camera.allCameras[0]);
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(VideoPlayer), "Play")]
+    private static void CreateIntroStage()
+    {
+        if (VrStage.Instance != null) return;
+
+        var mainCameraObject = SceneManager.GetActiveScene().GetRootGameObjects().First(scene => scene.name == "Main Camera");
+
+        if (mainCameraObject == null)
+        {
+            Debug.LogError("Failed to find camera when creating stage for intro scene");
+            return;
+        }
+        
+        mainCameraObject.SetActive(true);
+        var camera = mainCameraObject.GetComponent<Camera>();
+        camera.enabled = true;
+        
+        VrStage.Create(camera);
     }
 }

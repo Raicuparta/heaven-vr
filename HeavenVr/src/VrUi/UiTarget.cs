@@ -110,4 +110,9 @@ public class UiTarget : MonoBehaviour
 
         transform.position = _stage.VrCamera.transform.position;
     }
+
+    public Renderer GetQuadRenderer()
+    {
+        return _vrUiQuad.GetComponentInChildren<Renderer>();
+    }
 }
