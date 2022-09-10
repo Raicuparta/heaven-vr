@@ -5,7 +5,7 @@
         <Version>0.1.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>10</LangVersion>
-        <OutputPath>$(BepInExDir)\plugins\HeavenVr</OutputPath>
+        <OutputPath>$(PublishDir)\BepInEx\plugins\HeavenVr</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     </PropertyGroup>
