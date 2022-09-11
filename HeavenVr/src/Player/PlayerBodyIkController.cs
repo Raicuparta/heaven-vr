@@ -96,7 +96,12 @@ public class PlayerBodyIkController: MonoBehaviour
     {
         if (!RM.drifter || PauseHelper.IsPaused()) return;
 
-        if (RM.drifter.grounded)
+        if (RM.drifter.MovementVelocity.sqrMagnitude <= 0.1f)
+        {
+            _vrIk.solver.locomotion.maxVelocity = 0.1f;
+            _vrIk.solver.locomotion.stepSpeed = 2f; 
+        }
+        else if (RM.drifter.grounded)
         {
             _vrIk.solver.locomotion.maxVelocity = 3f;
             _vrIk.solver.locomotion.stepSpeed = 6f;
