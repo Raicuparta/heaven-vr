@@ -85,6 +85,14 @@ public class PlayerBodyIkController: MonoBehaviour
     {
         UpdateRendererVisibility();
         UpdateLocomotion();
+        UpdatePosition();
+    }
+
+    private void UpdatePosition()
+    {
+        if (RM.drifter == null) return;
+
+        transform.position = RM.drifter.GetFeetPosition();
     }
 
     private void UpdateRendererVisibility()
@@ -103,7 +111,7 @@ public class PlayerBodyIkController: MonoBehaviour
         }
         else if (RM.drifter.grounded)
         {
-            _vrIk.solver.locomotion.maxVelocity = 3f;
+            _vrIk.solver.locomotion.maxVelocity = 4f;
             _vrIk.solver.locomotion.stepSpeed = 6f;
         }
         else
