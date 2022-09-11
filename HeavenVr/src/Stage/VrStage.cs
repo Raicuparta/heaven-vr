@@ -70,14 +70,15 @@ public class VrStage: MonoBehaviour
     private void Start()
     {
         SetUpRotationDummy();
-        movementDirectionPointer = _nonDominantHand.transform; // TODO add movement laser.
+
+        // TODO clean up with separate non-dominant hand script.
+        movementDirectionPointer = _nonDominantHand.transform.Find("MovementDirection/Laser");
     }
     
     public Vector3 GetMovementDirection()
     {
         if (!movementDirectionPointer || !VrCamera) return Vector3.forward;
         
-        // TODO use a laser for the movement direction.
         var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value ? movementDirectionPointer.transform : VrCamera.transform;
         var forward = trackedTransform.forward;
         forward.y = 0;

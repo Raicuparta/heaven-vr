@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 570122517
+CRC: 1523112053
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: eedcd22c711ec4f37bb356c25f7ada22
+    Hash: e2eea4f958b710af22faba3e47a77a70
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0998cbb2330a407d4813914a0c7523a3
@@ -36,4 +36,5 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Hands/RightHand.prefab
+- Assets/Hands/MovementDirection.prefab
 Dependencies: []

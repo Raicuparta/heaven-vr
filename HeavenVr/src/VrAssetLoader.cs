@@ -8,7 +8,7 @@ namespace HeavenVr;
 public static class VrAssetLoader
 {
     private const string AssetsDir = "HeavenVr/Assets/";
-    public static GameObject RunAnimationPrefab;
+    public static GameObject MovementDirectionPrefab;
     public static RenderTexture VrUiRenderTexture;
     public static GameObject VrUiQuadPrefab;
     public static GameObject RightHandPrefab;
@@ -19,12 +19,14 @@ public static class VrAssetLoader
     public static void Init()
     {
         LivShadersBundle = LoadBundle("liv-shaders");
-        RunAnimationPrefab = LoadBundle("animation").LoadAsset<GameObject>("RunAnimation");
         VrUiQuadPrefab = LoadBundle("ui").LoadAsset<GameObject>("VrUiQuad");
-        RightHandPrefab = LoadBundle("hands").LoadAsset<GameObject>("RightHand");
         DebugHelperPrefab = LoadBundle("debug").LoadAsset<GameObject>("DebugHelper");
         PlayerBodyIk = LoadBundle("player").LoadAsset<GameObject>("Player");
         VrUiRenderTexture = VrUiQuadPrefab.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
+
+        var handBundle = LoadBundle("hands");
+        RightHandPrefab = handBundle.LoadAsset<GameObject>("RightHand");
+        MovementDirectionPrefab = handBundle.LoadAsset<GameObject>("MovementDirection");
     }
     
     private static AssetBundle LoadBundle(string assetName)

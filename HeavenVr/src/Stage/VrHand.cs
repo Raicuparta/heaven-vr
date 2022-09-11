@@ -8,6 +8,7 @@ public class VrHand: MonoBehaviour
 {
     public static VrHand Create(Transform parent, TrackedPoseDriver cameraPose, TrackedPoseDriver.TrackedPose pose)
     {
+        // TODO clean this up. Separate in dominant vs non-dominant.
         if (pose == TrackedPoseDriver.TrackedPose.RightPose)
         {
             var instance = Instantiate(VrAssetLoader.RightHandPrefab).AddComponent<VrHand>();
@@ -32,6 +33,9 @@ public class VrHand: MonoBehaviour
             poseDriver.UseRelativeTransform = true;
             poseDriver.originPose = cameraPose.originPose;
 
+            var movementDirection = Instantiate(VrAssetLoader.MovementDirectionPrefab, instance.transform, false);
+            movementDirection.name = "MovementDirection"; // TODO don't rely on names.
+            
             return instance;
         }
     }
