@@ -70,7 +70,6 @@ public class VrStage: MonoBehaviour
     private void Start()
     {
         SetUpRotationDummy();
-        RecenterRotation();
         movementDirectionPointer = _nonDominantHand.transform; // TODO add movement laser.
     }
     
