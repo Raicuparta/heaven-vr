@@ -39,8 +39,8 @@ public class PlayerBodyIkController: MonoBehaviour
         
         vrIk.references.root = root;
         vrIk.references.pelvis = allBones.First(bone => bone.name == "WhiteRig_ROOTSHJnt");
-        vrIk.references.spine = allBones.First(bone => bone.name == "WhiteRig_Spine_01SHJnt");
-        vrIk.references.chest = allBones.First(bone => bone.name == "WhiteRig_Spine_02SHJnt");
+        vrIk.references.spine = allBones.First(bone => bone.name == "WhiteRig_Spine_02SHJnt");
+        vrIk.references.chest = allBones.First(bone => bone.name == "WhiteRig_Spine_TopSHJnt");
         vrIk.references.neck = allBones.First(bone => bone.name == "WhiteRig_Neck_AuxSHJnt");
         vrIk.references.head = allBones.First(bone => bone.name == "WhiteRig_Head_TopSHJnt");
         vrIk.references.leftShoulder = allBones.First(bone => bone.name == "WhiteRig_l_Arm_ClavicleSHJnt");

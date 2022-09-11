@@ -24225,10 +24225,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3707247855157512237, guid: d66343815029fa3458cb6debfea3083b, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 09b256101065485419a26981f8fa815b, type: 2}
     - target: {fileID: 3707247855157513417, guid: d66343815029fa3458cb6debfea3083b, type: 3}
       propertyPath: m_Name
       value: Player
@@ -24276,10 +24272,6 @@ PrefabInstance:
     - target: {fileID: 3707247855157513860, guid: d66343815029fa3458cb6debfea3083b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8060704192396097253, guid: d66343815029fa3458cb6debfea3083b, type: 3}
-      propertyPath: solver.locomotion.maxVelocity
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d66343815029fa3458cb6debfea3083b, type: 3}
