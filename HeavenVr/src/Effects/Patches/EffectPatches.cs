@@ -1,18 +1,36 @@
-﻿using HarmonyLib;
+﻿using System.Linq;
+using HarmonyLib;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace HeavenVr.Effects.Patches;
 
 [HarmonyPatch]
-public abstract class EffectPatches
+public static class EffectPatches
 {
+    private static readonly string[] PostProcessingRemoveList =
+    {
+        "NW_MSVAO_Settings" // Ambient Occlusion just makes everything dark, removing it. // TODO remove AO setting from options.
+    };
+    
     [HarmonyPostfix]
     [HarmonyPatch(typeof(VolumeProfile), "OnEnable")]
-    private static void DisablePostProcessing(VolumeProfile __instance)
+    private static void DisableBlacklistedPostProcessinEffects(VolumeProfile __instance)
     {
-        // Post processing is only rendering in one eye. Disabling until I find a solution.
-        __instance.components.RemoveAll(component => component is IPostProcessComponent);
+        __instance.components.RemoveAll(component =>
+            component is IPostProcessComponent && PostProcessingRemoveList.Contains(component.name));
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(VolumeComponent), "OnEnable")]
+    private static void DisableSunFlares(VolumeComponent __instance)
+    {
+        if (__instance.GetType() != typeof(Beautify.Universal.Beautify)) return;
+        
+        var beautify = (Beautify.Universal.Beautify) __instance;
+        
+        beautify.sunFlaresIntensity.value = 0;
+        beautify.bloomIntensity.value = 0.5f;
     }
 
     [HarmonyPostfix]
