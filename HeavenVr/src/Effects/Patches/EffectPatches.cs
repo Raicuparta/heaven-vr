@@ -30,7 +30,11 @@ public static class EffectPatches
         var beautify = (Beautify.Universal.Beautify) __instance;
         
         beautify.sunFlaresIntensity.value = 0;
-        beautify.bloomIntensity.value = 0.5f;
+
+        if (beautify.bloomIntensity.value > 0)
+        {
+            beautify.bloomIntensity.value = 0.25f;
+        }
     }
 
     [HarmonyPostfix]
