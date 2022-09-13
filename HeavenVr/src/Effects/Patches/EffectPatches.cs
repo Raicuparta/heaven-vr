@@ -11,7 +11,7 @@ public static class EffectPatches
 {
     private static readonly string[] PostProcessingRemoveList =
     {
-        "NW_MSVAO_Settings" // Ambient Occlusion just makes everything dark, removing it.
+        "NW_MSVAO_Settings" // there's two AO things in this game, this one is broken in stereo.
     };
     
     [HarmonyPostfix]
@@ -48,5 +48,21 @@ public static class EffectPatches
     {
         // Reflections are broken in VR. Disabling until I find a solution.
         __instance.m_Settings.m_ReflectLayers = 0;
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(AmplifyOcclusionRendererFeature), nameof(AmplifyOcclusionRendererFeature.Create))]
+    private static void AdjustAmbientOcclusion(AmplifyOcclusionRendererFeature __instance)
+    {
+        Debug.Log($"####### create amplify render feature");
+        __instance.Intensity = 1;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(AmplifyOcclusionRendererFeature), nameof(AmplifyOcclusionRendererFeature.Create))]
+    private static void FixAmbientOcclusionSetting(AmplifyOcclusionRendererFeature __instance)
+    {
+        Debug.Log($"####### create amplify render feature");
+        AmbientOcclusionSettingFix.Create(__instance);
     }
 }

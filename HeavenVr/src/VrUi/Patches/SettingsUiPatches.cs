@@ -25,7 +25,6 @@ public static class SettingsUiPatches
         DisableSettingInput(__instance._lockOnToggle);
         DisableSettingInput(__instance._frameCapSelector);
         DisableSettingInput(__instance._vSyncToggle);
-        DisableSettingInput(__instance._ambientOcclusionToggle);
         DisableSettingInput(__instance._antiAliasingSelector);
         DisableSettingInput(__instance._rebindControlsButton);
         DisableSettingInput(__instance._mouseSensitivitySlider);
