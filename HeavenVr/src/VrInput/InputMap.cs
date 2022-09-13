@@ -154,10 +154,6 @@ public static class InputMap
         {
             _inputMap.TryGetValue((VrButton) vrButton, out var binding);
             binding?.Update();
-            foreach (var vector2Binding in Vector2Map.Values)
-            {
-                vector2Binding.Update();
-            }
         }
     }
         

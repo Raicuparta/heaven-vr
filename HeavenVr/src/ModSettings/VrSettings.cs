@@ -20,6 +20,16 @@ public static class VrSettings
         Click
     }
 
+    public enum TurningModeValue
+    {
+        Smooth = 0,
+        Snap23 = 23,
+        Snap30 = 30,
+        Snap45 = 45,
+        Snap60 = 60,
+        Snap90 = 90
+    }
+
     private const string ControlsCategory = "Controls";
     private const string MiscCategory = "Misc";
     public const int MaxTriggerSensitivity = 100;
@@ -33,6 +43,7 @@ public static class VrSettings
     public static ConfigEntry<float> AimingAngleOffset { get; private set; }
     public static ConfigEntry<bool> ShowPlayerBody { get; private set; }
     public static ConfigEntry<bool> SkipIntro { get; private set; }
+    public static ConfigEntry<TurningModeValue> TurningMode { get; private set; }
 
     public static void SetUp(ConfigFile config)
     {
@@ -40,6 +51,9 @@ public static class VrSettings
 
         ControlScheme = config.Bind(ControlsCategory, nameof(ControlScheme), ControlSchemeOption.Auto,
             "Control scheme | Pick a control scheme manually or select auto to select it based on the detected controllers.");
+        
+        TurningMode = config.Bind(ControlsCategory, nameof(TurningMode), TurningModeValue.Smooth,
+            "Turning mode | Pick between smooth or snap turning. Smooth turning speed can be configured in the Neon White settings menu.");
 
         AxisMode = config.Bind(ControlsCategory, nameof(AxisMode), AxisModeOption.Auto,
             "Axis mode | Touch is better for thumb sticks. Click is better for touch pads. Auto tries to pick the best for your controller.");

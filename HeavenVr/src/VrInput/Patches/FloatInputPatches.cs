@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using HarmonyLib;
 using HeavenVr.Helpers;
+using HeavenVr.ModSettings;
 using UnityEngine.InputSystem;
 
 namespace HeavenVr.VrInput.Patches;
@@ -17,6 +18,12 @@ public static class FloatInputPatches {
     [HarmonyPrefix]
     private static bool SetFloatInputs(ref float __result, InputAction __instance)
     {
+        if (VrSettings.TurningMode.Value != VrSettings.TurningModeValue.Smooth &&
+            __instance.name == "Look")
+        {
+            return false;
+        }
+
         var binding = InputMap.GetBinding(__instance.name);
         if (binding == null) return true;
 

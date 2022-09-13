@@ -51,7 +51,7 @@ public class Vector2Binding: InputBinding<Vector2>
     
     protected override bool GetValueAsBool(Vector2 value)
     {
-        return value != Vector2.zero;
+        return value.sqrMagnitude > InputThreshold * InputThreshold;
     }
 
     protected override Vector2 GetValueAsVector2(Vector2 value)

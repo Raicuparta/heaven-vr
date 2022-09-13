@@ -11,6 +11,7 @@ public class InputManager: MonoBehaviour
 {
     private static InputDevice _leftInputDevice;
     private static InputDevice _rightInputDevice;
+    private const float SnapTurnThreshold = 0.1f;
 
     private void OnEnable()
     {
@@ -57,6 +58,29 @@ public class InputManager: MonoBehaviour
     private void Update()
     {
         InputMap.Update();
+        UpdateSnapTurning();
+    }
+
+    private static void UpdateSnapTurning()
+    {
+        if (!RM.drifter || VrSettings.TurningMode.Value == VrSettings.TurningModeValue.Smooth) return;
+
+        var lookBinding = InputMap.GetBinding("Look");
+
+        if (lookBinding is not { WasPressedThisFrame: true }) return;
+        
+        var snapTurningAngle = (int)VrSettings.TurningMode.Value;
+        var mouseLookX = RM.drifter.mouseLookX;
+
+        switch (lookBinding.Position.x)
+        {
+            case > SnapTurnThreshold:
+                mouseLookX.AddFrameRotation(snapTurningAngle, 0);
+                break;
+            case < -SnapTurnThreshold:
+                mouseLookX.AddFrameRotation(-snapTurningAngle, 0);
+                break;
+        }
     }
 
     public static InputDevice GetInputDevice(XRNode hand)

@@ -29,8 +29,10 @@ public abstract class InputBinding<TValue>: IInputBinding
         Value = GetValue();
         WasPressedThisFrame = false;
         WasReleasedThisFrame = false;
+        
         if (!GetValueAsBool(_previousValue) && GetValueAsBool(Value)) WasPressedThisFrame = true;
         if (GetValueAsBool(_previousValue) && !GetValueAsBool(Value)) WasReleasedThisFrame = true;
+
         _previousValue = Value;
     }
 
