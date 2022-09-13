@@ -10,7 +10,7 @@ public static class EffectPatches
 {
     private static readonly string[] PostProcessingRemoveList =
     {
-        "NW_MSVAO_Settings" // Ambient Occlusion just makes everything dark, removing it. // TODO remove AO setting from options.
+        "NW_MSVAO_Settings" // Ambient Occlusion just makes everything dark, removing it.
     };
     
     [HarmonyPostfix]

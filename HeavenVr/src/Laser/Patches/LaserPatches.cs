@@ -20,14 +20,12 @@ public static class LaserPatches
     [HarmonyPatch(typeof(TargetAssist), nameof(TargetAssist.LoadPrefs))]
     private static bool ForceDisableTargetAssist(TargetAssist __instance)
     {
-        // TODO try to actually fix the target assist, or hide the option.
         __instance.MasterAssistIntensity = 0;
         return false;
     }
 
     private static void ForceAimingSettings(MenuScreenOptionsPanel optionsPanel)
     {
-        // TODO try to actually fix the lock-on behavior, or hide the option.
         if (optionsPanel._lockOnToggle)
         {
             optionsPanel._lockOnToggle.Value = false;
