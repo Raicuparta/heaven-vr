@@ -83,4 +83,29 @@ public static class InputPatches
         __result = InputMap.GetBinding(inputAction.name).Name;
         return false;
     }
+
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(GameInput), nameof(GameInput.IsUsingGamepad))]
+    private static bool ForceGamepadMode1(out bool __result)
+    {
+        __result = true;
+        return false;
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(GameInput), nameof(GameInput.GetDeviceClassFromPath))]
+    [HarmonyPatch(typeof(GameInput), nameof(GameInput.GetDeviceClassFromControl))]
+    private static bool ForceGamepadMode1(out GameInput.InputDeviceClass __result)
+    {
+        __result = GameInput.InputDeviceClass.Gamepad;
+        return false;
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(GameInput), nameof(GameInput.ApplySensitivityByInputDeviceClass))]
+    private static void ForceGamepadMode2(out GameInput.InputDeviceClass inputDeviceClass)
+    {
+        inputDeviceClass = GameInput.InputDeviceClass.Gamepad;
+    }
 }
