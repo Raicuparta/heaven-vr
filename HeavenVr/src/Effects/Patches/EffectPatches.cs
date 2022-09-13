@@ -33,7 +33,7 @@ public static class EffectPatches
 
         if (beautify.bloomIntensity.value > 0)
         {
-            beautify.bloomIntensity.value = 0.25f;
+            beautify.bloomIntensity.value = 0.15f;
         }
     }
 
