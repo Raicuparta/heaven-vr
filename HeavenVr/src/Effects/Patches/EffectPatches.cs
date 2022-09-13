@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using HarmonyLib;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -30,11 +31,7 @@ public static class EffectPatches
         var beautify = (Beautify.Universal.Beautify) __instance;
         
         beautify.sunFlaresIntensity.value = 0;
-
-        if (beautify.bloomIntensity.value > 0)
-        {
-            beautify.bloomIntensity.value = 0.15f;
-        }
+        beautify.bloomIntensity.value *= 0.3f;
     }
 
     [HarmonyPostfix]
