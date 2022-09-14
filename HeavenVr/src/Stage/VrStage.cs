@@ -103,24 +103,27 @@ public class VrStage: MonoBehaviour
 
     private void Update()
     {
-        if (!_isRecentered)
-        {
-            RecenterPosition();
-            _isRecentered = true;
-        }
+        UpdateRecenter();
+        UpdateRotation();
+    }
+
+    private void UpdateRotation()
+    {
+        if (PauseHelper.IsPaused()) return;
+
+        var angle = Vector3.SignedAngle(transform.parent.forward, GetMovementDirection(), Vector3.up);
         
-        // TODO is this still needed?
-        if (_previousSelectableCount == Selectable.allSelectableCount) return;
+        RM.drifter.mouseLookX.AddFrameRotation(angle, 0);
+        
+        transform.Rotate(Vector3.up, -angle);
+    }
 
-        foreach (var selectable in Selectable.allSelectablesArray)
-        {
-            if (selectable.GetComponent<BoxCollider>()) continue;
-            var collider = selectable.gameObject.AddComponent<BoxCollider>();
-            var rectSize = selectable.GetComponent<RectTransform>().sizeDelta;
-            collider.size = new Vector3(rectSize.x, rectSize.y, 0.1f);
-        }
+    private void UpdateRecenter()
+    {
+        if (_isRecentered) return;
 
-        _previousSelectableCount = Selectable.allSelectableCount;
+        RecenterPosition();
+        _isRecentered = true;
     }
 
     // There's a lot of code that depends on this "cameraHolder", but needs it to be afttached to the player body.

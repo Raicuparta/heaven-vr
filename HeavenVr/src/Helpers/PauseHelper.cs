@@ -6,7 +6,11 @@ public static class PauseHelper
     {
         return RM.mechController == null ||
                RM.mechController.deck == null ||
+               !RM.mechController.Alive ||
                RM.time == null ||
-               RM.time.GetIsTimeScaleZero();
+               RM.time.GetIsTimeScaleZero() ||
+               RM.time.GetIsPaused() ||
+               RM.drifter == null ||
+               !RM.drifter.enabled;
     }
 }

@@ -44,22 +44,7 @@ public static class InputPatches
         
         return false;
     }
-    
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(FirstPersonDrifter), nameof(FirstPersonDrifter.UpdateVelocity))]
-    private static void UseVrMovementDirection(FirstPersonDrifter __instance)
-    {
-        if (!VrStage.Instance) return;
 
-        var forward = VrStage.Instance.GetMovementDirection();
-        var rotation = Quaternion.FromToRotation(VrStage.Instance.transform.parent.forward, forward);
-
-        var input = new Vector3(__instance.inputX, 0, __instance.inputY);
-        input = rotation * input;
-
-        __instance.inputX = input.x;
-        __instance.inputY = input.z;
-    }    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GameInput),
         nameof(GameInput.GetKey),
