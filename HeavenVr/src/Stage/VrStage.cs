@@ -97,11 +97,6 @@ public class VrStage: MonoBehaviour
         return forward;
     }
 
-    public Vector3 GetDominantHandPosition()
-    {
-        return _dominantHand.transform.position;
-    }
-
     public void RecenterRotation()
     {
         InputDevices.GetDeviceAtXRNode(XRNode.CenterEye).TryGetFeatureValue(CommonUsages.centerEyeRotation, out var centerEyerotation);

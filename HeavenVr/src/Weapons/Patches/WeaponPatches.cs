@@ -64,4 +64,12 @@ public static class WeaponPatches
 
         __result.wasPreviousTarget = false;
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Zipline), nameof(Zipline.UpdateRope))]
+    private static void AttachZiplineToHand(Zipline __instance)
+    {
+        __instance.ropeCameraOffset = VrStage.Instance.aimLaser.transform.position -
+                                      RM.mechController.playerCamera.transform.position;
+    }
 }
