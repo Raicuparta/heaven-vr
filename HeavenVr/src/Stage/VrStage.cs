@@ -1,4 +1,5 @@
-﻿using HeavenVr.Helpers;
+﻿using System.Collections;
+using HeavenVr.Helpers;
 using HeavenVr.Laser;
 using HeavenVr.Liv;
 using HeavenVr.ModSettings;
@@ -73,6 +74,17 @@ public class VrStage: MonoBehaviour
 
         // TODO clean up with separate non-dominant hand script.
         movementDirectionPointer = _nonDominantHand.transform.Find("MovementDirection/Laser");
+
+        StartCoroutine(StartRotationCoroutine());
+    }
+
+    private IEnumerator StartRotationCoroutine()
+    {
+        while (enabled)
+        {
+            yield return new WaitForEndOfFrame();
+            UpdateRotation();
+        }
     }
     
     public Vector3 GetMovementDirection()
@@ -83,6 +95,11 @@ public class VrStage: MonoBehaviour
         var forward = trackedTransform.forward;
         forward.y = 0;
         return forward;
+    }
+
+    public Vector3 GetDominantHandPosition()
+    {
+        return _dominantHand.transform.position;
     }
 
     public void RecenterRotation()
@@ -104,7 +121,6 @@ public class VrStage: MonoBehaviour
     private void Update()
     {
         UpdateRecenter();
-        UpdateRotation();
     }
 
     private void UpdateRotation()
@@ -115,7 +131,7 @@ public class VrStage: MonoBehaviour
         
         RM.drifter.mouseLookX.AddFrameRotation(angle, 0);
         
-        transform.Rotate(Vector3.up, -angle);
+        transform.RotateAround(RM.drifter.transform.position, Vector3.up, -angle);
     }
 
     private void UpdateRecenter()
