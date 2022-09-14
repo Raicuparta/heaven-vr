@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using HarmonyLib;
-using HeavenVr.ModSettings;
-using MessengerExtensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
