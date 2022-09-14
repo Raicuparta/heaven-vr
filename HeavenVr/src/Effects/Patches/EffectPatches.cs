@@ -54,7 +54,6 @@ public static class EffectPatches
     [HarmonyPatch(typeof(AmplifyOcclusionRendererFeature), nameof(AmplifyOcclusionRendererFeature.Create))]
     private static void AdjustAmbientOcclusion(AmplifyOcclusionRendererFeature __instance)
     {
-        Debug.Log($"####### create amplify render feature");
         __instance.Intensity = 1;
     }
     
@@ -62,7 +61,6 @@ public static class EffectPatches
     [HarmonyPatch(typeof(AmplifyOcclusionRendererFeature), nameof(AmplifyOcclusionRendererFeature.Create))]
     private static void FixAmbientOcclusionSetting(AmplifyOcclusionRendererFeature __instance)
     {
-        Debug.Log($"####### create amplify render feature");
         AmbientOcclusionSettingFix.Create(__instance);
     }
 }
