@@ -73,7 +73,7 @@ public class LaserInputModule : BaseInputModule
         var clickBinding = InputMap.GetBinding("Submit");
         if (clickBinding == null) return;
         
-        if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed)
+        if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed && IsMoving())
             HandleDrag();
         else if (!_pointerData.eligibleForClick && clickBinding.WasPressedThisFrame)
             HandleClick();
@@ -142,6 +142,11 @@ public class LaserInputModule : BaseInputModule
         ExecuteEvents.Execute(_pointerData.pointerDrag, _pointerData, ExecuteEvents.dragHandler);
     }
 
+    private bool IsMoving()
+    {
+        return _pointerData != null && Vector2.Distance(_previousClickPosition, _pointerData.position) > ClickMovementTreshold;
+    }
+
     private void HandlePendingClick()
     {
         if (!_pointerData.eligibleForClick) return;
@@ -150,7 +155,7 @@ public class LaserInputModule : BaseInputModule
 
         // Send pointer up and click events.
         ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerUpHandler);
-        if (Vector2.Distance(_previousClickPosition, _pointerData.position) <= ClickMovementTreshold)
+        if (!IsMoving())
         {
             ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerClickHandler);
         }
@@ -180,8 +185,7 @@ public class LaserInputModule : BaseInputModule
         _pointerData.pressPosition = _pointerData.position;
         _pointerData.pointerPressRaycast = _pointerData.pointerCurrentRaycast;
         _pointerData.pointerPress =
-            ExecuteEvents.ExecuteHierarchy(go, _pointerData, ExecuteEvents.pointerDownHandler)
-            ?? ExecuteEvents.GetEventHandler<IPointerClickHandler>(go);
+            ExecuteEvents.GetEventHandler<IPointerClickHandler>(go);
 
         // Save the drag handler as well
         _pointerData.pointerDrag = ExecuteEvents.GetEventHandler<IDragHandler>(go);
