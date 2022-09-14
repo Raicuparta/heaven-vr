@@ -6,25 +6,26 @@ using UnityEngine;
 
 namespace HeavenVr.Player;
 
-public class PlayerBodyIkController: MonoBehaviour
+public class PlayerBodyIkController : MonoBehaviour
 {
-    private VRIK _vrIk;
     private SkinnedMeshRenderer _renderer;
-    
+    private VRIK _vrIk;
+
     public static void Create(Transform camera, Transform leftHand, Transform rightHand)
     {
-        var instance = Instantiate(VrAssetLoader.PlayerBodyIk, camera.parent, false).AddComponent<PlayerBodyIkController>();
+        var instance = Instantiate(VrAssetLoader.PlayerBodyIk, camera.parent, false)
+            .AddComponent<PlayerBodyIkController>();
 
         var headTarget = new GameObject("VrIkHeadTarget").transform;
         headTarget.SetParent(camera, false);
         headTarget.localPosition = new Vector3(0f, -0.08f, -0.15f);
         headTarget.localEulerAngles = new Vector3(0f, 90f, -90f);
-        
+
         var leftHandTarget = new GameObject("VrIkLeftHandTarget").transform;
         leftHandTarget.SetParent(leftHand, false);
         leftHandTarget.localPosition = new Vector3(-0.0364f, 0.1455f, -0.0327f);
         leftHandTarget.localEulerAngles = new Vector3(0, 0f, 90f);
-        
+
         var rightHandTarget = new GameObject("VrIkRightHandTarget").transform;
         rightHandTarget.SetParent(rightHand, false);
         rightHandTarget.localPosition = new Vector3(0.0364f, 0.1455f, -0.0327f);
@@ -33,10 +34,10 @@ public class PlayerBodyIkController: MonoBehaviour
         var root = instance.transform.Find("WhiteRig_SHJntGrp");
 
         var allBones = root.GetComponentsInChildren<Transform>();
-        
+
         var vrIk = instance.GetComponent<VRIK>();
         instance._vrIk = vrIk;
-        
+
         vrIk.references.root = root;
         vrIk.references.pelvis = allBones.First(bone => bone.name == "WhiteRig_ROOTSHJnt");
         vrIk.references.spine = allBones.First(bone => bone.name == "WhiteRig_Spine_02SHJnt");
@@ -59,7 +60,7 @@ public class PlayerBodyIkController: MonoBehaviour
         vrIk.references.rightCalf = allBones.First(bone => bone.name == "WhiteRig_r_Leg_KneeSHJnt");
         vrIk.references.rightFoot = allBones.First(bone => bone.name == "WhiteRig_r_Leg_AnkleSHJnt");
         vrIk.references.rightToes = allBones.First(bone => bone.name == "WhiteRig_r_Leg_BallSHJnt");
-        
+
         vrIk.solver.spine.headTarget = headTarget;
         vrIk.solver.leftArm.target = leftHandTarget;
         vrIk.solver.rightArm.target = rightHandTarget;
@@ -78,7 +79,6 @@ public class PlayerBodyIkController: MonoBehaviour
         }
 
         instance._renderer = instance.GetComponentInChildren<SkinnedMeshRenderer>();
-
     }
 
     private void Update()
@@ -107,7 +107,7 @@ public class PlayerBodyIkController: MonoBehaviour
         if (RM.drifter.MovementVelocity.sqrMagnitude <= 0.1f)
         {
             _vrIk.solver.locomotion.maxVelocity = 0.1f;
-            _vrIk.solver.locomotion.stepSpeed = 2f; 
+            _vrIk.solver.locomotion.stepSpeed = 2f;
         }
         else if (RM.drifter.grounded)
         {

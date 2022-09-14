@@ -6,17 +6,17 @@ using UnityEngine;
 
 namespace HeavenVr.Laser;
 
-public class VrAimLaser: MonoBehaviour
+public class VrAimLaser : MonoBehaviour
 {
-    private Transform _laserScaler;
     private Transform _crosshair;
     private Vector3 _initialLocalEuler;
-    
+    private Transform _laserScaler;
+
     public static VrAimLaser Create(Transform hand)
     {
         var instance = hand.Find("Wrapper/Laser").GetOrAddComponent<VrAimLaser>();
         LayerHelper.SetLayerRecursive(instance.gameObject, GameLayer.VrUi);
-        
+
         return instance;
     }
 
@@ -26,6 +26,14 @@ public class VrAimLaser: MonoBehaviour
         _initialLocalEuler = transform.parent.localEulerAngles;
         SetUpCrosshair();
         SetUpMuzzleFlash();
+    }
+
+    private void Update()
+    {
+        if (_crosshair == null || VrStage.Instance == null || VrStage.Instance.VrCamera == null) return;
+
+        _crosshair.rotation = Quaternion.LookRotation(_crosshair.position - transform.position,
+            VrStage.Instance.VrCamera.transform.up);
     }
 
     private void OnEnable()
@@ -58,7 +66,7 @@ public class VrAimLaser: MonoBehaviour
         if (!RM.ui || !RM.ui.crosshair) return;
 
         _crosshair = RM.ui.crosshair.parent;
-        
+
         _crosshair.SetParent(transform, false);
         _crosshair.localScale = Vector3.one * 0.1f;
         _crosshair.localPosition = Vector3.forward;
@@ -70,16 +78,9 @@ public class VrAimLaser: MonoBehaviour
         if (!RM.mechController || !RM.mechController.muzzleFlashController) return;
 
         var muzzleFlash = RM.mechController.muzzleFlashController.transform;
-        
+
         muzzleFlash.SetParent(transform, false);
         muzzleFlash.localScale = Vector3.one * 0.1f;
         muzzleFlash.localPosition = Vector3.forward;
-    }
-
-    private void Update()
-    {
-        if (_crosshair == null || VrStage.Instance == null || VrStage.Instance.VrCamera == null) return;
-        
-        _crosshair.rotation = Quaternion.LookRotation(_crosshair.position - transform.position, VrStage.Instance.VrCamera.transform.up);
     }
 }

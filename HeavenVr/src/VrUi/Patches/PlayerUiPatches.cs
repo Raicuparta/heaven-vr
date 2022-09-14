@@ -24,7 +24,7 @@ public static class PlayerUiPatches
         __instance.timerHolder.transform.localScale = Vector3.one * 0.05f;
         __instance.timerHolder.transform.localPosition = Vector3.up * 1.6f;
         __instance.demonCounterHolder.transform.localScale = Vector3.one * 1.5f;
-        
+
         LayerHelper.SetLayerRecursive(__instance.gameObject, GameLayer.UI);
         UiTarget.PlayerHudCamera = __instance.Cam;
 

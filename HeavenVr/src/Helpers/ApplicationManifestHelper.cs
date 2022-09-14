@@ -9,6 +9,30 @@ namespace HeavenVr.Helpers;
 
 public static class ApplicationManifestHelper
 {
+    public static void UpdateManifest()
+    {
+        try
+        {
+            var vrManifest = new VrManifest();
+
+            vrManifest.applications[0].last_played_time = CurrentUnixTimestamp().ToString();
+
+            var manifestPath = Paths.ExecutablePath + @"\..\neonwhite.vrmanifest";
+
+            File.WriteAllText(manifestPath, JsonConvert.SerializeObject(vrManifest, Formatting.Indented));
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError($"Failed to write VR manifest: {exception}");
+        }
+    }
+
+    private static long CurrentUnixTimestamp()
+    {
+        var foo = DateTime.Now;
+        return ((DateTimeOffset)foo).ToUnixTimeSeconds();
+    }
+
     [JsonObject(MemberSerialization.OptOut)]
     private class VrManifestApplication
     {
@@ -37,31 +61,8 @@ public static class ApplicationManifestHelper
     {
         // ReSharper disable InconsistentNaming
         public string source = "builtin";
+
         public VrManifestApplication[] applications = { new() };
         // ReSharper restore InconsistentNaming
-    }
-    
-    public static void UpdateManifest()
-    {
-        try
-        {
-            var vrManifest = new VrManifest();
-
-            vrManifest.applications[0].last_played_time = CurrentUnixTimestamp().ToString();
-
-            var manifestPath = Paths.ExecutablePath + @"\..\neonwhite.vrmanifest";
-            
-            File.WriteAllText(manifestPath, JsonConvert.SerializeObject(vrManifest, Formatting.Indented));
-        }
-        catch (Exception exception)
-        {
-            Debug.LogError($"Failed to write VR manifest: {exception}");
-        }
-    }
-
-    private static long CurrentUnixTimestamp()
-    {
-        var foo = DateTime.Now;
-        return ((DateTimeOffset)foo).ToUnixTimeSeconds();
     }
 }

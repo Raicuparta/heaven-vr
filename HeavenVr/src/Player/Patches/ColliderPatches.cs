@@ -16,14 +16,14 @@ public static class ColliderPatches
     {
         return component.CompareTag(GameTag.Player);
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(CardPickup), nameof(CardPickup.OnTriggerStay))]
     private static bool PreventCradPickupWithNonPlayerColliders(Collider c)
     {
         return IsPlayer(c);
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(LevelGate), nameof(LevelGate.OnTriggerStay))]
     [HarmonyPatch(typeof(LevelGateBookOfLife), nameof(LevelGateBookOfLife.OnTriggerStay))]
@@ -31,7 +31,7 @@ public static class ColliderPatches
     {
         return IsPlayer(other);
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(AirstrikeSubzone), nameof(AirstrikeSubzone.OnTriggerEnter))]
     [HarmonyPatch(typeof(AirstrikeSubzone), nameof(AirstrikeSubzone.OnTriggerExit))]

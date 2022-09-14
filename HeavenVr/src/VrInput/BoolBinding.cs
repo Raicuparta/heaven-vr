@@ -5,27 +5,24 @@ using UnityEngine.XR;
 
 namespace HeavenVr.VrInput;
 
-public class BoolBinding: InputBinding<bool>
+public class BoolBinding : InputBinding<bool>
 {
-    private readonly InputFeatureUsage<bool>[] _usages;
     private readonly InputFeatureUsage<float>? _floatUsage;
-    
+    private readonly InputFeatureUsage<bool>[] _usages;
+
     public BoolBinding(XRNode hand, params InputFeatureUsage<bool>[] usages) : base(hand)
     {
-        this._usages = usages;
-        if (usages.Contains(CommonUsages.triggerButton))
-        {
-            this._floatUsage = CommonUsages.trigger;
-        }
+        _usages = usages;
+        if (usages.Contains(CommonUsages.triggerButton)) _floatUsage = CommonUsages.trigger;
     }
-    
+
     protected override bool GetValue()
     {
         // TODO get this only once;
         var device = InputManager.GetInputDevice(Hand);
 
-        var sensitivity = (float) VrSettings.TriggerSensitivity.Value / VrSettings.MaxTriggerSensitivity;
-        
+        var sensitivity = (float)VrSettings.TriggerSensitivity.Value / VrSettings.MaxTriggerSensitivity;
+
         if (_floatUsage.HasValue && sensitivity > 0)
         {
             device.TryGetFeatureValue(_floatUsage.Value, out var floatValue);

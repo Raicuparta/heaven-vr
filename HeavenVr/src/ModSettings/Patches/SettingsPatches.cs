@@ -13,7 +13,6 @@ public static class SettingsPatches
 
         __result = true;
         return false;
-
     }
     
     [HarmonyPrefix]

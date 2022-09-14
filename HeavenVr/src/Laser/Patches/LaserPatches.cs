@@ -14,8 +14,8 @@ public static class LaserPatches
 
         LaserInputModule.Create(__instance);
         DefaultInputModuleDisabler.Create(__instance);
-    }    
-    
+    }
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(TargetAssist), nameof(TargetAssist.LoadPrefs))]
     private static bool ForceDisableTargetAssist(TargetAssist __instance)
@@ -26,24 +26,18 @@ public static class LaserPatches
 
     private static void ForceAimingSettings(MenuScreenOptionsPanel optionsPanel)
     {
-        if (optionsPanel._lockOnToggle)
-        {
-            optionsPanel._lockOnToggle.Value = false;
-        }
+        if (optionsPanel._lockOnToggle) optionsPanel._lockOnToggle.Value = false;
 
-        if (optionsPanel._aimAssistSlider)
-        {
-            optionsPanel._aimAssistSlider.Value = 0;
-        }
+        if (optionsPanel._aimAssistSlider) optionsPanel._aimAssistSlider.Value = 0;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.ApplyChanges))]
     private static void ForceAimingSettingsPre(MenuScreenOptionsPanel __instance)
     {
         ForceAimingSettings(__instance);
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.LoadValues))]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.SpawnColumnSettings))]
@@ -51,7 +45,7 @@ public static class LaserPatches
     {
         ForceAimingSettings(__instance);
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GS), nameof(GS.LockOn))]
     private static void ForceAimingSettingsSet(out bool enable)

@@ -50,7 +50,7 @@ public static class LayerHelper
 {
     public static int GetMask(GameLayer layer, int baseMask = 0)
     {
-        return baseMask | (1 << (int) layer);
+        return baseMask | (1 << (int)layer);
     }
 
     public static int GetMask(params GameLayer[] layers)
@@ -62,7 +62,7 @@ public static class LayerHelper
 
     private static void SetLayer(GameObject gameObject, GameLayer layer)
     {
-        gameObject.layer = (int) layer;
+        gameObject.layer = (int)layer;
     }
 
     public static void SetLayerRecursive(GameObject gameObject, GameLayer layer)

@@ -7,17 +7,17 @@ namespace HeavenVr.VrUi;
 public class UiTarget : MonoBehaviour
 {
     private const float RotationSmoothTime = 0.3f;
+    private const float MinAngleDelta = 45f;
+    public static Camera PlayerHudCamera; // TODO no static
+    private Collider _collider;
+    private VrHand _hand;
     private Vector3 _previousForward;
     private Quaternion _rotationVelocity;
+    private VrStage _stage;
     private Quaternion _targetRotation;
     private Transform _targetTransform;
-    private const float MinAngleDelta = 45f;
-    private VrStage _stage;
-    private Collider _collider;
     private GameObject _vrUiQuad;
-    private VrHand _hand;
     public Camera UiCamera { get; private set; }
-    public static Camera PlayerHudCamera; // TODO no static
 
     public static UiTarget Create(VrStage stage, VrHand hand)
     {
@@ -28,7 +28,7 @@ public class UiTarget : MonoBehaviour
         instance._targetTransform.localPosition = new Vector3(0f, 0, 2f);
         instance._stage = stage;
         instance._hand = hand;
-                
+
         instance.UiCamera = new GameObject("VrUiCamera").AddComponent<Camera>();
         // instance.UiCamera.transform.SetParent(instance.targetTransform, false);
         instance.UiCamera.transform.localPosition = Vector3.forward * -4f;
@@ -39,17 +39,24 @@ public class UiTarget : MonoBehaviour
             instance.UiCamera.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
             instance.UiCamera.orthographicSize = 2f;
         }
-        
+
         instance.UiCamera.orthographic = true;
         instance.UiCamera.cullingMask = LayerHelper.GetMask(GameLayer.UI, GameLayer.Map);
         instance.UiCamera.targetTexture = instance.GetUiRenderTexture();
         instance.UiCamera.depth = 10;
         return instance;
     }
-    
+
     public void Start()
     {
         _previousForward = GetCameraForward();
+    }
+
+    private void Update()
+    {
+        UpdateTransform();
+        UpdateClearFlags();
+        UpdateCollider();
     }
 
     private RenderTexture GetUiRenderTexture()
@@ -63,14 +70,8 @@ public class UiTarget : MonoBehaviour
             _vrUiQuad.transform.localScale = Vector3.one * 0.1f;
             _collider = _vrUiQuad.GetComponentInChildren<Collider>();
         }
-        return _vrUiQuad.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
-    }
 
-    private void Update()
-    {
-        UpdateTransform();
-        UpdateClearFlags();
-        UpdateCollider();
+        return _vrUiQuad.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
     }
 
     private void UpdateCollider()
@@ -98,7 +99,9 @@ public class UiTarget : MonoBehaviour
 
         if (unsignedAngleDelta > MinAngleDelta)
         {
-            _targetRotation = Quaternion.LookRotation(cameraForward, _stage.CameraPoseDriver.transform.parent.rotation * _stage.CameraPoseDriver.originPose.rotation * Vector3.up);
+            _targetRotation = Quaternion.LookRotation(cameraForward,
+                _stage.CameraPoseDriver.transform.parent.rotation * _stage.CameraPoseDriver.originPose.rotation *
+                Vector3.up);
             _previousForward = cameraForward;
         }
 

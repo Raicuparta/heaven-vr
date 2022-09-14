@@ -4,6 +4,13 @@ namespace HeavenVr.ModSettings;
 
 public static class VrSettings
 {
+    public enum AxisModeOption
+    {
+        Auto,
+        Touch,
+        Click
+    }
+
     public enum ControlSchemeOption
     {
         Auto,
@@ -11,13 +18,6 @@ public static class VrSettings
         Vive,
         Index,
         Wmr
-    }
-    
-    public enum AxisModeOption
-    {
-        Auto,
-        Touch,
-        Click
     }
 
     public enum TurningModeValue
@@ -51,14 +51,15 @@ public static class VrSettings
 
         ControlScheme = config.Bind(ControlsCategory, nameof(ControlScheme), ControlSchemeOption.Auto,
             "Control scheme | Pick a control scheme manually or select auto to select it based on the detected controllers.");
-        
+
         TurningMode = config.Bind(ControlsCategory, nameof(TurningMode), TurningModeValue.Smooth,
             "Turning mode | Pick between smooth or snap turning. Smooth turning speed can be configured in the Neon White settings menu.");
 
         AxisMode = config.Bind(ControlsCategory, nameof(AxisMode), AxisModeOption.Auto,
             "Axis mode | Touch is better for thumb sticks. Click is better for touch pads. Auto tries to pick the best for your controller.");
 
-        ControllerBasedMovementDirection = config.Bind(ControlsCategory, nameof(ControllerBasedMovementDirection), false,
+        ControllerBasedMovementDirection = config.Bind(ControlsCategory, nameof(ControllerBasedMovementDirection),
+            false,
             "Controller-based movement direction | Enabled: controller-based direction. Disabled: head-based direction.");
 
         TriggerSensitivity = config.Bind(ControlsCategory, nameof(TriggerSensitivity), 0,
@@ -73,7 +74,7 @@ public static class VrSettings
 
         ShowPlayerBody = config.Bind(MiscCategory, nameof(ShowPlayerBody), false,
             "Show player body | It's pretty broken, so mostly useful for LIV");
-        
+
         SkipIntro = config.Bind(MiscCategory, nameof(SkipIntro), false, "Skip game intro cutscene");
     }
 }

@@ -5,11 +5,11 @@ using UnityEngine.XR;
 
 namespace HeavenVr.VrInput;
 
-public class Vector2Binding: InputBinding<Vector2>
+public class Vector2Binding : InputBinding<Vector2>
 {
-    private readonly InputFeatureUsage<bool> _usagePress;
-    private readonly InputFeatureUsage<Vector2> _usagePosition;
     private const float InputThreshold = 0.5f;
+    private readonly InputFeatureUsage<Vector2> _usagePosition;
+    private readonly InputFeatureUsage<bool> _usagePress;
 
     public Vector2Binding(XRNode hand) : base(hand)
     {
@@ -32,9 +32,9 @@ public class Vector2Binding: InputBinding<Vector2>
     {
         // TODO no need to fetch the device every time.
         var device = InputManager.GetInputDevice(Hand);
-        
+
         if (IsTouchAxisMode()) return 1;
-        
+
         device.TryGetFeatureValue(_usagePress, out var value);
         return value ? 1 : 0;
     }
@@ -48,7 +48,7 @@ public class Vector2Binding: InputBinding<Vector2>
         var valueWest = valueVector2.x < -InputThreshold ? GetFloatValue() : 0;
         return new Vector2(valueEast - valueWest, valueNorth - valueSouth);
     }
-    
+
     protected override bool GetValueAsBool(Vector2 value)
     {
         return value.sqrMagnitude > InputThreshold * InputThreshold;

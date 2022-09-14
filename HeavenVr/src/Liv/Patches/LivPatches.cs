@@ -17,7 +17,8 @@ public static class LivPatches
      */
     [HarmonyPostfix]
     [HarmonyPatch(typeof(BeautifyRendererFeature), nameof(BeautifyRendererFeature.AddRenderPasses))]
-    private static void AddLivRenderPasses(BeautifyRendererFeature __instance, ScriptableRenderer renderer, ref RenderingData renderingData)
+    private static void AddLivRenderPasses(BeautifyRendererFeature __instance, ScriptableRenderer renderer,
+        ref RenderingData renderingData)
     {
         var passes = SDKUniversalRenderFeature.passes;
         if (passes == null) return;

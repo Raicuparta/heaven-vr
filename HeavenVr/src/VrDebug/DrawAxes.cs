@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace HeavenVr.VrDebug;
 
-public class DrawAxes: MonoBehaviour
+public class DrawAxes : MonoBehaviour
 {
     private static readonly Dictionary<string, DrawAxes> Objects = new();
 

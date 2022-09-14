@@ -6,7 +6,7 @@ namespace HeavenVr.VrUi.Patches;
 [HarmonyPatch]
 public static class SettingsUiPatches
 {
-    const string TurningSpeedSettingText = "Turning speed";
+    private const string TurningSpeedSettingText = "Turning speed";
 
     private static void DisableSettingInput(Component component)
     {
@@ -14,7 +14,7 @@ public static class SettingsUiPatches
 
         component.transform.gameObject.SetActive(false);
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.SpawnColumnSettings))]
     private static void DisableUnneededOptions(MenuScreenOptionsPanel __instance)
@@ -31,29 +31,17 @@ public static class SettingsUiPatches
         DisableSettingInput(__instance._gamepadSensitivityVerticalSlider);
         DisableSettingInput(__instance._responseCurveSelector);
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.SpawnColumnSettings))]
     private static void ChangeMouseSensitivitySettingName(MenuScreenOptionsPanel __instance)
     {
         if (!__instance._mouseSensitivitySlider) return;
-        
+
         var titleText = __instance._mouseSensitivitySlider._titleText;
-        if (titleText.unityUIText)
-        {
-            titleText.unityUIText.text = TurningSpeedSettingText;
-        }
-        if (titleText.textMesh)
-        {
-            titleText.textMesh.text = TurningSpeedSettingText;
-        }
-        if (titleText.textMeshPro)
-        {
-            titleText.textMeshPro.text = TurningSpeedSettingText;
-        }
-        if (titleText.textMeshProUGUI)
-        {
-            titleText.textMeshProUGUI.text = TurningSpeedSettingText;
-        }
+        if (titleText.unityUIText) titleText.unityUIText.text = TurningSpeedSettingText;
+        if (titleText.textMesh) titleText.textMesh.text = TurningSpeedSettingText;
+        if (titleText.textMeshPro) titleText.textMeshPro.text = TurningSpeedSettingText;
+        if (titleText.textMeshProUGUI) titleText.textMeshProUGUI.text = TurningSpeedSettingText;
     }
 }

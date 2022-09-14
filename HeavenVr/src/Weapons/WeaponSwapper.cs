@@ -4,19 +4,14 @@ using UnityEngine;
 
 namespace HeavenVr.Weapons;
 
-public class WeaponSwapper: MonoBehaviour
+public class WeaponSwapper : MonoBehaviour
 {
-    private PlayerCard _previousCard;
     private GameObject _currentWeapon;
-    
+    private PlayerCard _previousCard;
+
     public static void Create(GameObject gameObject)
     {
         gameObject.AddComponent<WeaponSwapper>();
-    }
-
-    private static PlayerCard GetCurrentCard()
-    {
-        return PauseHelper.IsPaused() ? null : RM.mechController.deck.GetCardInHand(0);
     }
 
     private void Update()
@@ -27,18 +22,17 @@ public class WeaponSwapper: MonoBehaviour
 
         _previousCard = currentCard;
 
-        if (_currentWeapon)
-        {
-            _currentWeapon.SetActive(false);
-        }
+        if (_currentWeapon) _currentWeapon.SetActive(false);
 
         var currentWeaponTransformName = GetWeaponTransformName(currentCard);
-        
+
         _currentWeapon = GetWeaponObject(currentWeaponTransformName);
-        if (_currentWeapon)
-        {
-            _currentWeapon.SetActive(true);
-        }
+        if (_currentWeapon) _currentWeapon.SetActive(true);
+    }
+
+    private static PlayerCard GetCurrentCard()
+    {
+        return PauseHelper.IsPaused() ? null : RM.mechController.deck.GetCardInHand(0);
     }
 
     private GameObject GetWeaponObject(string transformName)
@@ -48,11 +42,8 @@ public class WeaponSwapper: MonoBehaviour
 
     private static string GetWeaponTransformName(PlayerCard card)
     {
-        if (card == null)
-        {
-            return null;
-        }
-        
+        if (card == null) return null;
+
         return card.data.cardID switch
         {
             "PISTOL" => "Pistol",

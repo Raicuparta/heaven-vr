@@ -15,7 +15,7 @@ public static class VrAssetLoader
     public static GameObject DebugHelperPrefab;
     public static GameObject PlayerBodyIk;
     public static AssetBundle LivShadersBundle;
-    
+
     public static void Init()
     {
         LivShadersBundle = LoadBundle("liv-shaders");
@@ -28,15 +28,12 @@ public static class VrAssetLoader
         RightHandPrefab = handBundle.LoadAsset<GameObject>("RightHand");
         MovementDirectionPrefab = handBundle.LoadAsset<GameObject>("MovementDirection");
     }
-    
+
     private static AssetBundle LoadBundle(string assetName)
     {
         var bundle = AssetBundle.LoadFromFile(Path.Combine(Paths.PluginPath, Path.Combine(AssetsDir, assetName)));
 
-        if (bundle == null)
-        {
-            throw new Exception("Failed to load asset bundle" + assetName);
-        }
+        if (bundle == null) throw new Exception("Failed to load asset bundle" + assetName);
 
         return bundle;
     }

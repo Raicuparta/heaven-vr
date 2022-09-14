@@ -15,7 +15,7 @@ public static class StagePatches
     {
         VrStage.Create(__instance.PlayerCam);
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(MenuCamera), nameof(MenuCamera.Start))]
     private static void CreateStage(MenuCamera __instance)
@@ -23,25 +23,22 @@ public static class StagePatches
         __instance.m_startColor = Color.black;
         VrStage.Create(__instance.cam);
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(MissionCompleteManager), nameof(MissionCompleteManager.Start))]
     private static void CreateStage(MissionCompleteManager __instance)
     {
         VrStage.Create(__instance.GetComponentInChildren<Camera>());
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(ShakePosition), nameof(ShakePosition.Start))]
     private static void CreateStage(ShakePosition __instance)
     {
         var camera = __instance.GetComponent<Camera>();
-        if (camera)
-        {
-            VrStage.Create(camera);
-        }
+        if (camera) VrStage.Create(camera);
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(CreditsPlayer), nameof(CreditsPlayer.PlayCreditsRoutine))]
     private static void CreateCreditsStage()
@@ -53,7 +50,7 @@ public static class StagePatches
             Debug.LogError("Failed to find camera when creating stage for credits scene");
             return;
         }
-        
+
         VrStage.Create(Camera.allCameras[0]);
     }
 
@@ -63,18 +60,19 @@ public static class StagePatches
     {
         if (VrStage.Instance != null) return;
 
-        var mainCameraObject = SceneManager.GetActiveScene().GetRootGameObjects().First(scene => scene.name == "Main Camera");
+        var mainCameraObject = SceneManager.GetActiveScene().GetRootGameObjects()
+            .First(scene => scene.name == "Main Camera");
 
         if (mainCameraObject == null)
         {
             Debug.LogError("Failed to find camera when creating stage for intro scene");
             return;
         }
-        
+
         mainCameraObject.SetActive(true);
         var camera = mainCameraObject.GetComponent<Camera>();
         camera.enabled = true;
-        
+
         VrStage.Create(camera);
     }
 }

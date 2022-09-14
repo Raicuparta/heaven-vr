@@ -11,7 +11,7 @@ namespace HeavenVr.Laser;
  * By default, the game EventSystem gets disabled whenever UnityExplorer is open. So I'm detecting whether the default
  * EventSystem is enabled or not, and only enable the default input module when the EventSystem is disabled.
  */
-public class DefaultInputModuleDisabler: MonoBehaviour
+public class DefaultInputModuleDisabler : MonoBehaviour
 {
     private EventSystem _eventSystem;
     private InputSystemUIInputModule _inputModule;
@@ -24,7 +24,7 @@ public class DefaultInputModuleDisabler: MonoBehaviour
         instance._eventSystem = eventSystem;
         instance._inputModule = eventSystem.GetComponent<InputSystemUIInputModule>();
     }
-    
+
     private void Update()
     {
         _inputModule.enabled = !_eventSystem.enabled;

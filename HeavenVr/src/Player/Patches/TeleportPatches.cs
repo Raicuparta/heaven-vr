@@ -8,7 +8,7 @@ namespace HeavenVr.Player.Patches;
 public static class TeleportPatches
 {
     private static float _rotationX;
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(PlayerTeleport), nameof(PlayerTeleport.Teleport))]
     private static void StoreMouseLookX(PlayerTeleport __instance)
@@ -16,7 +16,7 @@ public static class TeleportPatches
         // Need to store mouseLookX before Teleport, because Teleport modifies it and I want to reset it after.
         _rotationX = RM.drifter.mouseLookX.rotationX;
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(PlayerTeleport), nameof(PlayerTeleport.Teleport))]
     private static void FixTeleportRotation(PlayerTeleport __instance)

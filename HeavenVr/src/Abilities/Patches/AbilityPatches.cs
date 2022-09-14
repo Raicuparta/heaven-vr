@@ -15,7 +15,7 @@ public abstract class AbilityPatches
 
         float endVelocity;
         var direction = VrStage.Instance.aimLaser.transform.forward;
-        
+
         switch (RM.mechController.m_lastDiscardAbility)
         {
             case PlayerCardData.DiscardAbility.Dash:
@@ -40,7 +40,7 @@ public abstract class AbilityPatches
                 return;
             }
         }
-        
+
         newDashDirection = direction;
         newDashEndVelocity = direction * endVelocity;
     }

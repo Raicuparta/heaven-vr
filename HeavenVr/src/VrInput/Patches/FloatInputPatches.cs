@@ -7,10 +7,12 @@ using UnityEngine.InputSystem;
 namespace HeavenVr.VrInput.Patches;
 
 [HarmonyPatch]
-public static class FloatInputPatches {
+public static class FloatInputPatches
+{
     // ReSharper disable once UnusedMember.Local
     [HarmonyTargetMethod]
-    private static MethodInfo TargetMethod() {
+    private static MethodInfo TargetMethod()
+    {
         return typeof(InputAction).GetAnyMethod(nameof(InputAction.ReadValue)).MakeGenericMethod(typeof(float));
     }
 
@@ -20,15 +22,13 @@ public static class FloatInputPatches {
     {
         if (VrSettings.TurningMode.Value != VrSettings.TurningModeValue.Smooth &&
             __instance.name == "Look")
-        {
             return false;
-        }
 
         var binding = InputMap.GetBinding(__instance.name);
         if (binding == null) return true;
 
         __result = binding.IsPressed ? 1 : 0;
-    
+
         return false;
     }
 }
