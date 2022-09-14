@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using HeavenVr.Stage;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace HeavenVr.VrCamera.Patches;
 
@@ -29,5 +30,16 @@ public static class CameraPatches
     {
         __instance.enabled = false;
         return false;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(PlayerCamera), nameof(PlayerCamera.OnEnable))]
+    private static void DisableAntialiasing(PlayerCamera __instance)
+    {
+        var additionalData = __instance.GetComponent<UniversalAdditionalCameraData>();
+        if (additionalData == null) return;
+
+        additionalData.antialiasing = AntialiasingMode.None;
+        additionalData.renderPostProcessing = false;
     }
 }
