@@ -14,7 +14,7 @@ public static class CameraPatches
         value = -1;
         return false;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Application), nameof(Application.targetFrameRate), MethodType.Getter)]
     private static bool ForceDisableTargetFramerateGet(out int __result)
@@ -22,7 +22,7 @@ public static class CameraPatches
         __result = -1;
         return false;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(HeadBob), nameof(HeadBob.Start))]
     private static bool DisableHeadBob(HeadBob __instance)
@@ -30,7 +30,7 @@ public static class CameraPatches
         __instance.enabled = false;
         return false;
     }
-    
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(PlayerCamera), nameof(PlayerCamera.OnEnable))]
     private static void DisableAntialiasing(PlayerCamera __instance)

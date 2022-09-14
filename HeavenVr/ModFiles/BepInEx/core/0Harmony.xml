@@ -2251,8 +2251,9 @@
                 <see cref="T:MonoMod.Utils.DynamicMethodDefinition"/>
                 that contains a call to
                 the original method to pass to the IL manipulator.
-                If <b>null</b>, Harmony patches must be manually applied to the original via<see
-                    cref="M:HarmonyLib.Public.Patching.HarmonyManipulator.Manipulate(System.Reflection.MethodBase,HarmonyLib.PatchInfo,MonoMod.Cil.ILContext)"/>
+                If <b>null</b>, Harmony patches must be manually applied to the original via
+                <see
+                        cref="M:HarmonyLib.Public.Patching.HarmonyManipulator.Manipulate(System.Reflection.MethodBase,HarmonyLib.PatchInfo,MonoMod.Cil.ILContext)"/>
                 .
             </returns>
 
@@ -2272,8 +2273,9 @@
                 <see cref="M:HarmonyLib.Public.Patching.MethodPatcher.PrepareOriginal"/>
                 returned non-<b>null</b>.
                 Otherwise, this will be <b>null</b>, in which case you must manually generate Harmony-patched method
-                with<see
-                    cref="M:HarmonyLib.Public.Patching.HarmonyManipulator.Manipulate(System.Reflection.MethodBase,HarmonyLib.PatchInfo,MonoMod.Cil.ILContext)"/>
+                with
+                <see
+                        cref="M:HarmonyLib.Public.Patching.HarmonyManipulator.Manipulate(System.Reflection.MethodBase,HarmonyLib.PatchInfo,MonoMod.Cil.ILContext)"/>
                 .
             </param>
             <returns>

@@ -14,14 +14,14 @@ public static class SettingsPatches
         __result = true;
         return false;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(MenuScreenDialogue), nameof(MenuScreenDialogue.OnFastForwardButtonToggled))]
     private static void SpeedDialogueSkip(MenuScreenDialogue __instance)
     {
         __instance.ffTimescale = 20f;
-    }    
-    
+    }
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(GameDataManager), nameof(GameDataManager.OnReadPowerPrefsComplete))]
     private static void PreventSubmittingScores(GameDataManager __instance)

@@ -1,35 +1,35 @@
 ManifestFileVersion: 0
-CRC: 2238524666
-Hashes:
-  AssetFileHash:
-    serializedVersion: 2
-    Hash: 930a35d5d5fbc7ce9fc292acf7805b7e
-  TypeTreeHash:
-    serializedVersion: 2
-    Hash: 96f57ad80e6225726a4198592c8fb17c
-HashAppended: 0
-ClassTypes:
-- Class: 1
-  Script: {instanceID: 0}
-- Class: 4
-  Script: {instanceID: 0}
-- Class: 21
-  Script: {instanceID: 0}
-- Class: 23
-  Script: {instanceID: 0}
-- Class: 33
-  Script: {instanceID: 0}
-- Class: 43
-  Script: {instanceID: 0}
-- Class: 48
-  Script: {instanceID: 0}
-- Class: 65
-  Script: {instanceID: 0}
-- Class: 84
-  Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: d62a63afa74c64744b8925e9350e0708, type: 3}
-SerializeReferenceClassIdentifiers: []
-Assets:
-- Assets/UI/VrUiQuad.prefab
-Dependencies: []
+        CRC: 2238524666
+        Hashes:
+        AssetFileHash:
+        serializedVersion: 2
+        Hash: 930a35d5d5fbc7ce9fc292acf7805b7e
+        TypeTreeHash:
+        serializedVersion: 2
+        Hash: 96f57ad80e6225726a4198592c8fb17c
+        HashAppended: 0
+        ClassTypes:
+        - Class: 1
+        Script: {instanceID: 0}
+        - Class: 4
+        Script: {instanceID: 0}
+        - Class: 21
+        Script: {instanceID: 0}
+        - Class: 23
+        Script: {instanceID: 0}
+        - Class: 33
+        Script: {instanceID: 0}
+        - Class: 43
+        Script: {instanceID: 0}
+        - Class: 48
+        Script: {instanceID: 0}
+        - Class: 65
+        Script: {instanceID: 0}
+        - Class: 84
+        Script: {instanceID: 0}
+        - Class: 114
+        Script: {fileID: 11500000, guid: d62a63afa74c64744b8925e9350e0708, type: 3}
+        SerializeReferenceClassIdentifiers: []
+        Assets:
+        - Assets/UI/VrUiQuad.prefab
+        Dependencies: []

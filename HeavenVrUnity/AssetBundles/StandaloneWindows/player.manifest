@@ -1,37 +1,37 @@
 ManifestFileVersion: 0
-CRC: 2020874676
-Hashes:
-  AssetFileHash:
-    serializedVersion: 2
-    Hash: efc33f7c2273b70a771b15d8288f4dd9
-  TypeTreeHash:
-    serializedVersion: 2
-    Hash: 4fc2a00f1fbe8010dc7dfd4903768c7b
-HashAppended: 0
-ClassTypes:
-- Class: 1
-  Script: {instanceID: 0}
-- Class: 4
-  Script: {instanceID: 0}
-- Class: 21
-  Script: {instanceID: 0}
-- Class: 28
-  Script: {instanceID: 0}
-- Class: 43
-  Script: {instanceID: 0}
-- Class: 48
-  Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: 4db3c450680fd4c809d5ad90a2f24e5f, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 65ace204533ef4c24ac80f11ef8ee8ea, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: bfac4fa329d1f4f23814af71a247c14b, type: 3}
-- Class: 115
-  Script: {instanceID: 0}
-- Class: 137
-  Script: {instanceID: 0}
-SerializeReferenceClassIdentifiers: []
-Assets:
-- Assets/Player/Player.prefab
-Dependencies: []
+        CRC: 2020874676
+        Hashes:
+        AssetFileHash:
+        serializedVersion: 2
+        Hash: efc33f7c2273b70a771b15d8288f4dd9
+        TypeTreeHash:
+        serializedVersion: 2
+        Hash: 4fc2a00f1fbe8010dc7dfd4903768c7b
+        HashAppended: 0
+        ClassTypes:
+        - Class: 1
+        Script: {instanceID: 0}
+        - Class: 4
+        Script: {instanceID: 0}
+        - Class: 21
+        Script: {instanceID: 0}
+        - Class: 28
+        Script: {instanceID: 0}
+        - Class: 43
+        Script: {instanceID: 0}
+        - Class: 48
+        Script: {instanceID: 0}
+        - Class: 114
+        Script: {fileID: 11500000, guid: 4db3c450680fd4c809d5ad90a2f24e5f, type: 3}
+        - Class: 114
+        Script: {fileID: 11500000, guid: 65ace204533ef4c24ac80f11ef8ee8ea, type: 3}
+        - Class: 114
+        Script: {fileID: 11500000, guid: bfac4fa329d1f4f23814af71a247c14b, type: 3}
+        - Class: 115
+        Script: {instanceID: 0}
+        - Class: 137
+        Script: {instanceID: 0}
+        SerializeReferenceClassIdentifiers: []
+        Assets:
+        - Assets/Player/Player.prefab
+        Dependencies: []

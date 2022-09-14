@@ -401,8 +401,9 @@
             <summary>
                 Access one of the existing settings. If the setting has not been added yet, null is returned.
                 If the setting exists but has a different type than T, an exception is thrown.
-                New settings should be added with<see
-                    cref="M:BepInEx.Configuration.ConfigFile.AddSetting``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
+                New settings should be added with
+                <see
+                        cref="M:BepInEx.Configuration.ConfigFile.AddSetting``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
                 .
             </summary>
             <typeparam name="T">Type of the value contained in this setting.</typeparam>
@@ -412,8 +413,9 @@
             <summary>
                 Access one of the existing settings. If the setting has not been added yet, null is returned.
                 If the setting exists but has a different type than T, an exception is thrown.
-                New settings should be added with<see
-                    cref="M:BepInEx.Configuration.ConfigFile.AddSetting``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
+                New settings should be added with
+                <see
+                        cref="M:BepInEx.Configuration.ConfigFile.AddSetting``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
                 .
             </summary>
             <typeparam name="T">Type of the value contained in this setting.</typeparam>
@@ -425,8 +427,9 @@
                 Access one of the existing settings. If the setting has not been added yet, false is returned.
                 Otherwise, true.
                 If the setting exists but has a different type than T, an exception is thrown.
-                New settings should be added with<see
-                    cref="M:BepInEx.Configuration.ConfigFile.Bind``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
+                New settings should be added with
+                <see
+                        cref="M:BepInEx.Configuration.ConfigFile.Bind``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
                 .
             </summary>
             <typeparam name="T">Type of the value contained in this setting.</typeparam>
@@ -437,8 +440,9 @@
             <summary>
                 Access one of the existing settings. If the setting has not been added yet, null is returned.
                 If the setting exists but has a different type than T, an exception is thrown.
-                New settings should be added with<see
-                    cref="M:BepInEx.Configuration.ConfigFile.Bind``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
+                New settings should be added with
+                <see
+                        cref="M:BepInEx.Configuration.ConfigFile.Bind``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)"/>
                 .
             </summary>
             <typeparam name="T">Type of the value contained in this setting.</typeparam>

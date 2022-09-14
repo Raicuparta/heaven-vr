@@ -41,7 +41,7 @@ public class LaserInputModule : BaseInputModule
     public static void Create(EventSystem eventSystem)
     {
         if (eventSystem.GetComponent<LaserInputModule>()) return;
-        
+
         eventSystem.gameObject.AddComponent<LaserInputModule>();
     }
 
@@ -72,7 +72,7 @@ public class LaserInputModule : BaseInputModule
 
         var clickBinding = InputMap.GetBinding("Submit");
         if (clickBinding == null) return;
-        
+
         if (!clickBinding.WasPressedThisFrame && clickBinding.IsPressed && IsMoving())
             HandleDrag();
         else if (!_pointerData.eligibleForClick && clickBinding.WasPressedThisFrame)
@@ -93,7 +93,7 @@ public class LaserInputModule : BaseInputModule
             LayerHelper.GetMask(GameLayer.VrUi));
 
         VrStage.Instance.aimLaser.SetDistance(isHit ? hit.distance : RayDistance);
-            
+
         var pointerPosition = Vector3.zero;
         if (isHit)
         {
@@ -144,7 +144,8 @@ public class LaserInputModule : BaseInputModule
 
     private bool IsMoving()
     {
-        return _pointerData != null && Vector2.Distance(_previousClickPosition, _pointerData.position) > ClickMovementTreshold;
+        return _pointerData != null &&
+               Vector2.Distance(_previousClickPosition, _pointerData.position) > ClickMovementTreshold;
     }
 
     private void HandlePendingClick()
@@ -156,9 +157,7 @@ public class LaserInputModule : BaseInputModule
         // Send pointer up and click events.
         ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerUpHandler);
         if (!IsMoving())
-        {
             ExecuteEvents.Execute(_pointerData.pointerPress, _pointerData, ExecuteEvents.pointerClickHandler);
-        }
 
         if (_pointerData.pointerDrag != null)
             ExecuteEvents.ExecuteHierarchy(go, _pointerData, ExecuteEvents.dropHandler);
@@ -178,7 +177,7 @@ public class LaserInputModule : BaseInputModule
     private void HandleClick()
     {
         _previousClickPosition = _pointerData.position;
-        
+
         var go = _pointerData.pointerCurrentRaycast.gameObject;
 
         // Send pointer down event.

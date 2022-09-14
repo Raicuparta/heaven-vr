@@ -7,25 +7,24 @@ using HeavenVr.Player;
 using HeavenVr.VrUi;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
-using UnityEngine.UI;
 using UnityEngine.XR;
 
 namespace HeavenVr.Stage;
 
-public class VrStage: MonoBehaviour
+public class VrStage : MonoBehaviour
 {
+    public VrAimLaser aimLaser;
+    public Transform movementDirectionPointer;
+    private VrHand _dominantHand;
+
+    private bool _isRecentered;
+    private VrHand _nonDominantHand;
+
+    private Transform _stageParent;
     public Camera VrCamera { get; private set; }
     public UiTarget UiTarget { get; private set; }
     public TrackedPoseDriver CameraPoseDriver { get; private set; }
     public static VrStage Instance { get; private set; }
-
-    public VrAimLaser aimLaser;
-    public Transform movementDirectionPointer;
-
-    private Transform _stageParent;
-    private int _previousSelectableCount;
-    private VrHand _dominantHand;
-    private VrHand _nonDominantHand;
 
     public static void Create(Camera mainCamera)
     {
@@ -35,7 +34,7 @@ public class VrStage: MonoBehaviour
             Destroy(Instance.VrCamera.GetComponent<TrackedPoseDriver>());
             Destroy(Instance.gameObject);
         }
-        
+
         var instance = new GameObject("VrStage").AddComponent<VrStage>();
         Instance = instance;
 
@@ -45,26 +44,26 @@ public class VrStage: MonoBehaviour
         mainCamera.transform.SetParent(instance.transform, false);
         mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("UI"));
         mainCamera.cullingMask = LayerHelper.GetMask(GameLayer.VrUi, mainCamera.cullingMask);
-        
+
         mainCamera.transform.localEulerAngles = Vector3.up * mainCamera.transform.localEulerAngles.y;
         instance.transform.localScale = Vector3.one * 2f;
 
-        if (RM.drifter)
-        {
-            mainCamera.transform.position = RM.drifter.GetFeetPosition();
-        }
+        if (RM.drifter) mainCamera.transform.position = RM.drifter.GetFeetPosition();
 
         instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
         instance.CameraPoseDriver.UseRelativeTransform = true;
 
-        instance._dominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.RightPose);
-        instance._nonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, TrackedPoseDriver.TrackedPose.LeftPose);
+        instance._dominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver,
+            TrackedPoseDriver.TrackedPose.RightPose);
+        instance._nonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver,
+            TrackedPoseDriver.TrackedPose.LeftPose);
         instance.aimLaser = VrAimLaser.Create(instance._dominantHand.transform);
-        
-        PlayerBodyIkController.Create(mainCamera.transform, instance._nonDominantHand.transform,  instance._dominantHand.transform);
+
+        PlayerBodyIkController.Create(mainCamera.transform, instance._nonDominantHand.transform,
+            instance._dominantHand.transform);
 
         instance.UiTarget = UiTarget.Create(instance, instance._nonDominantHand);
-        
+
         LivManager.Create(instance, instance.CameraPoseDriver);
     }
 
@@ -78,6 +77,11 @@ public class VrStage: MonoBehaviour
         StartCoroutine(StartRotationCoroutine());
     }
 
+    private void Update()
+    {
+        UpdateRecenter();
+    }
+
     private IEnumerator StartRotationCoroutine()
     {
         while (enabled)
@@ -86,12 +90,14 @@ public class VrStage: MonoBehaviour
             UpdateRotation();
         }
     }
-    
+
     public Vector3 GetMovementDirection()
     {
         if (!movementDirectionPointer || !VrCamera) return Vector3.forward;
-        
-        var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value ? movementDirectionPointer.transform : VrCamera.transform;
+
+        var trackedTransform = VrSettings.ControllerBasedMovementDirection.Value
+            ? movementDirectionPointer.transform
+            : VrCamera.transform;
         var forward = trackedTransform.forward;
         forward.y = 0;
         return forward;
@@ -99,23 +105,17 @@ public class VrStage: MonoBehaviour
 
     public void RecenterRotation()
     {
-        InputDevices.GetDeviceAtXRNode(XRNode.CenterEye).TryGetFeatureValue(CommonUsages.centerEyeRotation, out var centerEyerotation);
-		transform.localRotation = Quaternion.Inverse(centerEyerotation);
-		transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+        InputDevices.GetDeviceAtXRNode(XRNode.CenterEye)
+            .TryGetFeatureValue(CommonUsages.centerEyeRotation, out var centerEyerotation);
+        transform.localRotation = Quaternion.Inverse(centerEyerotation);
+        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }
 
     private void RecenterPosition()
     {
         if (RM.drifter == null) return;
-        
+
         transform.position -= VrCamera.transform.position - (RM.drifter.transform.position + Vector3.up * 1.456f);
-    }
-
-    private bool _isRecentered;
-
-    private void Update()
-    {
-        UpdateRecenter();
     }
 
     private void UpdateRotation()
@@ -123,9 +123,9 @@ public class VrStage: MonoBehaviour
         if (PauseHelper.IsPaused()) return;
 
         var angle = Vector3.SignedAngle(transform.parent.forward, GetMovementDirection(), Vector3.up);
-        
+
         RM.drifter.mouseLookX.AddFrameRotation(angle, 0);
-        
+
         transform.RotateAround(RM.drifter.transform.position, Vector3.up, -angle);
     }
 
@@ -144,7 +144,7 @@ public class VrStage: MonoBehaviour
     private void SetUpRotationDummy()
     {
         if (RM.drifter == null) return;
-        
+
         var dummy = new GameObject("VrCameraRotationDummy").transform;
         dummy.SetParent(transform.parent, false);
         dummy.transform.localPosition = Vector3.zero;

@@ -1,6 +1,4 @@
 ﻿using HarmonyLib;
-using HeavenVr.Stage;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HeavenVr.VrInput.Patches;
@@ -32,7 +30,7 @@ public static class InputPatches
 
         return false;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(InputAction), nameof(InputAction.WasReleasedThisFrame))]
     private static bool SetPreviousBoolInputsReleased(ref bool __result, InputAction __instance)
@@ -41,7 +39,7 @@ public static class InputPatches
         if (binding == null) return true;
 
         __result = binding.WasReleasedThisFrame;
-        
+
         return false;
     }
 
@@ -69,7 +67,7 @@ public static class InputPatches
         return false;
     }
 
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GameInput), nameof(GameInput.IsUsingGamepad))]
     private static bool ForceGamepadMode1(out bool __result)
@@ -77,7 +75,7 @@ public static class InputPatches
         __result = true;
         return false;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GameInput), nameof(GameInput.GetDeviceClassFromPath))]
     [HarmonyPatch(typeof(GameInput), nameof(GameInput.GetDeviceClassFromControl))]
@@ -86,7 +84,7 @@ public static class InputPatches
         __result = GameInput.InputDeviceClass.Gamepad;
         return false;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GameInput), nameof(GameInput.ApplySensitivityByInputDeviceClass))]
     private static void ForceGamepadMode2(out GameInput.InputDeviceClass inputDeviceClass)
