@@ -23,13 +23,20 @@ public static class EffectPatches
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(VolumeComponent), "OnEnable")]
-    private static void DisableSunFlares(VolumeComponent __instance)
+    private static void AdjustEffects(VolumeComponent __instance)
     {
         if (__instance.GetType() != typeof(Beautify.Universal.Beautify)) return;
 
         var beautify = (Beautify.Universal.Beautify)__instance;
 
+        // Sun flares are broken in stereo.
         beautify.sunFlaresIntensity.value = 0;
+        
+        // These aren't exactly broken, but some times seem to pick up some brightness from the edges of the scren.
+        beautify.anamorphicFlaresIntensity.value = 0;
+        
+        // This bloom effect becomes more intense in VR.
+        // Also, since we can't have good ambient occlusion that offsets the bloom, it needs to be lower.
         beautify.bloomIntensity.value *= 0.3f;
     }
 
