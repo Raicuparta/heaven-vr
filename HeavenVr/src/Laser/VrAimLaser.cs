@@ -26,6 +26,7 @@ public class VrAimLaser : MonoBehaviour
         _initialLocalEuler = transform.parent.localEulerAngles;
         SetUpCrosshair();
         SetUpMuzzleFlash();
+        SetUpAimingAngle();
     }
 
     private void Update()
@@ -48,6 +49,11 @@ public class VrAimLaser : MonoBehaviour
 
     // TODO this should probably be in a VrHand component instead of here.
     private void OnAimingAngleSettingChanged(object sender, EventArgs e)
+    {
+        SetUpAimingAngle();
+    }
+
+    private void SetUpAimingAngle()
     {
         transform.parent.localEulerAngles = new Vector3(_initialLocalEuler.x + VrSettings.AimingAngleOffset.Value,
             _initialLocalEuler.y,
