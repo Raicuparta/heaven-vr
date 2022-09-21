@@ -139,11 +139,7 @@ public static class SettingsPatches
             VrSettings.MaxAngleOffset,
             0.5f);
 
-        AddSlider(controlsPanel,
-            VrSettings.TriggerSensitivity,
-            0,
-            VrSettings.MaxTriggerSensitivity,
-            1f);
+        AddSlider(controlsPanel, VrSettings.TriggerSensitivity, 0, VrSettings.MaxTriggerSensitivity, 1f);
 
         AddToggle(controlsPanel, VrSettings.ControllerBasedMovementDirection);
         AddToggle(generalPanel, VrSettings.ShowPlayerBody);
