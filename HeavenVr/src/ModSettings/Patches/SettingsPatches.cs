@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BepInEx.Configuration;
 using HarmonyLib;
 using I2.Loc;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Object = UnityEngine.Object;
 
 namespace HeavenVr.ModSettings.Patches;
 
@@ -40,9 +42,9 @@ public static class SettingsPatches
 
     private static void AddSlider(MenuScreenOptionsPanel panel, ConfigEntry<float> configEntry, float min, float max, float step)
     {
-        var aimingAngleOffsetSlider = Object.Instantiate(panel._sliderPrefab, panel._settingsColumn.transform);
+        var slider = Object.Instantiate(panel._sliderPrefab, panel._settingsColumn.transform);
 
-        var aimingAngleOffsetOptionEntry = new OptionsMenuPanelInformation.OptionEntry
+        var optionEntry = new OptionsMenuPanelInformation.OptionEntry
         {
             SettingType = OptionMenuSetting.AimAssist,
             SliderMinimum = min,
@@ -54,37 +56,61 @@ public static class SettingsPatches
         var settingTitle = settingText[0];
         var settingDescription = settingText[1];
 
-        aimingAngleOffsetSlider.Initialise(configEntry.Value,
+        slider.Initialise(configEntry.Value,
             settingTitle + " [{0}]",
-            aimingAngleOffsetOptionEntry,
+            optionEntry,
             () => panel._TipWindow.SetWindowTip(settingTitle, settingDescription),
             () => panel._TipWindow.ResetWindow());
         
         // There's an OnValueChange event that would happen immediately, but that can be problematic.
         // So I'm adding a pointer up event that only changes the setting once the user lets go of the trigger.
-        var eventTrigger = aimingAngleOffsetSlider.gameObject.AddComponent<EventTrigger>();
+        var eventTrigger = slider.gameObject.AddComponent<EventTrigger>();
         var pointerUp = new EventTrigger.Entry
         {
             eventID = EventTriggerType.PointerUp
         };
-        pointerUp.callback.AddListener(_ => configEntry.Value = aimingAngleOffsetSlider.Value);
+        pointerUp.callback.AddListener(_ => configEntry.Value = slider.Value);
         eventTrigger.triggers.Add(pointerUp);
     }
     
     private static void AddToggle(MenuScreenOptionsPanel panel, ConfigEntry<bool> configEntry)
     {
-        var aimingAngleOffsetSlider = Object.Instantiate(panel._togglePrefab, panel._settingsColumn.transform);
+        var toggle = Object.Instantiate(panel._togglePrefab, panel._settingsColumn.transform);
 
         var settingText = configEntry.Description.Description.Split('|');
         var settingTitle = settingText[0];
         var settingDescription = settingText[1];
 
-        aimingAngleOffsetSlider.Initialise(configEntry.Value,
+        toggle.Initialise(configEntry.Value,
             settingTitle,
             () => panel._TipWindow.SetWindowTip(settingTitle, settingDescription),
             () => panel._TipWindow.ResetWindow());
 
-        aimingAngleOffsetSlider.OnToggleValueChanged += value => configEntry.Value = value;
+        toggle.OnToggleValueChanged += value => configEntry.Value = value;
+    }
+    
+    private static void AddSelect<TSettingValue>(MenuScreenOptionsPanel panel, ConfigEntry<TSettingValue> configEntry)
+    {
+        var enumValueNames = Enum.GetNames(typeof(TSettingValue)).ToList();
+        
+        Debug.Log($"Enum values for {typeof(TSettingValue)}: {string.Join(", ", enumValueNames)}");
+        
+        var select = Object.Instantiate(panel._stringListPrefab, panel._settingsColumn.transform);
+
+        var settingText = configEntry.Description.Description.Split('|');
+        var settingTitle = settingText[0];
+        var settingDescription = settingText[1];
+
+        select.SetTitleKey(settingTitle,
+            () => panel._TipWindow.SetWindowTip(settingTitle, settingDescription),
+            () => panel._TipWindow.ResetWindow(), null);
+        
+        select.SetStrings(enumValueNames, true);
+        select.OnSelectorValueChanged += () =>
+            configEntry.Value =
+                (TSettingValue)Enum.Parse(typeof(TSettingValue), enumValueNames[select._currentStringIndex]);
+        
+        select.SetSelectionIndex(Array.IndexOf(Enum.GetValues(typeof(TSettingValue)), configEntry.Value));
     }
     
     [HarmonyPostfix]
@@ -112,6 +138,10 @@ public static class SettingsPatches
         AddToggle(controlsPanel, VrSettings.ControllerBasedMovementDirection);
         AddToggle(generalPanel, VrSettings.ShowPlayerBody);
         AddToggle(generalPanel, VrSettings.SkipIntro);
+
+        AddSelect(controlsPanel, VrSettings.AxisMode);
+        AddSelect(controlsPanel, VrSettings.ControlScheme);
+        AddSelect(controlsPanel, VrSettings.TurningMode);
     }
     
     [HarmonyPostfix]
