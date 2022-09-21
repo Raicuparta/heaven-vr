@@ -2,6 +2,7 @@
 using HarmonyLib;
 using I2.Loc;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace HeavenVr.ModSettings.Patches;
 
@@ -54,7 +55,7 @@ public static class SettingsPatches
             SettingType = OptionMenuSetting.AimAssist,
             SliderMaximum = VrSettings.MaxAngleOffset,
             SliderMinimum = -VrSettings.MaxAngleOffset,
-            StepSize = 1,
+            StepSize = 0.5f
         };
 
         var settingText = VrSettings.AimingAngleOffset.Description.Description.Split('|');
@@ -66,6 +67,16 @@ public static class SettingsPatches
             aimingAngleOffsetOptionEntry,
             () => controlsPanel._TipWindow.SetWindowTip(settingTitle, settingDescription),
             () => controlsPanel._TipWindow.ResetWindow());
+
+        // aimingAngleOffsetSlider.OnSliderValueChanged = value => VrSettings.AimingAngleOffset.Value = value;
+
+        var eventTrigger = aimingAngleOffsetSlider.gameObject.AddComponent<EventTrigger>();
+        var pointerDown = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerUp
+        };
+        pointerDown.callback.AddListener(_ => VrSettings.AimingAngleOffset.Value = aimingAngleOffsetSlider.Value);
+        eventTrigger.triggers.Add(pointerDown);
     }
     
     [HarmonyPostfix]

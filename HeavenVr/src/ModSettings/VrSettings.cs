@@ -33,7 +33,7 @@ public static class VrSettings
     private const string ControlsCategory = "Controls";
     private const string MiscCategory = "Misc";
     public const int MaxTriggerSensitivity = 100;
-    public const int MaxAngleOffset = 180;
+    public const int MaxAngleOffset = 45;
 
     public static ConfigFile Config { get; private set; }
     public static ConfigEntry<bool> ControllerBasedMovementDirection { get; private set; }
