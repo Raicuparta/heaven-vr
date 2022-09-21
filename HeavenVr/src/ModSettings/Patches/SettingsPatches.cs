@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BepInEx.Configuration;
 using HarmonyLib;
 using I2.Loc;
 using UnityEngine;
@@ -36,6 +37,39 @@ public static class SettingsPatches
         // TODO: submit vr scores to a separate leaderboard.
         GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
     }
+
+    private static void AddSlider(MenuScreenOptionsPanel panel, ConfigEntry<float> configEntry, float min, float max, float step)
+    {
+        var aimingAngleOffsetSlider = Object.Instantiate(panel._sliderPrefab, panel._settingsColumn.transform);
+
+        var aimingAngleOffsetOptionEntry = new OptionsMenuPanelInformation.OptionEntry
+        {
+            SettingType = OptionMenuSetting.AimAssist,
+            SliderMaximum = min,
+            SliderMinimum = -max,
+            StepSize = step
+        };
+
+        var settingText = configEntry.Description.Description.Split('|');
+        var settingTitle = settingText[0];
+        var settingDescription = settingText[1];
+
+        aimingAngleOffsetSlider.Initialise(configEntry.Value,
+            settingTitle + " [{0}]",
+            aimingAngleOffsetOptionEntry,
+            () => panel._TipWindow.SetWindowTip(settingTitle, settingDescription),
+            () => panel._TipWindow.ResetWindow());
+        
+        // There's an OnValueChange event that would happen immediately, but that can be problematic.
+        // So I'm adding a pointer up event that only changes the setting once the user lets go of the trigger.
+        var eventTrigger = aimingAngleOffsetSlider.gameObject.AddComponent<EventTrigger>();
+        var pointerDown = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerUp
+        };
+        pointerDown.callback.AddListener(_ => configEntry.Value = aimingAngleOffsetSlider.Value);
+        eventTrigger.triggers.Add(pointerDown);
+    }
     
     [HarmonyPostfix]
     [HarmonyPatch(typeof(OptionsMenuTabManager), nameof(OptionsMenuTabManager.Start))]
@@ -48,35 +82,17 @@ public static class SettingsPatches
         var audioPanel = panels.First(panel => panel.name.StartsWith("Audio"));
         var videoPanel = panels.First(panel => panel.name.StartsWith("Video"));
 
-        var aimingAngleOffsetSlider = Object.Instantiate(controlsPanel._sliderPrefab, controlsPanel._settingsColumn.transform);
+        AddSlider(generalPanel,
+            VrSettings.AimingAngleOffset,
+            VrSettings.MaxAngleOffset,
+            -VrSettings.MaxAngleOffset,
+            0.5f);
 
-        var aimingAngleOffsetOptionEntry = new OptionsMenuPanelInformation.OptionEntry()
-        {
-            SettingType = OptionMenuSetting.AimAssist,
-            SliderMaximum = VrSettings.MaxAngleOffset,
-            SliderMinimum = -VrSettings.MaxAngleOffset,
-            StepSize = 0.5f
-        };
-
-        var settingText = VrSettings.AimingAngleOffset.Description.Description.Split('|');
-        var settingTitle = settingText[0];
-        var settingDescription = settingText[1];
-
-        aimingAngleOffsetSlider.Initialise(VrSettings.AimingAngleOffset.Value,
-            settingTitle + " [{0}]",
-            aimingAngleOffsetOptionEntry,
-            () => controlsPanel._TipWindow.SetWindowTip(settingTitle, settingDescription),
-            () => controlsPanel._TipWindow.ResetWindow());
-
-        // aimingAngleOffsetSlider.OnSliderValueChanged = value => VrSettings.AimingAngleOffset.Value = value;
-
-        var eventTrigger = aimingAngleOffsetSlider.gameObject.AddComponent<EventTrigger>();
-        var pointerDown = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerUp
-        };
-        pointerDown.callback.AddListener(_ => VrSettings.AimingAngleOffset.Value = aimingAngleOffsetSlider.Value);
-        eventTrigger.triggers.Add(pointerDown);
+        AddSlider(controlsPanel,
+            VrSettings.TriggerSensitivity,
+            VrSettings.MaxTriggerSensitivity,
+            0,
+            1f);
     }
     
     [HarmonyPostfix]
