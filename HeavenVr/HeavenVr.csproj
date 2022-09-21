@@ -16,10 +16,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all"/>
-        <PackageReference Include="BepInEx.Core" Version="5.4.21"/>
-        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0"/>
-        <PackageReference Include="NeonWhite.GameLibs" Version="1.0.2148"/>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
+        <PackageReference Include="NeonWhite.GameLibs" Version="1.0.2148" />
     </ItemGroup>
 
     <ItemGroup>
@@ -45,14 +45,14 @@
             <LinkBase>Assets</LinkBase>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="ModFiles\**"/>
+        <Content Include="ModFiles\**" />
     </ItemGroup>
 
     <Target Name="Copy mod files" AfterTargets="PostBuildEvent">
         <ItemGroup>
-            <_Files Remove="@(_Files)"/>
-            <_Files Include="ModFiles\**"/>
+            <_Files Remove="@(_Files)" />
+            <_Files Include="ModFiles\**" />
         </ItemGroup>
-        <Copy SourceFiles="@(_Files)" DestinationFiles="$(PublishDir)%(RecursiveDir)%(Filename)%(Extension)"/>
+        <Copy SourceFiles="@(_Files)" DestinationFiles="$(PublishDir)%(RecursiveDir)%(Filename)%(Extension)" />
     </Target>
 </Project>
