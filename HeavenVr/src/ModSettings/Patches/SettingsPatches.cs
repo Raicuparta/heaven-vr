@@ -45,8 +45,8 @@ public static class SettingsPatches
         var aimingAngleOffsetOptionEntry = new OptionsMenuPanelInformation.OptionEntry
         {
             SettingType = OptionMenuSetting.AimAssist,
-            SliderMaximum = min,
-            SliderMinimum = -max,
+            SliderMinimum = min,
+            SliderMaximum = max,
             StepSize = step
         };
 
@@ -84,14 +84,14 @@ public static class SettingsPatches
 
         AddSlider(generalPanel,
             VrSettings.AimingAngleOffset,
-            VrSettings.MaxAngleOffset,
             -VrSettings.MaxAngleOffset,
+            VrSettings.MaxAngleOffset,
             0.5f);
 
         AddSlider(controlsPanel,
             VrSettings.TriggerSensitivity,
-            VrSettings.MaxTriggerSensitivity,
             0,
+            VrSettings.MaxTriggerSensitivity,
             1f);
     }
     
