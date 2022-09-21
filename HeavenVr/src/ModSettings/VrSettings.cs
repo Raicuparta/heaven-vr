@@ -50,30 +50,30 @@ public static class VrSettings
         Config = config;
 
         ControlScheme = config.Bind(ControlsCategory, nameof(ControlScheme), ControlSchemeOption.Auto,
-            "Control scheme | Pick a control scheme manually or select auto to select it based on the detected controllers.");
+            "Control scheme|Pick a control scheme manually or select auto to select it based on the detected controllers.");
 
         TurningMode = config.Bind(ControlsCategory, nameof(TurningMode), TurningModeValue.Smooth,
-            "Turning mode | Pick between smooth or snap turning. Smooth turning speed can be configured in the Neon White settings menu.");
+            "Turning mode|Pick between smooth or snap turning. Smooth turning speed can be configured in the Neon White settings menu.");
 
         AxisMode = config.Bind(ControlsCategory, nameof(AxisMode), AxisModeOption.Auto,
-            "Axis mode | Touch is better for thumb sticks. Click is better for touch pads. Auto tries to pick the best for your controller.");
+            "Axis mode|Touch is better for thumb sticks. Click is better for touch pads. Auto tries to pick the best for your controller.");
 
         ControllerBasedMovementDirection = config.Bind(ControlsCategory, nameof(ControllerBasedMovementDirection),
             false,
-            "Controller-based movement direction | Enabled: controller-based direction. Disabled: head-based direction.");
+            "Controller-based movement direction|Enabled: controller-based direction. Disabled: head-based direction.");
 
         TriggerSensitivity = config.Bind(ControlsCategory, nameof(TriggerSensitivity), 0,
             new ConfigDescription(
-                "Trigger Sensitivity | Leave at zero to use the default \"trigger click\" sensitivity.",
+                "Trigger Sensitivity|Leave at zero to use the default \"trigger click\" sensitivity.",
                 new AcceptableValueRange<int>(0, MaxTriggerSensitivity)));
 
         AimingAngleOffset = config.Bind(ControlsCategory, nameof(AimingAngleOffset), 0f,
             new ConfigDescription(
-                "Aiming laser angle offset",
+                "Aiming laser angle offset|Offset in degrees to apply to the aiming laser (positive is up, negative is down)",
                 new AcceptableValueRange<float>(-MaxAngleOffset, MaxAngleOffset)));
 
         ShowPlayerBody = config.Bind(MiscCategory, nameof(ShowPlayerBody), false,
-            "Show player body | It's pretty broken, so mostly useful for LIV");
+            "Show player body|It's pretty broken, so mostly useful for LIV");
 
         SkipIntro = config.Bind(MiscCategory, nameof(SkipIntro), false, "Skip game intro cutscene");
     }
