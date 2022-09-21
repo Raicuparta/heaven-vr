@@ -121,7 +121,6 @@ public static class SettingsPatches
 
         var generalPanel = panels.First(panel => panel.name.StartsWith("General"));
         var controlsPanel = panels.First(panel => panel.name.StartsWith("Controls"));
-        var videoPanel = panels.First(panel => panel.name.StartsWith("Video"));
 
         AddSlider(generalPanel,
             VrSettings.AimingAngleOffset,
@@ -156,6 +155,17 @@ public static class SettingsPatches
 
         Translation = Term;
         __result = true;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.SpawnColumnSettings))]
+    private static void RemoveControlsSettingsSpacers(MenuScreenOptionsPanel __instance)
+    {
+        // These spacers are unnecessary after removing most of the original game's controls settings.
+        foreach (var spacer in __instance._spacerPrefabs)
+        {
+            spacer.SetActive(false);
+        }
     }
     
 }
