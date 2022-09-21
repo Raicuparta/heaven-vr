@@ -63,12 +63,28 @@ public static class SettingsPatches
         // There's an OnValueChange event that would happen immediately, but that can be problematic.
         // So I'm adding a pointer up event that only changes the setting once the user lets go of the trigger.
         var eventTrigger = aimingAngleOffsetSlider.gameObject.AddComponent<EventTrigger>();
-        var pointerDown = new EventTrigger.Entry
+        var pointerUp = new EventTrigger.Entry
         {
             eventID = EventTriggerType.PointerUp
         };
-        pointerDown.callback.AddListener(_ => configEntry.Value = aimingAngleOffsetSlider.Value);
-        eventTrigger.triggers.Add(pointerDown);
+        pointerUp.callback.AddListener(_ => configEntry.Value = aimingAngleOffsetSlider.Value);
+        eventTrigger.triggers.Add(pointerUp);
+    }
+    
+    private static void AddToggle(MenuScreenOptionsPanel panel, ConfigEntry<bool> configEntry)
+    {
+        var aimingAngleOffsetSlider = Object.Instantiate(panel._togglePrefab, panel._settingsColumn.transform);
+
+        var settingText = configEntry.Description.Description.Split('|');
+        var settingTitle = settingText[0];
+        var settingDescription = settingText[1];
+
+        aimingAngleOffsetSlider.Initialise(configEntry.Value,
+            settingTitle,
+            () => panel._TipWindow.SetWindowTip(settingTitle, settingDescription),
+            () => panel._TipWindow.ResetWindow());
+
+        aimingAngleOffsetSlider.OnToggleValueChanged += value => configEntry.Value = value;
     }
     
     [HarmonyPostfix]
@@ -79,7 +95,6 @@ public static class SettingsPatches
 
         var generalPanel = panels.First(panel => panel.name.StartsWith("General"));
         var controlsPanel = panels.First(panel => panel.name.StartsWith("Controls"));
-        var audioPanel = panels.First(panel => panel.name.StartsWith("Audio"));
         var videoPanel = panels.First(panel => panel.name.StartsWith("Video"));
 
         AddSlider(generalPanel,
@@ -93,6 +108,10 @@ public static class SettingsPatches
             0,
             VrSettings.MaxTriggerSensitivity,
             1f);
+
+        AddToggle(controlsPanel, VrSettings.ControllerBasedMovementDirection);
+        AddToggle(generalPanel, VrSettings.ShowPlayerBody);
+        AddToggle(generalPanel, VrSettings.SkipIntro);
     }
     
     [HarmonyPostfix]
