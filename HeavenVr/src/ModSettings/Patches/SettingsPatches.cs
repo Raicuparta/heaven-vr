@@ -63,7 +63,7 @@ public static class SettingsPatches
         var settingDescription = settingText[1];
 
         aimingAngleOffsetSlider.Initialise(VrSettings.AimingAngleOffset.Value,
-            settingTitle,
+            settingTitle + " [{0}]",
             aimingAngleOffsetOptionEntry,
             () => controlsPanel._TipWindow.SetWindowTip(settingTitle, settingDescription),
             () => controlsPanel._TipWindow.ResetWindow());
