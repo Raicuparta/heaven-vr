@@ -21,12 +21,12 @@ public class BoolBinding : InputBinding<bool>
         // TODO get this only once;
         var device = InputManager.GetInputDevice(Hand);
 
-        var sensitivity = (float)VrSettings.TriggerSensitivity.Value / VrSettings.MaxTriggerSensitivity;
+        var sensitivity = 1 - VrSettings.TriggerSensitivity.Value / (VrSettings.MaxTriggerSensitivity * 1.1f);
 
-        if (_floatUsage.HasValue && sensitivity > 0)
+        if (_floatUsage.HasValue && sensitivity < 1)
         {
             device.TryGetFeatureValue(_floatUsage.Value, out var floatValue);
-            Value = floatValue > sensitivity;
+            Value = floatValue >= sensitivity;
         }
         else
         {

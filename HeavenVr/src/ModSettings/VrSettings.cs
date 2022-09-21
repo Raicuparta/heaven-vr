@@ -32,14 +32,14 @@ public static class VrSettings
 
     private const string ControlsCategory = "Controls";
     private const string MiscCategory = "Misc";
-    public const int MaxTriggerSensitivity = 100;
-    public const int MaxAngleOffset = 45;
+    public const float MaxTriggerSensitivity = 100;
+    public const float MaxAngleOffset = 45;
 
     public static ConfigFile Config { get; private set; }
     public static ConfigEntry<bool> ControllerBasedMovementDirection { get; private set; }
     public static ConfigEntry<ControlSchemeOption> ControlScheme { get; private set; }
     public static ConfigEntry<AxisModeOption> AxisMode { get; private set; }
-    public static ConfigEntry<int> TriggerSensitivity { get; private set; }
+    public static ConfigEntry<float> TriggerSensitivity { get; private set; }
     public static ConfigEntry<float> AimingAngleOffset { get; private set; }
     public static ConfigEntry<bool> ShowPlayerBody { get; private set; }
     public static ConfigEntry<bool> SkipIntro { get; private set; }
@@ -62,10 +62,10 @@ public static class VrSettings
             false,
             "Controller-based movement direction|Enabled: controller-based direction. Disabled: head-based direction.");
 
-        TriggerSensitivity = config.Bind(ControlsCategory, nameof(TriggerSensitivity), 0,
+        TriggerSensitivity = config.Bind(ControlsCategory, nameof(TriggerSensitivity), 0f,
             new ConfigDescription(
                 "Trigger Sensitivity|Leave at zero to use the default \"trigger click\" sensitivity.",
-                new AcceptableValueRange<int>(0, MaxTriggerSensitivity)));
+                new AcceptableValueRange<float>(0f, MaxTriggerSensitivity)));
 
         AimingAngleOffset = config.Bind(ControlsCategory, nameof(AimingAngleOffset), 0f,
             new ConfigDescription(
