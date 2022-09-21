@@ -71,6 +71,8 @@ public static class SettingsPatches
         };
         pointerUp.callback.AddListener(_ => configEntry.Value = slider.Value);
         eventTrigger.triggers.Add(pointerUp);
+
+        configEntry.SettingChanged += (_, _) => slider.Value = configEntry.Value;
     }
     
     private static void AddToggle(MenuScreenOptionsPanel panel, ConfigEntry<bool> configEntry)
@@ -87,6 +89,13 @@ public static class SettingsPatches
             () => panel._TipWindow.ResetWindow());
 
         toggle.OnToggleValueChanged += value => configEntry.Value = value;
+
+        configEntry.SettingChanged += (_, _) => toggle.Value = configEntry.Value;
+    }
+
+    private static int GetEnumIndex<TSettingValue>(TSettingValue value)
+    {
+        return Array.IndexOf(Enum.GetValues(typeof(TSettingValue)), value);
     }
     
     private static void AddSelect<TSettingValue>(MenuScreenOptionsPanel panel, ConfigEntry<TSettingValue> configEntry)
@@ -110,7 +119,9 @@ public static class SettingsPatches
             configEntry.Value =
                 (TSettingValue)Enum.Parse(typeof(TSettingValue), enumValueNames[select._currentStringIndex]);
         
-        select.SetSelectionIndex(Array.IndexOf(Enum.GetValues(typeof(TSettingValue)), configEntry.Value));
+        configEntry.SettingChanged += (_, _) => select.SetSelectionIndex(GetEnumIndex(configEntry.Value));
+        
+        select.SetSelectionIndex(GetEnumIndex(configEntry.Value));
     }
     
     [HarmonyPostfix]
@@ -167,5 +178,17 @@ public static class SettingsPatches
             spacer.SetActive(false);
         }
     }
+    
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(GameDataManager), nameof(GameDataManager.DeletePrefs))]
+    private static void ResetModSettingsOnResettingGameSettings()
+    {
+        foreach (var (_, value) in VrSettings.Config)
+        {
+            value.BoxedValue = value.DefaultValue;
+        }
+    }
+    
     
 }
