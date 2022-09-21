@@ -22,12 +22,15 @@ public static class VrSettings
 
     public enum TurningModeValue
     {
+        // Unused members because they're used as settings values.
+        // ReSharper disable UnusedMember.Global
         Smooth = 0,
         Snap23 = 23,
         Snap30 = 30,
         Snap45 = 45,
         Snap60 = 60,
         Snap90 = 90
+        // ReSharper restore UnusedMember.Global
     }
 
     private const string ControlsCategory = "Controls";
