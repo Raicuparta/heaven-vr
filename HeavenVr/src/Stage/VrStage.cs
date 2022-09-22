@@ -53,10 +53,8 @@ public class VrStage : MonoBehaviour
         instance.CameraPoseDriver = mainCamera.gameObject.AddComponent<TrackedPoseDriver>();
         instance.CameraPoseDriver.UseRelativeTransform = true;
 
-        instance._dominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver,
-            TrackedPoseDriver.TrackedPose.RightPose);
-        instance._nonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver,
-            TrackedPoseDriver.TrackedPose.LeftPose);
+        instance._dominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, true);
+        instance._nonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, false);
         instance.aimLaser = VrAimLaser.Create(instance._dominantHand.transform);
 
         PlayerBodyIkController.Create(mainCamera.transform, instance._nonDominantHand.transform,

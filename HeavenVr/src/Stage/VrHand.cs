@@ -1,4 +1,5 @@
-﻿using HeavenVr.Helpers;
+﻿using System;
+using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
 using HeavenVr.Weapons;
 using UnityEngine;
@@ -9,49 +10,74 @@ namespace HeavenVr.Stage;
 public class VrHand : MonoBehaviour
 {
     private GameObject _movementDirection;
-    private TrackedPoseDriver.TrackedPose _pose;
+    private bool _isDominant;
+    private TrackedPoseDriver _poseDriver;
 
-    public static VrHand Create(Transform parent, TrackedPoseDriver cameraPose, TrackedPoseDriver.TrackedPose pose)
+    public static VrHand Create(Transform parent, TrackedPoseDriver cameraPose, bool isDominant)
     {
+        VrHand instance;
+
         // TODO clean this up. Separate in dominant vs non-dominant.
-        if (pose == TrackedPoseDriver.TrackedPose.RightPose)
+        if (isDominant)
         {
-            var instance = Instantiate(VrAssetLoader.RightHandPrefab).AddComponent<VrHand>();
-            instance.transform.SetParent(parent, false);
-
-            instance._pose = pose;
-
-            var poseDriver = instance.GetComponent<TrackedPoseDriver>();
-            poseDriver.SetPoseSource(TrackedPoseDriver.DeviceType.GenericXRController, pose);
-            poseDriver.UseRelativeTransform = true;
-            poseDriver.originPose = cameraPose.originPose;
-
+            instance = Instantiate(VrAssetLoader.DominantHandPrefab).AddComponent<VrHand>();
             WeaponSwapper.Create(instance.transform.Find("Wrapper").gameObject);
-
-            return instance;
+            instance._poseDriver = instance.GetComponent<TrackedPoseDriver>();
         }
         else
         {
-            var instance = new GameObject($"VrHand-{pose}").AddComponent<VrHand>();
-            instance.transform.SetParent(parent, false);
-
-            instance._pose = pose;
-
-            var poseDriver = instance.gameObject.AddComponent<TrackedPoseDriver>();
-            poseDriver.SetPoseSource(TrackedPoseDriver.DeviceType.GenericXRController, pose);
-            poseDriver.UseRelativeTransform = true;
-            poseDriver.originPose = cameraPose.originPose;
-
+            instance = new GameObject($"VrHand-NonDominant").AddComponent<VrHand>();
             instance._movementDirection = Instantiate(VrAssetLoader.MovementDirectionPrefab, instance.transform, false);
             instance._movementDirection.name = "MovementDirection"; // TODO don't rely on names.
-
-            return instance;
+            instance._poseDriver = instance.gameObject.AddComponent<TrackedPoseDriver>();
         }
+        
+        instance.transform.SetParent(parent, false);
+        instance._isDominant = isDominant;
+
+        instance._poseDriver.UseRelativeTransform = true;
+        instance._poseDriver.originPose = cameraPose.originPose;
+
+        return instance;
+    }
+
+    private void OnEnable()
+    {
+        VrSettings.LeftHandedMode.SettingChanged += OnHandednessChanged;
+    }
+
+    private void Start()
+    {
+        UpdatePose();
+    }
+
+    private void OnDisable()
+    {
+        VrSettings.LeftHandedMode.SettingChanged -= OnHandednessChanged;
+    }
+
+    private void OnHandednessChanged(object sender, EventArgs e)
+    {
+        UpdatePose();
+    }
+
+    private TrackedPoseDriver.TrackedPose GetPose()
+    {
+        var isLeftPose = _isDominant ? VrSettings.LeftHandedMode.Value : !VrSettings.LeftHandedMode.Value;
+        
+        return isLeftPose ? TrackedPoseDriver.TrackedPose.LeftPose : TrackedPoseDriver.TrackedPose.RightPose;
+    }
+
+    private void UpdatePose()
+    {
+        _poseDriver.SetPoseSource(TrackedPoseDriver.DeviceType.GenericXRController, GetPose());;
     }
 
     private void Update()
     {
-        if (_pose == TrackedPoseDriver.TrackedPose.LeftPose)
+        if (!_isDominant)
+        {
             _movementDirection.SetActive(VrSettings.ControllerBasedMovementDirection.Value && !PauseHelper.IsPaused());
+        }
     }
 }

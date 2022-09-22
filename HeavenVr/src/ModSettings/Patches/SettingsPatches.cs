@@ -102,8 +102,6 @@ public static class SettingsPatches
     {
         var enumValueNames = Enum.GetNames(typeof(TSettingValue)).ToList();
         
-        Debug.Log($"Enum values for {typeof(TSettingValue)}: {string.Join(", ", enumValueNames)}");
-        
         var select = Object.Instantiate(panel._stringListPrefab, panel._settingsColumn.transform);
 
         var settingText = configEntry.Description.Description.Split('|');

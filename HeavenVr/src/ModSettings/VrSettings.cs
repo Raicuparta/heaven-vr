@@ -46,6 +46,7 @@ public static class VrSettings
     public static ConfigEntry<float> AimingAngleOffset { get; private set; }
     public static ConfigEntry<bool> ShowPlayerBody { get; private set; }
     public static ConfigEntry<bool> SkipIntro { get; private set; }
+    public static ConfigEntry<bool> LeftHandedMode { get; private set; }
     public static ConfigEntry<TurningModeValue> TurningMode { get; private set; }
 
     public static void SetUp(ConfigFile config)
@@ -65,6 +66,11 @@ public static class VrSettings
             false,
             "Controller-based movement direction|Enabled: controller-based direction. Disabled: head-based direction.");
 
+        // TODO add setting in menu
+        LeftHandedMode = config.Bind(ControlsCategory, nameof(LeftHandedMode),
+            false,
+            "Left-handed mode|Enabled: left-handed mode. Disabled: right-handed mode.");
+
         TriggerSensitivity = config.Bind(ControlsCategory, nameof(TriggerSensitivity), 0f,
             new ConfigDescription(
                 "Trigger Sensitivity|Leave at zero to use the default \"trigger click\" sensitivity.",
@@ -76,8 +82,8 @@ public static class VrSettings
                 new AcceptableValueRange<float>(-MaxAngleOffset, MaxAngleOffset)));
 
         ShowPlayerBody = config.Bind(MiscCategory, nameof(ShowPlayerBody), false,
-            "Show player body|It's pretty broken, so mostly useful for LIV");
+            "Show player body|It's pretty broken, so mostly useful for LIV (third person capture).");
 
-        SkipIntro = config.Bind(MiscCategory, nameof(SkipIntro), false, "Skip game intro cutscene|Yes I know you're called Neons bla bla bla");
+        SkipIntro = config.Bind(MiscCategory, nameof(SkipIntro), false, "Skip game intro cutscene|Yes I know you're called Neons bla bla bla.");
     }
 }
