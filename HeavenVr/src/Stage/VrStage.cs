@@ -57,8 +57,8 @@ public class VrStage : MonoBehaviour
         instance._nonDominantHand = VrHand.Create(instance.transform, instance.CameraPoseDriver, false);
         instance.aimLaser = VrAimLaser.Create(instance._dominantHand.transform);
 
-        PlayerBodyIkController.Create(mainCamera.transform, instance._nonDominantHand.transform,
-            instance._dominantHand.transform);
+        PlayerBodyIkController.Create(mainCamera.transform, instance._dominantHand.transform,
+            instance._nonDominantHand.transform);
 
         instance.UiTarget = UiTarget.Create(instance, instance._nonDominantHand);
 
