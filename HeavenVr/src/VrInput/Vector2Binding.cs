@@ -11,7 +11,7 @@ public class Vector2Binding : InputBinding<Vector2>
     private readonly InputFeatureUsage<Vector2> _usagePosition;
     private readonly InputFeatureUsage<bool> _usagePress;
 
-    public Vector2Binding(XRNode hand) : base(hand)
+    public Vector2Binding(bool isDominantHand) : base(isDominantHand)
     {
         _usagePress = CommonUsages.primary2DAxisClick;
         _usagePosition = CommonUsages.primary2DAxis;
@@ -62,7 +62,7 @@ public class Vector2Binding : InputBinding<Vector2>
     protected override string GetName()
     {
         return IsTouchAxisMode()
-            ? InputManager.GetUsageName(_usagePosition, Hand)
-            : InputManager.GetUsageName(_usagePress, Hand);
+            ? InputManager.GetUsageName(_usagePosition, IsDominantHand)
+            : InputManager.GetUsageName(_usagePress, IsDominantHand);
     }
 }

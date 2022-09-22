@@ -1,6 +1,7 @@
 ﻿using System;
 using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
+using HeavenVr.Stage;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.XR;
@@ -123,17 +124,17 @@ public class InputManager : MonoBehaviour
         return StringHelper.ContainsCaseInsensitive(_rightInputDevice.name, deviceName);
     }
 
-    public static string GetUsageName<T>(InputFeatureUsage<T> usage, XRNode hand)
+    public static string GetUsageName<T>(InputFeatureUsage<T> usage, bool isDominantHand)
     {
         var usageName = GetGenericUsageName(usage);
-        var handSufix = hand == XRNode.RightHand ? "Right " : "Left ";
+        var handSufix = VrHand.IsLeftPose(isDominantHand) ? "Left " : "Right ";
 
         if (usageName == null)
         {
             if (IsDevice("index")) usageName = GetIndexUsageName(usage);
             if (IsDevice("oculus"))
             {
-                usageName = GetOculusUsageName(usage, hand);
+                usageName = GetOculusUsageName(usage, VrHand.IsLeftPose(isDominantHand) ? XRNode.LeftHand : XRNode.RightHand);
                 handSufix = "";
             }
         }

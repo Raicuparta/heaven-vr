@@ -27,48 +27,48 @@ public static class InputMap
 
     private static readonly Dictionary<string, Vector2Binding> Vector2Map = new()
     {
-        { "Move", new Vector2Binding(XRNode.LeftHand) },
-        { "Look", new Vector2Binding(XRNode.RightHand) }
+        { "Move", new Vector2Binding(false) },
+        { "Look", new Vector2Binding(true) }
     };
 
     private static readonly Dictionary<VrButton, BoolBinding> WmrInputMap = new()
     {
-        { VrButton.Fire, new BoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { VrButton.Swap, new BoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.menuButton) },
-        { VrButton.Restart, new BoolBinding(XRNode.RightHand, CommonUsages.menuButton) }
+        { VrButton.Fire, new BoolBinding(true, CommonUsages.triggerButton) },
+        { VrButton.Jump, new BoolBinding(false, CommonUsages.triggerButton) },
+        { VrButton.Discard, new BoolBinding(true, CommonUsages.gripButton) },
+        { VrButton.Swap, new BoolBinding(false, CommonUsages.gripButton) },
+        { VrButton.Menu, new BoolBinding(false, CommonUsages.menuButton) },
+        { VrButton.Restart, new BoolBinding(true, CommonUsages.menuButton) }
     };
 
     private static readonly Dictionary<VrButton, BoolBinding> IndexInputMap = new()
     {
-        { VrButton.Fire, new BoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) },
-        { VrButton.Swap, new BoolBinding(XRNode.RightHand, CommonUsages.primaryButton) },
-        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.primaryButton) },
-        { VrButton.Restart, new BoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) }
+        { VrButton.Fire, new BoolBinding(true, CommonUsages.triggerButton) },
+        { VrButton.Jump, new BoolBinding(false, CommonUsages.triggerButton) },
+        { VrButton.Discard, new BoolBinding(true, CommonUsages.secondaryButton) },
+        { VrButton.Swap, new BoolBinding(true, CommonUsages.primaryButton) },
+        { VrButton.Menu, new BoolBinding(false, CommonUsages.primaryButton) },
+        { VrButton.Restart, new BoolBinding(false, CommonUsages.secondaryButton) }
     };
 
     private static readonly Dictionary<VrButton, BoolBinding> ViveInputMap = new()
     {
-        { VrButton.Fire, new BoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.gripButton) },
-        { VrButton.Swap, new BoolBinding(XRNode.LeftHand, CommonUsages.gripButton) },
-        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.menuButton) },
-        { VrButton.Restart, new BoolBinding(XRNode.RightHand, CommonUsages.menuButton) }
+        { VrButton.Fire, new BoolBinding(true, CommonUsages.triggerButton) },
+        { VrButton.Jump, new BoolBinding(false, CommonUsages.triggerButton) },
+        { VrButton.Discard, new BoolBinding(true, CommonUsages.gripButton) },
+        { VrButton.Swap, new BoolBinding(false, CommonUsages.gripButton) },
+        { VrButton.Menu, new BoolBinding(false, CommonUsages.menuButton) },
+        { VrButton.Restart, new BoolBinding(true, CommonUsages.menuButton) }
     };
 
     private static readonly Dictionary<VrButton, BoolBinding> OculusInputMap = new()
     {
-        { VrButton.Fire, new BoolBinding(XRNode.RightHand, CommonUsages.triggerButton) },
-        { VrButton.Jump, new BoolBinding(XRNode.LeftHand, CommonUsages.triggerButton) },
-        { VrButton.Discard, new BoolBinding(XRNode.RightHand, CommonUsages.gripButton, CommonUsages.primaryButton) },
-        { VrButton.Swap, new BoolBinding(XRNode.LeftHand, CommonUsages.gripButton, CommonUsages.primaryButton) },
-        { VrButton.Menu, new BoolBinding(XRNode.LeftHand, CommonUsages.secondaryButton) },
-        { VrButton.Restart, new BoolBinding(XRNode.RightHand, CommonUsages.secondaryButton) }
+        { VrButton.Fire, new BoolBinding(true, CommonUsages.triggerButton) },
+        { VrButton.Jump, new BoolBinding(false, CommonUsages.triggerButton) },
+        { VrButton.Discard, new BoolBinding(true, CommonUsages.gripButton, CommonUsages.primaryButton) },
+        { VrButton.Swap, new BoolBinding(false, CommonUsages.gripButton, CommonUsages.primaryButton) },
+        { VrButton.Menu, new BoolBinding(false, CommonUsages.secondaryButton) },
+        { VrButton.Restart, new BoolBinding(true, CommonUsages.secondaryButton) }
     };
 
     private static Dictionary<VrButton, BoolBinding> _inputMap = new();
