@@ -61,16 +61,11 @@ public class VrHand : MonoBehaviour
         UpdatePose();
     }
 
-    private TrackedPoseDriver.TrackedPose GetPose()
-    {
-        var isLeftPose = _isDominant ? VrSettings.LeftHandedMode.Value : !VrSettings.LeftHandedMode.Value;
-        
-        return isLeftPose ? TrackedPoseDriver.TrackedPose.LeftPose : TrackedPoseDriver.TrackedPose.RightPose;
-    }
-
     private void UpdatePose()
     {
-        _poseDriver.SetPoseSource(TrackedPoseDriver.DeviceType.GenericXRController, GetPose());;
+        _poseDriver.SetPoseSource(TrackedPoseDriver.DeviceType.GenericXRController, IsLeftPose(_isDominant)
+            ? TrackedPoseDriver.TrackedPose.LeftPose
+            : TrackedPoseDriver.TrackedPose.RightPose);
     }
 
     private void Update()
@@ -79,5 +74,10 @@ public class VrHand : MonoBehaviour
         {
             _movementDirection.SetActive(VrSettings.ControllerBasedMovementDirection.Value && !PauseHelper.IsPaused());
         }
+    }
+
+    public static bool IsLeftPose(bool isDominantHand)
+    {
+        return isDominantHand ? VrSettings.LeftHandedMode.Value : !VrSettings.LeftHandedMode.Value;
     }
 }

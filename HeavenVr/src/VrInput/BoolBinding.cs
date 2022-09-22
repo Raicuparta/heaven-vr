@@ -10,7 +10,7 @@ public class BoolBinding : InputBinding<bool>
     private readonly InputFeatureUsage<float>? _floatUsage;
     private readonly InputFeatureUsage<bool>[] _usages;
 
-    public BoolBinding(XRNode hand, params InputFeatureUsage<bool>[] usages) : base(hand)
+    public BoolBinding(bool isDominantHand, params InputFeatureUsage<bool>[] usages) : base(isDominantHand)
     {
         _usages = usages;
         if (usages.Contains(CommonUsages.triggerButton)) _floatUsage = CommonUsages.trigger;
@@ -53,6 +53,6 @@ public class BoolBinding : InputBinding<bool>
 
     protected override string GetName()
     {
-        return InputManager.GetUsageName(_usages[0], Hand);
+        return InputManager.GetUsageName(_usages[0], IsDominantHand);
     }
 }

@@ -1,18 +1,20 @@
-﻿using UnityEngine;
+﻿using HeavenVr.Stage;
+using UnityEngine;
 using UnityEngine.XR;
 
 namespace HeavenVr.VrInput;
 
 public abstract class InputBinding<TValue> : IInputBinding
 {
-    protected readonly XRNode Hand;
+    protected readonly bool IsDominantHand;
+    protected XRNode Hand => VrHand.IsLeftPose(IsDominantHand) ? XRNode.LeftHand : XRNode.RightHand;
 
     private TValue _previousValue;
     protected TValue Value;
 
-    protected InputBinding(XRNode hand)
+    protected InputBinding(bool isDominantHand)
     {
-        Hand = hand;
+        IsDominantHand = isDominantHand;
     }
 
     public bool WasPressedThisFrame { get; private set; }

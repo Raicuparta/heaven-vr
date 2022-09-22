@@ -3,7 +3,6 @@ using System.Linq;
 using BepInEx.Configuration;
 using HarmonyLib;
 using I2.Loc;
-using UnityEngine;
 using UnityEngine.EventSystems;
 using Object = UnityEngine.Object;
 
