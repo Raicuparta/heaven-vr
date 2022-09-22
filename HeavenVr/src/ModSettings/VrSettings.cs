@@ -66,7 +66,6 @@ public static class VrSettings
             false,
             "Controller-based movement direction|Enabled: controller-based direction. Disabled: head-based direction.");
 
-        // TODO add setting in menu
         LeftHandedMode = config.Bind(ControlsCategory, nameof(LeftHandedMode),
             false,
             "Left-handed mode|Enabled: left-handed mode. Disabled: right-handed mode.");

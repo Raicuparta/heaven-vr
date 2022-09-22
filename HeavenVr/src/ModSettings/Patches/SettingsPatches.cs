@@ -139,6 +139,7 @@ public static class SettingsPatches
         AddSlider(controlsPanel, VrSettings.TriggerSensitivity, 0, VrSettings.MaxTriggerSensitivity, 1f);
 
         AddToggle(controlsPanel, VrSettings.ControllerBasedMovementDirection);
+        AddToggle(controlsPanel, VrSettings.LeftHandedMode);
         AddToggle(generalPanel, VrSettings.ShowPlayerBody);
         AddToggle(generalPanel, VrSettings.SkipIntro);
 
