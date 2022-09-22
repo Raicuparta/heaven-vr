@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using HeavenVr.Helpers;
 using HeavenVr.ModSettings;
 using RootMotion.FinalIK;
@@ -10,26 +11,23 @@ public class PlayerBodyIkController : MonoBehaviour
 {
     private SkinnedMeshRenderer _renderer;
     private VRIK _vrIk;
+    private Transform _dominantHand;
+    private Transform _nonDominantHand;
+    private Transform _leftHandTarget;
+    private Transform _rightHandTarget;
 
-    public static void Create(Transform camera, Transform leftHand, Transform rightHand)
+    public static void Create(Transform camera, Transform dominantHand, Transform nonDominantHand)
     {
         var instance = Instantiate(VrAssetLoader.PlayerBodyIk, camera.parent, false)
             .AddComponent<PlayerBodyIkController>();
+
+        instance._dominantHand = dominantHand;
+        instance._nonDominantHand = nonDominantHand;
 
         var headTarget = new GameObject("VrIkHeadTarget").transform;
         headTarget.SetParent(camera, false);
         headTarget.localPosition = new Vector3(0f, -0.08f, -0.15f);
         headTarget.localEulerAngles = new Vector3(0f, 90f, -90f);
-
-        var leftHandTarget = new GameObject("VrIkLeftHandTarget").transform;
-        leftHandTarget.SetParent(leftHand, false);
-        leftHandTarget.localPosition = new Vector3(-0.0364f, 0.1455f, -0.0327f);
-        leftHandTarget.localEulerAngles = new Vector3(0, 0f, 90f);
-
-        var rightHandTarget = new GameObject("VrIkRightHandTarget").transform;
-        rightHandTarget.SetParent(rightHand, false);
-        rightHandTarget.localPosition = new Vector3(0.0364f, 0.1455f, -0.0327f);
-        rightHandTarget.localEulerAngles = new Vector3(0f, 180f, -90f);
 
         var root = instance.transform.Find("WhiteRig_SHJntGrp");
 
@@ -62,8 +60,6 @@ public class PlayerBodyIkController : MonoBehaviour
         vrIk.references.rightToes = allBones.First(bone => bone.name == "WhiteRig_r_Leg_BallSHJnt");
 
         vrIk.solver.spine.headTarget = headTarget;
-        vrIk.solver.leftArm.target = leftHandTarget;
-        vrIk.solver.rightArm.target = rightHandTarget;
         vrIk.solver.plantFeet = false;
         vrIk.solver.locomotion.stepThreshold = 0.1f;
         vrIk.solver.locomotion.stepSpeed = 10f;
@@ -81,11 +77,56 @@ public class PlayerBodyIkController : MonoBehaviour
         instance._renderer = instance.GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
+    private void Start()
+    {
+        UpdateHandedness();
+    }
+
+    private void OnEnable()
+    {
+        VrSettings.LeftHandedMode.SettingChanged += OnHandednessChanged;
+    }
+
+    private void OnDisable()
+    {
+        VrSettings.LeftHandedMode.SettingChanged -= OnHandednessChanged;
+    }
+
     private void Update()
     {
         UpdateRendererVisibility();
         UpdateLocomotion();
         UpdatePosition();
+    }
+
+    private void OnHandednessChanged(object sender, EventArgs e)
+    {
+        UpdateHandedness();
+    }
+
+    private void UpdateHandedness()
+    {
+        var isLeftHanded = VrSettings.LeftHandedMode.Value;
+        
+        if (_leftHandTarget == null)
+        {
+            _leftHandTarget = new GameObject("VrIkLeftHandTarget").transform;
+            _vrIk.solver.leftArm.target = _leftHandTarget;
+        }
+
+        _leftHandTarget.SetParent(isLeftHanded ? _dominantHand : _nonDominantHand);
+        _leftHandTarget.localPosition = new Vector3(-0.0364f, 0.1455f, -0.0327f);
+        _leftHandTarget.localEulerAngles = new Vector3(0, 0f, 90f);
+
+        if (_rightHandTarget == null)
+        {
+            _rightHandTarget = new GameObject("VrIkRightHandTarget").transform;
+            _vrIk.solver.rightArm.target = _rightHandTarget;
+        }
+
+        _rightHandTarget.SetParent(isLeftHanded ? _nonDominantHand : _dominantHand);
+        _rightHandTarget.localPosition = new Vector3(0.0364f, 0.1455f, -0.0327f);
+        _rightHandTarget.localEulerAngles = new Vector3(0f, 180f, -90f);
     }
 
     private void UpdatePosition()
