@@ -1,4 +1,6 @@
-﻿using HeavenVr.Helpers;
+﻿using System;
+using HeavenVr.Helpers;
+using HeavenVr.ModSettings;
 using HeavenVr.Stage;
 using UnityEngine;
 
@@ -50,6 +52,17 @@ public class UiTarget : MonoBehaviour
     public void Start()
     {
         _previousForward = GetCameraForward();
+        UpdateQuadPosition();
+    }
+
+    private void OnEnable()
+    {
+        VrSettings.LeftHandedMode.SettingChanged += OnHandednessChanged;
+    }
+
+    private void OnDisable()
+    {
+        VrSettings.LeftHandedMode.SettingChanged -= OnHandednessChanged;
     }
 
     private void Update()
@@ -59,13 +72,22 @@ public class UiTarget : MonoBehaviour
         UpdateCollider();
     }
 
+    private void OnHandednessChanged(object sender, EventArgs e)
+    {
+        UpdateQuadPosition();
+    }
+
+    private void UpdateQuadPosition()
+    {
+        _vrUiQuad.transform.localPosition = new Vector3(VrSettings.LeftHandedMode.Value ? -0.3f : 0.3f, -0.1f, 0.1f);
+    }
+
     private RenderTexture GetUiRenderTexture()
     {
         if (!_vrUiQuad)
         {
             _vrUiQuad = Instantiate(VrAssetLoader.VrUiQuadPrefab, _hand.transform, false);
             LayerHelper.SetLayerRecursive(_vrUiQuad, GameLayer.VrUi);
-            _vrUiQuad.transform.localPosition = new Vector3(0.3f, 0f, 0f);
             _vrUiQuad.transform.localEulerAngles = new Vector3(-90f, 180f, 0f);
             _vrUiQuad.transform.localScale = Vector3.one * 0.1f;
             _collider = _vrUiQuad.GetComponentInChildren<Collider>();
