@@ -11,7 +11,7 @@ public static class VrAssetLoader
     public static GameObject MovementDirectionPrefab;
     public static RenderTexture VrUiRenderTexture;
     public static GameObject VrUiQuadPrefab;
-    public static GameObject RightHandPrefab;
+    public static GameObject DominantHandPrefab;
     public static GameObject DebugHelperPrefab;
     public static GameObject PlayerBodyIk;
     public static AssetBundle LivShadersBundle;
@@ -25,7 +25,7 @@ public static class VrAssetLoader
         VrUiRenderTexture = VrUiQuadPrefab.GetComponentInChildren<Renderer>().material.mainTexture as RenderTexture;
 
         var handBundle = LoadBundle("hands");
-        RightHandPrefab = handBundle.LoadAsset<GameObject>("RightHand");
+        DominantHandPrefab = handBundle.LoadAsset<GameObject>("RightHand");
         MovementDirectionPrefab = handBundle.LoadAsset<GameObject>("MovementDirection");
     }
 
