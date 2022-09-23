@@ -26,6 +26,7 @@ public class VrHand : MonoBehaviour
         }
         else
         {
+            // TODO there should also be a non-dominant hand prefab.
             instance = new GameObject($"VrHand-NonDominant").AddComponent<VrHand>();
             instance._movementDirection = Instantiate(VrAssetLoader.MovementDirectionPrefab, instance.transform, false);
             instance._movementDirection.name = "MovementDirection"; // TODO don't rely on names.
