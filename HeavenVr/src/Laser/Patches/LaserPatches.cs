@@ -23,21 +23,21 @@ public static class LaserPatches
         __instance.MasterAssistIntensity = 0;
         return false;
     }
-
+    
     private static void ForceAimingSettings(MenuScreenOptionsPanel optionsPanel)
     {
         if (optionsPanel._lockOnToggle) optionsPanel._lockOnToggle.Value = false;
-
+    
         if (optionsPanel._aimAssistSlider) optionsPanel._aimAssistSlider.Value = 0;
     }
-
+    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.ApplyChanges))]
     private static void ForceAimingSettingsPre(MenuScreenOptionsPanel __instance)
     {
         ForceAimingSettings(__instance);
     }
-
+    
     [HarmonyPostfix]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.LoadValues))]
     [HarmonyPatch(typeof(MenuScreenOptionsPanel), nameof(MenuScreenOptionsPanel.SpawnColumnSettings))]
@@ -45,11 +45,19 @@ public static class LaserPatches
     {
         ForceAimingSettings(__instance);
     }
-
+    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GS), nameof(GS.LockOn))]
     private static void ForceAimingSettingsSet(out bool enable)
     {
         enable = false;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(GameDataManager), nameof(GameDataManager.OnReadPlayerSavePrefsComplete))]
+    private static void ForceAimingSettingsOnRead(PlayerSavePrefs data)
+    {
+        data.lockOnEnabled = false;
+        data.aimAssist = 0;
     }
 }
