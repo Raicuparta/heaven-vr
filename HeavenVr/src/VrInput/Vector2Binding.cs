@@ -1,5 +1,6 @@
 ﻿using System;
 using HeavenVr.ModSettings;
+using HeavenVr.Stage;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -10,6 +11,8 @@ public class Vector2Binding : InputBinding<Vector2>
     private const float InputThreshold = 0.5f;
     private readonly InputFeatureUsage<Vector2> _usagePosition;
     private readonly InputFeatureUsage<bool> _usagePress;
+
+    private XRNode Hand => VrHand.IsSwapSticksLeftPose(IsDominantHand) ? XRNode.LeftHand : XRNode.RightHand;
 
     public Vector2Binding(bool isDominantHand) : base(isDominantHand)
     {
@@ -30,7 +33,6 @@ public class Vector2Binding : InputBinding<Vector2>
 
     private float GetFloatValue()
     {
-        // TODO no need to fetch the device every time.
         var device = InputManager.GetInputDevice(Hand);
 
         if (IsTouchAxisMode()) return 1;

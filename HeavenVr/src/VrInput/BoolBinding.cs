@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using HeavenVr.ModSettings;
+using HeavenVr.Stage;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -9,6 +10,8 @@ public class BoolBinding : InputBinding<bool>
 {
     private readonly InputFeatureUsage<float>? _floatUsage;
     private readonly InputFeatureUsage<bool>[] _usages;
+
+    private XRNode Hand => VrHand.IsLeftHandedLeftPose(IsDominantHand) ? XRNode.LeftHand : XRNode.RightHand;
 
     public BoolBinding(bool isDominantHand, params InputFeatureUsage<bool>[] usages) : base(isDominantHand)
     {

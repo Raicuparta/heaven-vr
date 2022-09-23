@@ -7,7 +7,6 @@ namespace HeavenVr.VrInput;
 public abstract class InputBinding<TValue> : IInputBinding
 {
     protected readonly bool IsDominantHand;
-    protected XRNode Hand => VrHand.IsLeftPose(IsDominantHand) ? XRNode.LeftHand : XRNode.RightHand;
 
     private TValue _previousValue;
     protected TValue Value;

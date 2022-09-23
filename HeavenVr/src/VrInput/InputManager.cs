@@ -127,14 +127,14 @@ public class InputManager : MonoBehaviour
     public static string GetUsageName<T>(InputFeatureUsage<T> usage, bool isDominantHand)
     {
         var usageName = GetGenericUsageName(usage);
-        var handSufix = VrHand.IsLeftPose(isDominantHand) ? "Left " : "Right ";
+        var handSufix = VrHand.IsLeftHandedLeftPose(isDominantHand) ? "Left " : "Right ";
 
         if (usageName == null)
         {
             if (IsDevice("index")) usageName = GetIndexUsageName(usage);
             if (IsDevice("oculus"))
             {
-                usageName = GetOculusUsageName(usage, VrHand.IsLeftPose(isDominantHand) ? XRNode.LeftHand : XRNode.RightHand);
+                usageName = GetOculusUsageName(usage, VrHand.IsLeftHandedLeftPose(isDominantHand) ? XRNode.LeftHand : XRNode.RightHand);
                 handSufix = "";
             }
         }

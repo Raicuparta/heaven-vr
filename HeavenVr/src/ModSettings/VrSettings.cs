@@ -47,6 +47,7 @@ public static class VrSettings
     public static ConfigEntry<bool> ShowPlayerBody { get; private set; }
     public static ConfigEntry<bool> SkipIntro { get; private set; }
     public static ConfigEntry<bool> LeftHandedMode { get; private set; }
+    public static ConfigEntry<bool> SwapSticks { get; private set; }
     public static ConfigEntry<TurningModeValue> TurningMode { get; private set; }
 
     public static void SetUp(ConfigFile config)
@@ -68,7 +69,11 @@ public static class VrSettings
 
         LeftHandedMode = config.Bind(ControlsCategory, nameof(LeftHandedMode),
             false,
-            "Left-handed mode|Enabled: left-handed mode. Disabled: right-handed mode.");
+            "Left-handed mode|Swaps everything in each hand, except the movement/rotation sticks.");
+        
+        SwapSticks = config.Bind(ControlsCategory, nameof(SwapSticks),
+            false,
+            "Swap movement/rotation hands|Swaps the thumbsticks/touchpads used for movement and rotation.");
 
         TriggerSensitivity = config.Bind(ControlsCategory, nameof(TriggerSensitivity), 0f,
             new ConfigDescription(

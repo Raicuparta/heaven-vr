@@ -140,6 +140,7 @@ public static class SettingsPatches
 
         AddToggle(controlsPanel, VrSettings.ControllerBasedMovementDirection);
         AddToggle(controlsPanel, VrSettings.LeftHandedMode);
+        AddToggle(controlsPanel, VrSettings.SwapSticks);
         AddToggle(generalPanel, VrSettings.ShowPlayerBody);
         AddToggle(generalPanel, VrSettings.SkipIntro);
 
