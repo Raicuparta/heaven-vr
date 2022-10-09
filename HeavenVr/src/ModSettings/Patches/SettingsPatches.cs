@@ -28,17 +28,6 @@ public static class SettingsPatches
         __instance.ffTimescale = 20f;
     }
 
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(GameDataManager), nameof(GameDataManager.OnReadPowerPrefsComplete))]
-    private static void PreventSubmittingScores(GameDataManager __instance)
-    {
-        // Since the VR mod changes a lot of how the game works,
-        // it wouldn't make sense to submit scores to the same leaderboard.
-        // For now I'm just disabling score submission altogether.
-        // TODO: submit vr scores to a separate leaderboard.
-        GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
-    }
-
     private static void AddSlider(MenuScreenOptionsPanel panel, ConfigEntry<float> configEntry, float min, float max, float step)
     {
         var slider = Object.Instantiate(panel._sliderPrefab, panel._settingsColumn.transform);
@@ -143,6 +132,7 @@ public static class SettingsPatches
         AddToggle(controlsPanel, VrSettings.SwapSticks);
         AddToggle(generalPanel, VrSettings.ShowPlayerBody);
         AddToggle(generalPanel, VrSettings.SkipIntro);
+        AddToggle(generalPanel, VrSettings.EnableLeaderboards);
 
         AddSelect(controlsPanel, VrSettings.AxisMode);
         AddSelect(controlsPanel, VrSettings.ControlScheme);

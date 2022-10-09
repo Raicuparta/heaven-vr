@@ -46,6 +46,7 @@ public static class VrSettings
     public static ConfigEntry<float> AimingAngleOffset { get; private set; }
     public static ConfigEntry<bool> ShowPlayerBody { get; private set; }
     public static ConfigEntry<bool> SkipIntro { get; private set; }
+    public static ConfigEntry<bool> EnableLeaderboards { get; private set; }
     public static ConfigEntry<bool> LeftHandedMode { get; private set; }
     public static ConfigEntry<bool> SwapSticks { get; private set; }
     public static ConfigEntry<TurningModeValue> TurningMode { get; private set; }
@@ -89,5 +90,7 @@ public static class VrSettings
             "Show player body|It's pretty broken, so mostly useful for LIV (third person capture).");
 
         SkipIntro = config.Bind(MiscCategory, nameof(SkipIntro), false, "Skip game intro cutscene|Yes I know you're called Neons bla bla bla.");
+        
+        EnableLeaderboards = config.Bind(MiscCategory, nameof(EnableLeaderboards), true, "Enable VR leaderboards|Submits scores to leaderboards exclusive to VR players.");
     }
 }
