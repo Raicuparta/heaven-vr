@@ -3,7 +3,7 @@
         <TargetFramework>net48</TargetFramework>
         <AssemblyName>com.raicuparta.heaven-vr</AssemblyName>
         <Product>HeavenVR</Product>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>10</LangVersion>
         <OutputPath>$(PublishDir)\BepInEx\plugins\HeavenVr</OutputPath>
