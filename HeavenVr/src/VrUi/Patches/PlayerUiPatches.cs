@@ -30,7 +30,6 @@ public static class PlayerUiPatches
 
         var overlays = __instance.transform.Find("Overlays");
         overlays.Find("BoostOverlay").gameObject.SetActive(false);
-        overlays.Find("UIScreenFader").gameObject.SetActive(false);
         overlays.Find("BottomBar").gameObject.SetActive(false);
     }
 
