@@ -57,6 +57,8 @@ public static class LaserPatches
     [HarmonyPatch(typeof(GameDataManager), nameof(GameDataManager.OnReadPlayerSavePrefsComplete))]
     private static void ForceAimingSettingsOnRead(PlayerSavePrefs data)
     {
+        if (data == null) return;
+
         data.lockOnEnabled = false;
         data.aimAssist = 0;
     }
