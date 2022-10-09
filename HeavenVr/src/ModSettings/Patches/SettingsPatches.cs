@@ -132,7 +132,6 @@ public static class SettingsPatches
         AddToggle(controlsPanel, VrSettings.SwapSticks);
         AddToggle(generalPanel, VrSettings.ShowPlayerBody);
         AddToggle(generalPanel, VrSettings.SkipIntro);
-        AddToggle(generalPanel, VrSettings.EnableLeaderboards);
 
         AddSelect(controlsPanel, VrSettings.AxisMode);
         AddSelect(controlsPanel, VrSettings.ControlScheme);

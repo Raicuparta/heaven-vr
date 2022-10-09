@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using HeavenVr.ModSettings;
 using Steamworks;
 
 namespace HeavenVr.Leaderboards.Patches;
@@ -7,13 +6,6 @@ namespace HeavenVr.Leaderboards.Patches;
 [HarmonyPatch]
 public static class LeaderboardsPatches
 {
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(GameDataManager), nameof(GameDataManager.OnReadPowerPrefsComplete))]
-    private static void PreventSubmittingScores(GameDataManager __instance)
-    {
-        GameDataManager.powerPrefs.dontUploadToLeaderboard = !VrSettings.EnableLeaderboards.Value;
-    }
-
     [HarmonyPrefix]
     [HarmonyPatch(typeof(SteamUserStats), nameof(SteamUserStats.FindOrCreateLeaderboard))]
     [HarmonyPatch(typeof(SteamUserStats), nameof(SteamUserStats.FindLeaderboard))]
