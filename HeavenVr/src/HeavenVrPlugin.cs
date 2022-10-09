@@ -59,9 +59,7 @@ public class HeavenVrPlugin : BaseUnityPlugin
 
         managerSetings.InitializeLoaderSync();
         if (managerSetings.activeLoader == null) throw new Exception("Cannot initialize OpenVR Loader");
-
-
-        managerSetings.InitializeLoaderSync();
+        
         managerSetings.StartSubsystems();
     }
 }
