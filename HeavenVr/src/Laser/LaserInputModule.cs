@@ -32,7 +32,7 @@ namespace HeavenVr.Laser;
 
 public class LaserInputModule : BaseInputModule
 {
-    private const float RayDistance = 30f;
+    private const float RayDistance = 300f;
     private const float ClickMovementTreshold = 10f;
     private Vector3 _lastHeadPose;
     private PointerEventData _pointerData;

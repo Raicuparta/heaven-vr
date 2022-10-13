@@ -23,6 +23,7 @@ public class VrAimLaser : MonoBehaviour
     private void Start()
     {
         _laserScaler = transform.Find("LaserScaler");
+        _laserScaler.localScale = Vector3.one * 2f;
         _initialLocalEuler = transform.parent.localEulerAngles;
         SetUpCrosshair();
         SetUpMuzzleFlash();

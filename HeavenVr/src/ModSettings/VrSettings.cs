@@ -49,6 +49,7 @@ public static class VrSettings
     public static ConfigEntry<bool> LeftHandedMode { get; private set; }
     public static ConfigEntry<bool> SwapSticks { get; private set; }
     public static ConfigEntry<TurningModeValue> TurningMode { get; private set; }
+    public static ConfigEntry<float> AimSmoothing { get; private set; }
 
     public static void SetUp(ConfigFile config)
     {
@@ -62,6 +63,10 @@ public static class VrSettings
 
         AxisMode = config.Bind(ControlsCategory, nameof(AxisMode), AxisModeOption.Auto,
             "Axis mode|Touch is better for thumb sticks. Click is better for touch pads. Auto tries to pick the best for your controller.");
+        
+        AimSmoothing = config.Bind(ControlsCategory, nameof(AimSmoothing), 0.5f,
+            new ConfigDescription("Aim smoothing|0 means no smoothing. 1 means a lot of smoothing",
+                new AcceptableValueRange<float>(0f, 1f)));
 
         ControllerBasedMovementDirection = config.Bind(ControlsCategory, nameof(ControllerBasedMovementDirection),
             false,
