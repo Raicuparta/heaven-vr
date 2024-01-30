@@ -10,7 +10,6 @@ Features
 *   Motion controls.
 *   Smooth and snap turning.
 *   Handedness options.
-*   [LIV](https://store.steampowered.com/app/755540/LIV/) support.
 *   Adds weapon models (the base game didn't have them).
 *   Optionally shows an animated player body (mostly useful for recording with LIV).
 *   Options for fine-tuning the VR controls.
