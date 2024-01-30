@@ -47,6 +47,8 @@ public static class WeaponPatches
     [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.SetVisualOffsetAmount))]
     private static bool AdjustProjectileVisualOffset(ProjectileBase __instance)
     {
+        if (__instance._damageTarget != ProjectileBase.DamageTarget.Damageable) return true;
+
         __instance._projectileModelHolder.localPosition = Vector3.forward * 1.5f;
         return false;
     }
@@ -55,6 +57,8 @@ public static class WeaponPatches
     [HarmonyPatch(typeof(ProjectileBase), nameof(ProjectileBase.OnSpawn))]
     private static void AdjustProjectileCameraOffset(ProjectileBase __instance)
     {
+        if (__instance._damageTarget != ProjectileBase.DamageTarget.Damageable) return;
+
         __instance._spawnCameraOffset = Vector3.zero;
     }
 
