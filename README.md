@@ -45,6 +45,6 @@ Start the installer again (by starting RaiManager.exe or clicking Open in the it
 Support
 -------
 
-Find me on the [Flatscreen to VR Discord](https://discord.gg/gEEqTVFzvD). Go to the **#rai-join** channel, and choose which of my mods you wanna follow. Once you click at least one of them, you'll see the rest of the channels in my category.
+If you find bugs or are otherwise facing problems with the mod, please [open an issue](https://github.com/Raicuparta/heaven-vr/issues/new).
 
-Find me on the [Flatscreen to VR Discord](https://discord.gg/gEEqTVFzvD). After you pick the Neon White role, you'll find my channels there.
+Find me on the [Flatscreen to VR Discord](https://discord.gg/gEEqTVFzvD). Go to the **#rai-join** channel.
