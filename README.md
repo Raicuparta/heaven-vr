@@ -18,7 +18,7 @@ Features
 How to Install
 --------------
 
-[Get HeavenVR on itch.io](https://raicuparta.itch.io/two-forks-vr). I recommend using the [**itch.io app**](https://itch.io/app) to install the mod, so that you can get automatic mod updates.
+[Get HeavenVR on itch.io](https://raicuparta.itch.io/heaven-vr). I recommend using the [**itch.io app**](https://itch.io/app) to install the mod, so that you can get automatic mod updates.
 
 Run `RaiManager.exe` (or click Open in the itch.io app) and follow the instructions in the installer.
 
