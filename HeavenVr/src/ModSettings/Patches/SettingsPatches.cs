@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Configuration;
 using HarmonyLib;
+using HeavenVr.Helpers;
 using I2.Loc;
 using UnityEngine.EventSystems;
 using Object = UnityEngine.Object;
@@ -114,7 +116,7 @@ public static class SettingsPatches
     [HarmonyPatch(typeof(OptionsMenuTabManager), nameof(OptionsMenuTabManager.Start))]
     private static void CreateMenuEntries(OptionsMenuTabManager __instance)
     {
-        var panels = __instance._panels.Select(panel => panel.panel).ToArray();
+        var panels = XboxSettingsPatchHelper.GetXboxPanels(__instance) ?? SteamSettingsPatchHelper.GetSteamPanels(__instance);
 
         var generalPanel = panels.First(panel => panel.name.StartsWith("General"));
         var controlsPanel = panels.First(panel => panel.name.StartsWith("Controls"));

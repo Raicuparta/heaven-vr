@@ -8,6 +8,12 @@
       "gameIdentifier": "Neon White",
       "requireAdmin": false,
       "gameExe": "Neon White.exe"
+    },
+    {
+      "providerId": "xbox",
+      "gameIdentifier": "Neon White",
+      "requireAdmin": false,
+      "gameExe": "Neon White.exe"
     }
   ]
 }

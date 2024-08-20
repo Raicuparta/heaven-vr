@@ -3,8 +3,8 @@ using Steamworks;
 
 namespace HeavenVr.Leaderboards.Patches;
 
-[HarmonyPatch]
-public static class LeaderboardsPatches
+// We don't use [HarmonyPatch] because this is patched conditionally from HeavenVrPlugin.cs
+public static class SteamLeaderboardsPatches
 {
     [HarmonyPrefix]
     [HarmonyPatch(typeof(SteamUserStats), nameof(SteamUserStats.FindOrCreateLeaderboard))]

@@ -3,6 +3,7 @@ using System.Reflection;
 using BepInEx;
 using HarmonyLib;
 using HeavenVr.Helpers;
+using HeavenVr.Leaderboards.Patches;
 using HeavenVr.ModSettings;
 using HeavenVr.VrInput;
 using RootMotion.FinalIK;
@@ -24,7 +25,19 @@ public class HeavenVrPlugin : BaseUnityPlugin
 
         Debug.Log($"Game version: {Application.version}");
 
-        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+        var harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+        
+        if (Type.GetType("Steamworks.SteamUserStats, Assembly-CSharp-firstpass") != null)
+        {
+            Debug.Log("Steamworks found, patching leaderboards to redirect.");
+            harmony.PatchAll(typeof(SteamLeaderboardsPatches));
+        }
+        else if (Type.GetType("LeaderboardIntegrationBitcode, Assembly-CSharp") != null)
+        {
+            Debug.Log("Leaderboard Integration Bitcode found (probably Xbox version), patching leaderboards to skip.");
+            harmony.PatchAll(typeof(XboxLeaderboardsPatches));
+        }
+
         VrSettings.SetUp(Config);
         VrAssetLoader.Init();
         SetUpXr();
@@ -58,7 +71,7 @@ public class HeavenVrPlugin : BaseUnityPlugin
 #pragma warning restore CS0618
 
         managerSetings.InitializeLoaderSync();
-        if (managerSetings.activeLoader == null) throw new Exception("Cannot initialize OpenVR Loader");
+        if (managerSetings.activeLoader == null) throw new Exception("Cannot initialize OpenXR Loader");
         
         managerSetings.StartSubsystems();
     }
